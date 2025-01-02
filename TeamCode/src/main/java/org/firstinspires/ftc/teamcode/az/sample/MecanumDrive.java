@@ -46,7 +46,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
-
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.Drawing;
@@ -73,14 +72,14 @@ public final class MecanumDrive {
                 RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
 
         // drive model parameters
-        public double inPerTick = 0.00302251775;
-        public double lateralInPerTick = 0.0020736863970872545;
-        public double trackWidthTicks = 4700.914031350578;
+        public double inPerTick = 0.0309921671;
+        public double lateralInPerTick =  0.002766038848509441; // previous: 0.03589880341903002
+        public double trackWidthTicks = 248.18856847282203;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.1530068599239947; //1.5719717622693663
-        public double kV = 0.0004441793735715894; //0.0004117062147783937
-        public double kA = 0.0001;
+        public double kS = 2.4128679226920395; //1.5719717622693663
+        public double kV = 0.0072096363282562175; //0.0004117062147783937
+        public double kA = 0.01;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;

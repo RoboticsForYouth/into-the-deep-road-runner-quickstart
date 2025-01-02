@@ -13,7 +13,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous(preselectTeleOp = "IntoTheDeepTeleOp")
-public class AdvanceLeftAuto extends BasicLeftAuto {
+public class LeftAutoNoPark extends BasicLeftAuto {
 
 
     private Action firstSamplePos;
@@ -45,7 +45,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                 AZUtil.runInParallel(new Runnable() {
                     @Override
                     public void run() {
-                        //specimenTool.specimenHang();
+                        specimenTool.specimenHang();
                         sleep(1000);
                     }
                 });
@@ -155,10 +155,10 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                         new SleepAction(2),
                         moveToDropTwo,
                         highDropEjectAction,
-                        new SleepAction(3),
+                        new SleepAction(2),
                         moveBackToResetAction,
-                        resetAction,
-                        moveToParkAction
+                        resetAction
+                        //moveToParkAction
                 )
         );
 //

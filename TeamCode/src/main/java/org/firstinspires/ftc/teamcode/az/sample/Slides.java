@@ -15,7 +15,13 @@ public class Slides extends LinearOpMode {
     public static final double POWER = 1;
     public static final double EXTEND_POWER = 0.3;
 
-    public static final int INCREMENT = 20;
+    public static final int INCREMENT = 100;
+
+    public int getCurrentPosValue() {
+        return currentPosValue;
+    }
+
+    private int currentPosValue;
 
     public Slides() {
         super();
@@ -45,6 +51,17 @@ public class Slides extends LinearOpMode {
                 .append(slideMotor2.getCurrentPosition()).toString();
     }
 
+    public void setCurrentPosValue(int pos) {
+        currentPosValue = pos;
+    }
+    public void setCurrentPosValue(SlidesPos pos) {
+        currentPosValue = pos.value;
+    }
+
+    public void moveToCurrentPos() {
+        setPos(currentPosValue);
+    }
+
 
     public enum SlidesPos {
 
@@ -53,12 +70,21 @@ public class Slides extends LinearOpMode {
         COLLECT(1000),
 
         MOVE(1000),
-        SPECIMEN_HANG(2150),
+        SPECIMEN_HANG(2200),
         LEVEL_ONE_ASCENT(1800),
         LOWER_BASKET_DROP(1500),
-        BASKET_DROP(3600),
+        BASKET_DROP(3750),
         HALFWAYRESET(700),
-        RESET(0);
+
+        SPECIMEN_PICKUP(475),
+
+        SPECIMEN_LIFT(1000),
+        RESET(0),
+        SPECIMEN_DROP(2250),
+        SPECIMEN_CLIP(1850);
+
+
+
 
 
         private int value;
@@ -94,6 +120,11 @@ public class Slides extends LinearOpMode {
         int newPos = slideMotor1.getCurrentPosition() - INCREMENT;
         setPos(newPos);
     }
+
+    public void moveUpSlow(){
+        int newPos = slideMotor1.getCurrentPosition() + INCREMENT;
+        setPosLowPower(newPos);
+    }
     private void setPos(int pos){
         AZUtil.setBothMotorTargetPosition(slideMotor1, slideMotor2, pos, POWER);
     }
@@ -109,7 +140,7 @@ public class Slides extends LinearOpMode {
     }
 
     public void extend(float factor) {
-        int position = Math.round(SlidesPos.COLLECT.value + factor*1200);
+        int position = Math.round(SlidesPos.COLLECT.value + factor*850);
         setPos(position);
     }
 
@@ -186,12 +217,35 @@ public class Slides extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive()) {
-            setPos(SlidesPos.BASKET_DROP.value);
+//        teleOpTest();
+
+            setPos(SlidesPos.SPECIMEN_HANG.value);
             sleep(5000);
 
             setPos(0);
             sleep(5000);
+
+    }
+
+    private void teleOpTest() {
+        while (opModeIsActive()) {
+
+
+            if (gamepad1.dpad_up) {
+                moveUp();
+                //sleep(1000);
+            }
+            if (gamepad1.dpad_down) {
+                moveDown();
+                //sleep(1000);
+            }
+
+
+            telemetry.addData("Pos1", slideMotor1.getCurrentPosition());
+            telemetry.addData("Pos2", slideMotor2.getCurrentPosition());
+            telemetry.update();
         }
     }
 }
+
+

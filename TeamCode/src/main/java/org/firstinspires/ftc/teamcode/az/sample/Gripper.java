@@ -12,6 +12,8 @@ public class Gripper extends LinearOpMode {
     private Servo wrist;
     private CRServo roller;
     LinearOpMode opMode;
+    private int wristCurrentPosValue;
+    private double rollerCurrentPowerValue;
 
     public Gripper() {
         super();
@@ -22,6 +24,15 @@ public class Gripper extends LinearOpMode {
         setup();
     }
 
+    public void setWristCurrentPosValue(int pos) {
+        wristCurrentPosValue = pos;
+
+    }
+
+    public void setRollerCurrentPower(double power) {
+        rollerCurrentPowerValue = power;
+
+    }
 
 
     public enum RollerPower {
@@ -120,6 +131,10 @@ public class Gripper extends LinearOpMode {
         wrist.setPosition(GripperPos.AUTO_WRISTCOLLECT.value);
     }
 
+    public void setCurrentPos(int wristPos, double rollerValue){
+        setRollerCurrentPower(rollerValue);
+        setWristCurrentPosValue(wristPos);
+    }
 
     public void collectVertical() {
         roller.setPower(RollerPower.COLLECT.value);
