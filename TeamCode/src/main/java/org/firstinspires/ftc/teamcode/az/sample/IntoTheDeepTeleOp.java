@@ -104,7 +104,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         public void run() {
                             buttonXProcessing = true;
 
-                            if(arm.getCurrentPos() < 0) {
+                            if(arm.getCurrentPosition() < 0) {
                                 specimenTool.move();
                             }
                             else {

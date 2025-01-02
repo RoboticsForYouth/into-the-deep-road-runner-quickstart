@@ -15,6 +15,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.az.itd.tools.AZImu;
+
 
 @Config
 @Autonomous ( preselectTeleOp = "IntoTheDeepTeleOp")
@@ -25,9 +27,10 @@ public class BasicRightAuto extends LinearOpMode {
     Arm arm = null;
     Slides slides = null;
     DistanceSensor distanceSensor;
-    private MecanumDrive drive;
+    MecanumDrive drive;
     private Pose2d beginPose;
 
+    private AZImu imu;
 
     public class specimenHang implements Action {
 
@@ -56,6 +59,7 @@ public class BasicRightAuto extends LinearOpMode {
         arm = new Arm(this);
         slides = new Slides(this);
         specimenTool = new SpecimenTool(this);
+        imu = new AZImu(hardwareMap);
         specimenTool.reset();
 
         telemetry.addData("Status", "Initialized");
@@ -65,6 +69,7 @@ public class BasicRightAuto extends LinearOpMode {
         drive = new MecanumDrive(hardwareMap, beginPose);
         telemetry.addData("current position", drive.pose);
         telemetry.update();
+
         waitForStart();
 
     }
@@ -75,7 +80,7 @@ public class BasicRightAuto extends LinearOpMode {
         initAuto();
 
         Action specimenDropPos = drive.actionBuilder(beginPose)
-                .splineToConstantHeading(new Vector2d(21, 8), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(21, 5), Math.toRadians(0))
                 .build();
 
         Action park = drive.actionBuilder(drive.pose)
