@@ -49,8 +49,8 @@ public class Arm extends LinearOpMode {
         //multiple 1.39 times when we replace 435 motor with 312 motor
         DROP((int)(42 * ARM_TICKS_PER_DEGREE)), //(530),
         RESET(0),
-        COLLECT((int)(-56 * ARM_TICKS_PER_DEGREE)),  //(-785),
-        AUTO_COLLECT((int)(-56 * ARM_TICKS_PER_DEGREE)),
+        COLLECT((int)(20 * ARM_TICKS_PER_DEGREE)),  //(-785),
+        AUTO_COLLECT((int)(20 * ARM_TICKS_PER_DEGREE)),
         SPECIMEN_HANG((int)(54 * ARM_TICKS_PER_DEGREE)), //(700),
         NEW_SPECIMEN_HANG((int)(156 * ARM_TICKS_PER_DEGREE)),
         NEW_SPECIMEN_DROP((int)(160 * ARM_TICKS_PER_DEGREE)),
@@ -65,7 +65,7 @@ public class Arm extends LinearOpMode {
         LEVEL_TWO_HANG((int)(126 * ARM_TICKS_PER_DEGREE)),
 
 
-        MOVE((int)(-30 * ARM_TICKS_PER_DEGREE)), //(-450),
+        MOVE((int)(30 * ARM_TICKS_PER_DEGREE)), //(-450),
         BASKET_DROP((int)(101 * ARM_TICKS_PER_DEGREE));
         //(1415);
 

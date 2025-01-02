@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.az.sample;
+package org.firstinspires.ftc.teamcode.az.itd.tools;
 
 import android.graphics.Color;
 
@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
 
 @TeleOp (name="EnhancedClaw", group = "sample")
 public class EnhancedClaw extends LinearOpMode {
@@ -34,9 +36,11 @@ public class EnhancedClaw extends LinearOpMode {
     }
 
     public enum WRIST_POS {
+        RESET(1.0),
         PICKUP(1.0),
         DROP_OFF(1.0),
-        PICKUP_90(0.5);
+        PICKUP_90(0.5),
+        PICKUP_SPECIMEN(0.5);
 
         public double getPos() {
             return pos;
@@ -51,7 +55,8 @@ public class EnhancedClaw extends LinearOpMode {
 
     public enum ELBOW_POS {
         PICKUP(0.0),
-        AUTO_PICKUP(0.2);
+        AUTO_PICKUP(0.2),
+        SPECIMEN_PICKUP(0.6);
 
         public double getPos() {
             return pos;
@@ -79,9 +84,8 @@ public class EnhancedClaw extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        roller.setPower(0);
-        wrist.setPosition(0);
-        elbow.setPosition(0);
+        setPos(RollerPower.STOP, WRIST_POS.RESET, ELBOW_POS.PICKUP);
+
 
         waitForStart();
 
@@ -89,68 +93,101 @@ public class EnhancedClaw extends LinearOpMode {
 
             // Pickup block on pressing A button
             if (gamepad1.a) {
-                roller.setPower(RollerPower.PICKUP.getPower());
-                wrist.setPosition(WRIST_POS.PICKUP.getPos());
-                elbow.setPosition(ELBOW_POS.PICKUP.getPos());
+                samplePickup();
             }
 
             // Eject block on pressing B button
             if (gamepad1.b) {
-                wrist.setPosition(WRIST_POS.DROP_OFF.getPos());
-                roller.setPower(RollerPower.EJECT.getPower());
+                sampleDrop();
             }
 
             // Stop the roller on pressing X button
             if (gamepad1.x) {
-                roller.setPower(RollerPower.STOP.getPower());
+                reset();
             }
 
             if(gamepad1.y){
-                roller.setPower(RollerPower.PICKUP.getPower());
-                wrist.setPosition(WRIST_POS.PICKUP.getPos());
-                elbow.setPosition(ELBOW_POS.AUTO_PICKUP.getPos());
+                autoPickup();
             }
 
             if( gamepad1.right_bumper){
-                roller.setPower(RollerPower.PICKUP.getPower());
-                wrist.setPosition(WRIST_POS.PICKUP_90.getPos());
-                elbow.setPosition(ELBOW_POS.PICKUP.getPos());
+                samplePickUp90();
             }
 
-            // Continuously detect color
-            detectedColor = detectColor();
-
-            // If the color detected is red, eject and schedule task
-            if (detectedColor.equals("Red")) {
-                roller.setPower(RollerPower.EJECT.getPower());
-
-                // Schedule a task to reverse the roller after 1 second
-                AZUtil.runInParallel( new Runnable() {
-                    @Override
-                    public void run() {
-                        sleep(1000);
-                        roller.setPower(RollerPower.PICKUP.getPower());// Reverse roller after 1 second
-                    }
-                });
+            if( gamepad1.left_bumper){
+                specimenPickUp();
             }
 
-            // Rumble if Blue or Yellow detected
-            else if(detectedColor.equals("Blue") || detectedColor.equals("Yellow")) {
-                //gamepad1.rumble(15);
-                AZUtil.runInParallel( new Runnable() {
-                    @Override
-                    public void run() {
-                        sleep(1000);
-                        roller.setPower(RollerPower.STOP.getPower());// Reverse roller after 1 second
-                    }
-                });
-            }
+            detectColorAction();
 
             // Display the color sensor readings and detected color
             telemetry.addData("Detected Color", ColorVal.getValues());
             telemetry.update();
 
         }
+    }
+
+    private void detectColorAction() {
+        // Continuously detect color
+        detectedColor = detectColor();
+
+        // If the color detected is red, eject and schedule task
+        if (detectedColor.equals("Red")) {
+            roller.setPower(RollerPower.EJECT.getPower());
+
+            // Schedule a task to reverse the roller after 1 second
+            AZUtil.runInParallel(new Runnable() {
+                @Override
+                public void run() {
+                    sleep(1000);
+                    roller.setPower(RollerPower.PICKUP.getPower());// Reverse roller after 1 second
+                }
+            });
+        }
+
+        // Rumble if Blue or Yellow detected
+        else if(detectedColor.equals("Blue") || detectedColor.equals("Yellow")) {
+            //gamepad1.rumble(15);
+            AZUtil.runInParallel( new Runnable() {
+                @Override
+                public void run() {
+                    sleep(1000);
+                    reset();// Reverse roller after 1 second
+
+                }
+            });
+        }
+    }
+
+    private void specimenPickUp() {
+        setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_90, ELBOW_POS.SPECIMEN_PICKUP);
+    }
+
+    private void samplePickUp90() {
+        setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_90, ELBOW_POS.PICKUP);
+    }
+
+    private void autoPickup() {
+        setPos(RollerPower.PICKUP, WRIST_POS.PICKUP, ELBOW_POS.AUTO_PICKUP);
+    }
+
+    private void reset() {
+        roller.setPower(RollerPower.STOP.getPower());
+    }
+
+    private void samplePickup() {
+        setPos(RollerPower.PICKUP, WRIST_POS.PICKUP, ELBOW_POS.PICKUP);
+    }
+
+    private void setPos(RollerPower pickup, WRIST_POS pickup1, ELBOW_POS pickup2) {
+        roller.setPower(pickup.getPower());
+        wrist.setPosition(pickup1.getPos());
+        elbow.setPosition(pickup2.getPos());
+    }
+
+    private void sampleDrop() {
+        wrist.setPosition(WRIST_POS.DROP_OFF.getPos());
+        roller.setPower(RollerPower.EJECT.getPower());
     }
 
     private String detectColor() {
