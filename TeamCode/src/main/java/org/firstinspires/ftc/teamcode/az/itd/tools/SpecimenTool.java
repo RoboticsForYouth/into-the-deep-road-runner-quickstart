@@ -1,16 +1,20 @@
-package org.firstinspires.ftc.teamcode.az.sample;
+package org.firstinspires.ftc.teamcode.az.itd.tools;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
+import org.firstinspires.ftc.teamcode.az.sample.Arm;
+import org.firstinspires.ftc.teamcode.az.sample.Slides;
+import org.firstinspires.ftc.teamcode.az.sample.SpecimenClaw;
 
 @TeleOp
 public class SpecimenTool extends LinearOpMode {
-    private LinearOpMode opMode;
-    Arm arm;
-    Gripper gripper;
-    Slides slides;
+    public  LinearOpMode opMode;
+    public Arm arm;
+    public EnhancedClaw gripper;
+    public Slides slides;
 
     public enum State {
         //Specimen State
@@ -56,13 +60,12 @@ public class SpecimenTool extends LinearOpMode {
 
     private void init(LinearOpMode opMode){
         arm = new Arm(opMode);
-        gripper = new Gripper(opMode);
+        gripper = new EnhancedClaw(opMode);
         slides = new Slides(opMode);
-        specimenClaw = new SpecimenClaw(opMode);
     }
 
     public void eject() {
-        gripper.sampleDrop();
+        gripper.drop();
         //sleep(500);
     }
 
@@ -72,9 +75,9 @@ public class SpecimenTool extends LinearOpMode {
 
     public void dropHighBasket() {
         arm.moveToPosition(Arm.ArmPos.BASKET_DROP);
-        sleep(2000);
+        sleep(1000);
         slides.moveToPosition(Slides.SlidesPos.BASKET_DROP);
-        gripper.dropPos();
+        gripper.sampleDrop();
     }
 
     public void pickUpSpecimen(){
@@ -111,7 +114,7 @@ public class SpecimenTool extends LinearOpMode {
     public void collect() {
         slides.collect();
 //        sleep(500);
-        gripper.collect();
+        gripper.samplePickup();
 //        sleep(500);
         arm.collect();
 //        sleep(1000);
@@ -127,7 +130,7 @@ public class SpecimenTool extends LinearOpMode {
     public void autoCollect()    {
         slides.collect();
 //        sleep(500);
-        gripper.autoCollect();
+        gripper.autoPickup();
 //        sleep(500);
         arm.autoCollect();
 //        gripper.moveAround();
@@ -137,7 +140,7 @@ public class SpecimenTool extends LinearOpMode {
  public void collectVertical() {
         slides.collect();
 //        sleep(500);
-        gripper.collectVertical();
+        gripper.samplePickUp90();
 //        sleep(500);
         arm.collect();
 //        sleep(1000);
@@ -148,7 +151,7 @@ public class SpecimenTool extends LinearOpMode {
         sleep(1000);
         slides.specimenHang();
         sleep(1000);
-        gripper.specimenHang();
+        gripper.specimenPickUp();
         sleep(500);
 
         arm.specimenDrop();
@@ -167,21 +170,22 @@ public class SpecimenTool extends LinearOpMode {
         sleep(500);
     }
  public void specimenLowBasket() {
-        arm.specimenHang();
+        arm.lowBasketDrop();
         sleep(1000);
         slides.specimenHang();
         sleep(1000);
-        gripper.dropPos();
+        gripper.sampleDrop();
         sleep(500);
     }
 
 
     public void move() {
-        gripper.move();
         arm.move();
         sleep(1000);
-        slides.move();
+        gripper.move();
         sleep(500);
+        slides.move();
+
 
     }
 
@@ -240,14 +244,6 @@ public class SpecimenTool extends LinearOpMode {
         slides.setCurrentPosValue(pos);
     }
 
-    public void setWristCurrentPos (int pos) {
-        gripper.setWristCurrentPosValue(pos);
-    }
-
-    public void setRollerCurrentPos (int pos) {
-        gripper.setRollerCurrentPower(pos);
-    }
-
 
     public void moveToCurrentPos() {
         arm.moveToCurrentPos();
@@ -264,8 +260,6 @@ public class SpecimenTool extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         this.opMode = this;
         init(opMode);
-        gripper.dropPos();
-
 
         waitForStart();
 
@@ -281,7 +275,7 @@ public class SpecimenTool extends LinearOpMode {
             }
 
             if( gamepad1.dpad_left){
-                arm.moveDown();
+                arm.moveDownSlow();
             }
 
             if( gamepad1.dpad_right){
@@ -339,7 +333,7 @@ public class SpecimenTool extends LinearOpMode {
     public void setGrabSpecimenPos() {
         slides.setCurrentPosValue(Slides.SlidesPos.SPECIMEN_PICKUP);
         arm.setCurrentPosValue(Arm.ArmPos.SPECIMEN_PICKUP_UP);
-        specimenClaw.reset();
+        gripper.specimenPickUp();
 //        specimenClaw.setCurrentPosValue(SpecimenClaw.SpecimenClawPos.SPECIMEN_CLAW_RESET);
     }
 
@@ -357,7 +351,7 @@ public class SpecimenTool extends LinearOpMode {
     public void setSpecimenDropPos() {
         slides.setCurrentPosValue(Slides.SlidesPos.SPECIMEN_DROP);
         arm.setCurrentPosValue(Arm.ArmPos.SPECIMEN_ARM_CLIP);
-        specimenClaw.collect();
+        gripper.specimenDrop();
 //        specimenClaw.setCurrentPosValue(SpecimenClaw.SpecimenClawPos.SPECIMEN_CLAW_COLLECT);
     }
 
@@ -368,7 +362,7 @@ public class SpecimenTool extends LinearOpMode {
             @Override
             public void run() {
                 sleep(250);
-                specimenClaw.reset();
+                gripper.reset();
             }
         });
 //        specimenClaw.setCurrentPosValue(SpecimenClaw.SpecimenClawPos.SPECIMEN_CLAW_COLLECT);
@@ -393,7 +387,7 @@ public class SpecimenTool extends LinearOpMode {
 
     public void setGrabAndLiftSpecimenPos() {
 //        specimenClaw.setCurrentPosValue(SpecimenClaw.SpecimenClawPos.SPECIMEN_CLAW_COLLECT);
-        specimenClaw.collect();
+        gripper.specimenPickUp();
         sleep(500);
         slides.setCurrentPosValue(Slides.SlidesPos.SPECIMEN_LIFT);
         arm.setCurrentPosValue(Arm.ArmPos.SPECIMEN_PICKUP_UP);
@@ -408,4 +402,76 @@ public class SpecimenTool extends LinearOpMode {
 //        }
 
     }
+    public enum SpecimenState {
+
+        MOVE(Arm.ArmPos.MOVE, Slides.SlidesPos.MOVE){
+            @Override
+            public void execute(SpecimenTool tool) {
+                tool.slides.setCurrentPosValue(slidePos);
+                tool.arm.setArmPos(armPos);
+                tool.gripper.move();
+            }
+        },
+        GRAB_SPECIMEN(Arm.ArmPos.SPECIMEN_PICKUP_UP, Slides.SlidesPos.SPECIMEN_PICKUP) {
+            @Override
+            public void execute(SpecimenTool tool) {
+                tool.setGrabSpecimenPos();
+                tool.slides.setCurrentPosValue(slidePos);
+                tool.arm.setArmPos(armPos);
+            }
+        },
+        LIFT_SPECIMEN(Arm.ArmPos.SPECIMEN_PICKUP_UP, Slides.SlidesPos.SPECIMEN_LIFT){
+            @Override
+            public void execute(SpecimenTool tool) {
+                tool.setGrabAndLiftSpecimenPos();
+                tool.slides.setCurrentPosValue(slidePos);
+                tool.arm.setArmPos(armPos);
+            }
+        },
+        DROP_SPECIMEN(Arm.ArmPos.SPECIMEN_DROP, Slides.SlidesPos.SPECIMEN_DROP) {
+            @Override
+            public void execute(SpecimenTool tool) {
+                tool.setSpecimenDropPos();
+                tool.slides.setCurrentPosValue(slidePos);
+                tool.arm.setArmPos(armPos);
+            }
+        },
+        CLIP_SPECIMEN(Arm.ArmPos.SPECIMEN_ARM_CLIP, Slides.SlidesPos.SPECIMEN_CLIP){
+            @Override
+            public void execute(SpecimenTool tool) {
+                tool.setSpecimenClipPos();
+                tool.slides.setCurrentPosValue(slidePos);
+                tool.arm.setArmPos(armPos);
+            }
+        };
+        public abstract void execute(SpecimenTool tool);
+
+        SpecimenState currentState;
+
+        public SpecimenState getCurrentState() {
+            return currentState;
+        }
+
+        public void setCurrentState(SpecimenState currentState) {
+            this.currentState = currentState;
+        }
+
+        SpecimenState(Arm.ArmPos amrPos, Slides.SlidesPos slidesPos){
+            this.armPos = amrPos;
+            this.slidePos = slidesPos;
+        }
+
+        Slides.SlidesPos  slidePos ;
+        Arm.ArmPos armPos ;
+        public String toString(){
+            return new StringBuffer("CurrentState:")
+                    .append(currentState)
+                    .append(", SlidePos").append(slidePos)
+                    .append(", ArmPos").append(armPos).toString();
+
+        }
+
+    }
+
+
 }

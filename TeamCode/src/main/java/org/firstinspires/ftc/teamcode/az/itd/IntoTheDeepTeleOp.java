@@ -1,11 +1,14 @@
-package org.firstinspires.ftc.teamcode.az.sample;
+package org.firstinspires.ftc.teamcode.az.itd;
 
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
+import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
+import org.firstinspires.ftc.teamcode.az.sample.Arm;
 
 @TeleOp
 public class IntoTheDeepTeleOp extends LinearOpMode {
@@ -38,6 +41,8 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
     private boolean leftBumperProcessing;
     private boolean dpadDownProcessing;
 
+    GamepadEx gamepadEx1;
+    GamepadEx gamepadEx2;
 
     public void setup() {
         specimenTool.reset();
@@ -56,10 +61,8 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
         arm = new Arm(this);
         specimenTool = new SpecimenTool(this);
-
-
-        RevIMU imu = new RevIMU(hardwareMap);
-        imu.init();
+        gamepadEx1 = new GamepadEx(gamepad1);
+        gamepadEx2 = new GamepadEx(gamepad2);
 
         // the extended gamepad object
         GamepadEx driverOp = new GamepadEx(gamepad1);
@@ -262,22 +265,13 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             }
 
 
-            if (!FIELD_CENTRIC) {
                 drive.driveRobotCentric(
                         -driverOp.getLeftX(),
                         -driverOp.getLeftY(),
                         -driverOp.getRightX(),
                         false
                 );
-            } else {
-                drive.driveFieldCentric(
-                        driverOp.getLeftX(),
-                        driverOp.getLeftY(),
-                        driverOp.getRightX(),
-                        imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
-                        false
-                );
-            }
+
             specimenTool.printPos(telemetry);
         }
     }

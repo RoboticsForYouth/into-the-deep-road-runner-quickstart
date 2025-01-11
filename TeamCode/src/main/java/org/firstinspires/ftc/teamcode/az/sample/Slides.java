@@ -16,6 +16,7 @@ public class Slides extends LinearOpMode {
     public static final double EXTEND_POWER = 0.3;
 
     public static final int INCREMENT = 100;
+    public static final int INCREMENT_SLOW = 50;
 
     public int getCurrentPosValue() {
         return currentPosValue;
@@ -69,14 +70,14 @@ public class Slides extends LinearOpMode {
         LEVEL_2_HANG(950),
         COLLECT(1000),
 
-        MOVE(1000),
+        MOVE(500),
         SPECIMEN_HANG(2200),
         LEVEL_ONE_ASCENT(1800),
         LOWER_BASKET_DROP(1500),
-        BASKET_DROP(3750),
+        BASKET_DROP(3200),
         HALFWAYRESET(700),
 
-        SPECIMEN_PICKUP(475),
+        SPECIMEN_PICKUP(500),
 
         SPECIMEN_LIFT(1000),
         RESET(0),
@@ -117,13 +118,17 @@ public class Slides extends LinearOpMode {
     }
 
     public void moveDown(){
-        int newPos = slideMotor1.getCurrentPosition() - INCREMENT;
+        int newPos = slideMotor1.getCurrentPosition() - INCREMENT_SLOW;
         setPos(newPos);
     }
 
     public void moveUpSlow(){
-        int newPos = slideMotor1.getCurrentPosition() + INCREMENT;
+        int newPos = slideMotor1.getCurrentPosition() + INCREMENT_SLOW;
         setPosLowPower(newPos);
+    }
+    public void quickExtend() {
+        int newPos = slideMotor1.getCurrentPosition() + 600;
+        setPos(newPos);
     }
     private void setPos(int pos){
         AZUtil.setBothMotorTargetPosition(slideMotor1, slideMotor2, pos, POWER);
@@ -163,6 +168,9 @@ public class Slides extends LinearOpMode {
     }
     public void moveToPositionLowPower(SlidesPos slidesPos){
         setPosLowPower(slidesPos.value);
+    }
+    public void specimenPickUp() {
+        moveToPosition(SlidesPos.SPECIMEN_PICKUP);
     }
 
     public int getCurrentPos(){
@@ -219,7 +227,7 @@ public class Slides extends LinearOpMode {
 
 //        teleOpTest();
 
-            setPos(SlidesPos.SPECIMEN_HANG.value);
+            setPos(SlidesPos.BASKET_DROP.value);
             sleep(5000);
 
             setPos(0);

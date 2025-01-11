@@ -18,10 +18,14 @@ public class EnhancedClaw extends LinearOpMode {
     private Servo wrist;
     private ColorSensor sampleSensor;
     private Servo elbow;
+    private LinearOpMode opMode;
+    public static final double INCREMENT = 0.1;
+
+
 
     public enum RollerPower {
         PICKUP(-1),
-        EJECT(1),
+        EJECT(0.5),
         STOP(0);
 
         public double getPower() {
@@ -35,12 +39,20 @@ public class EnhancedClaw extends LinearOpMode {
         }
     }
 
+    public enum STATE {
+        READY_FOR_PICKUP,
+        READY_FOR_DROP_OFF
+    }
     public enum WRIST_POS {
-        RESET(1.0),
-        PICKUP(1.0),
-        DROP_OFF(1.0),
-        PICKUP_90(0.5),
-        PICKUP_SPECIMEN(0.5);
+        RESET(0.0),
+        PICKUP(0.55),
+        AUTO_PICKUP(0),
+        DROP_OFF(0.55),
+        PICKUP_90(0.27),
+        PICKUP_SPECIMEN(0.84),
+        DROP_OFF_SPECIMEN(0.84), //0.84 //0.27
+        ;
+
 
         public double getPos() {
             return pos;
@@ -55,8 +67,15 @@ public class EnhancedClaw extends LinearOpMode {
 
     public enum ELBOW_POS {
         PICKUP(0.0),
+        DROP(0.2),
         AUTO_PICKUP(0.2),
-        SPECIMEN_PICKUP(0.6);
+        SPECIMEN_PICKUP(0.25),
+        MOVE(0.35),
+        SPECIMEN_DROP(0.6), //0.3
+
+        RESET(0),
+        SPECIMEN_RELEASE(0);
+
 
         public double getPos() {
             return pos;
@@ -69,22 +88,25 @@ public class EnhancedClaw extends LinearOpMode {
         }
     }
 
+    public EnhancedClaw() {
+        super();
+        opMode = this;
+    }
+
+    public EnhancedClaw(LinearOpMode opMode) {
+        this.opMode = opMode;
+        setup();
+    }
+
     private String detectedColor = "unknown"; // Fixed 'string' to 'String'
 
     private TimedRunnable currentRunnable = null; // To track scheduled tasks
 
     @Override
     public void runOpMode() {
+        this.opMode = opMode;
         // Initialize hardware
-        roller = hardwareMap.get(CRServo.class, "roller");
-        wrist = hardwareMap.get(Servo.class, "wrist");
-        sampleSensor = hardwareMap.get(ColorSensor.class, "sampleSensor");
-        elbow = hardwareMap.get(Servo.class, "elbow");
-
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-
-        setPos(RollerPower.STOP, WRIST_POS.RESET, ELBOW_POS.PICKUP);
+        setup();
 
 
         waitForStart();
@@ -118,16 +140,33 @@ public class EnhancedClaw extends LinearOpMode {
                 specimenPickUp();
             }
 
+            if( gamepad1.dpad_up){
+                specimenDrop();
+            }
+
             detectColorAction();
 
             // Display the color sensor readings and detected color
             telemetry.addData("Detected Color", ColorVal.getValues());
             telemetry.update();
 
+
         }
     }
 
-    private void detectColorAction() {
+    private void setup() {
+        roller = opMode.hardwareMap.get(CRServo.class, "roller");
+        wrist = opMode.hardwareMap.get(Servo.class, "wrist");
+        sampleSensor = opMode.hardwareMap.get(ColorSensor.class, "sampleSensor");
+        elbow = opMode.hardwareMap.get(Servo.class, "elbow");
+
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+
+        reset();
+    }
+
+    public void detectColorAction() {
         // Continuously detect color
         detectedColor = detectColor();
 
@@ -151,31 +190,49 @@ public class EnhancedClaw extends LinearOpMode {
             AZUtil.runInParallel( new Runnable() {
                 @Override
                 public void run() {
-                    sleep(1000);
-                    reset();// Reverse roller after 1 second
+                    sleep(750);
+                    specimenReset();// Turn off roller
 
                 }
             });
         }
     }
 
-    private void specimenPickUp() {
-        setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_90, ELBOW_POS.SPECIMEN_PICKUP);
+    public void specimenPickUp() {
+        setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_SPECIMEN, ELBOW_POS.SPECIMEN_PICKUP);
     }
 
-    private void samplePickUp90() {
+    public void specimenRelease() {
+        setPos(RollerPower.STOP, WRIST_POS.DROP_OFF_SPECIMEN, ELBOW_POS.SPECIMEN_RELEASE);
+
+    }
+
+    public void specimenDrop() {
+        roller.setPower(RollerPower.STOP.getPower());
+        wrist.setPosition(WRIST_POS.DROP_OFF_SPECIMEN.getPos());
+        sleep(500);
+        elbow.setPosition(ELBOW_POS.SPECIMEN_DROP.getPos());
+    }
+
+    public void samplePickUp90() {
         setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_90, ELBOW_POS.PICKUP);
     }
 
-    private void autoPickup() {
-        setPos(RollerPower.PICKUP, WRIST_POS.PICKUP, ELBOW_POS.AUTO_PICKUP);
+    public void autoPickup() {
+        setPos(RollerPower.PICKUP, WRIST_POS.AUTO_PICKUP, ELBOW_POS.AUTO_PICKUP);
     }
 
-    private void reset() {
+    public void reset() {
+        elbow.setPosition(ELBOW_POS.RESET.getPos());
+        roller.setPower(RollerPower.STOP.getPower());
+        wrist.setPosition(WRIST_POS.RESET.getPos());
+    }
+
+    public void specimenReset(){
         roller.setPower(RollerPower.STOP.getPower());
     }
 
-    private void samplePickup() {
+    public void samplePickup() {
         setPos(RollerPower.PICKUP, WRIST_POS.PICKUP, ELBOW_POS.PICKUP);
     }
 
@@ -185,12 +242,27 @@ public class EnhancedClaw extends LinearOpMode {
         elbow.setPosition(pickup2.getPos());
     }
 
-    private void sampleDrop() {
+    public void move(){
+        setPos(RollerPower.STOP, WRIST_POS.PICKUP, ELBOW_POS.MOVE);
+    }
+    public void sampleDrop() {
         wrist.setPosition(WRIST_POS.DROP_OFF.getPos());
+        elbow.setPosition(ELBOW_POS.DROP.getPos());
+        roller.setPower(RollerPower.STOP.getPower());
+    }
+    public void moveUp() {
+        double newPos = elbow.getPosition() + INCREMENT;
+        elbow.setPosition(newPos);
+    }
+    public void moveDown() {
+        double newPos = elbow.getPosition() - INCREMENT;
+        elbow.setPosition(newPos);
+    }
+    public void drop(){
         roller.setPower(RollerPower.EJECT.getPower());
     }
 
-    private String detectColor() {
+    public String detectColor() {
         int red = sampleSensor.red();
         int green = sampleSensor.green();
         int blue = sampleSensor.blue();

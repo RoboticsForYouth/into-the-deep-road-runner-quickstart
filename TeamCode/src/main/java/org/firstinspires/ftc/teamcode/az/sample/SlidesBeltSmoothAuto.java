@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.az.sample;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
+
 @Autonomous
 public class SlidesBeltSmoothAuto extends SpecimenTool{
     public SlidesBeltSmoothAuto(LinearOpMode opMode) {

@@ -1,14 +1,16 @@
 package org.firstinspires.ftc.teamcode.az.itd;
 
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.IMU;
 
-import org.firstinspires.ftc.teamcode.az.sample.*;
+import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
+
 
 @TeleOp
 public class SpecimenTeleOp extends LinearOpMode {
@@ -19,8 +21,12 @@ public class SpecimenTeleOp extends LinearOpMode {
     Gamepad previousGamepad1 = new Gamepad();
     Gamepad previousGamepad2 = new Gamepad();
 
+
     private MecanumDrive drive;
     private SpecimenTool specimenTool;
+
+    private SpecimenTool.SpecimenState currentState;
+    private boolean previousButtonState = false;
 
     //I want to be able to execute commands after a specified delay. the commands
     @Override
@@ -39,15 +45,17 @@ public class SpecimenTeleOp extends LinearOpMode {
         // used and stored in previousGamepad1/2.
         currentGamepad1.copy(gamepad1);
         currentGamepad2.copy(gamepad2);
-        DcMotor frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeft");
-        DcMotor backLeftMotor = hardwareMap.get(DcMotor.class, "backLeft");
-        DcMotor frontRightMotor = hardwareMap.get(DcMotor.class, "frontRight");
-        DcMotor backRightMotor = hardwareMap.get(DcMotor.class, "backRight");
 
-        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        GamepadEx driverOp = new GamepadEx(gamepad1);
 
+        MecanumDrive drive = new MecanumDrive(
+                new Motor(hardwareMap, "frontLeft", Motor.GoBILDA.RPM_435),
+                new Motor(hardwareMap, "frontRight", Motor.GoBILDA.RPM_435),
+                new Motor(hardwareMap, "backLeft", Motor.GoBILDA.RPM_435),
+                new Motor(hardwareMap, "backRight", Motor.GoBILDA.RPM_435)
+        );
 
+        currentState = SpecimenTool.SpecimenState.MOVE;
         specimenTool = new SpecimenTool(this);
 
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -58,14 +66,17 @@ public class SpecimenTeleOp extends LinearOpMode {
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
 
-        while (opModeIsActive()) {
-            //double leftX = driverOp.getLeftX()/2;
-            //double leftY = driverOp.getLeftY()/2;
-            //double rightX = driverOp.getRightX()/2;
+        waitForStart();
+        currentState.execute(specimenTool);
 
-            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-            double x = gamepad1.left_stick_x;
-            double rx = gamepad1.right_stick_x;
+
+        while (opModeIsActive()) {
+
+            previousGamepad1.copy(currentGamepad1);
+            previousGamepad2.copy(currentGamepad2);
+
+            currentGamepad1.copy(gamepad1);
+            currentGamepad2.copy(gamepad2);
 
 
 
@@ -88,7 +99,7 @@ public class SpecimenTeleOp extends LinearOpMode {
                 );
             }
 */
-            if (gamepad1.options) {
+            /*if (gamepad1.options) {
                 imu.resetYaw();
             }
 
@@ -113,22 +124,26 @@ public class SpecimenTeleOp extends LinearOpMode {
             backLeftMotor.setPower(backLeftPower);
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
-            telemetry.update();
+            */
 
             //if game pad a is pressed then get ready to grab the specimen
-            if (gamepad1.a) {
-                specimenTool.setGrabSpecimenPos();
-//                //if specimenTool has not already grabbed the specimen, grab it
-//                if (specimenTool.isSpecimenDropPos()) {
-//                    specimenTool.setAfterDropSpecimenPos();
-//                } else if (!specimenTool.hasGrabbedSpecimen()) {
-//                    specimenTool.setSpecimenDropPos();
-//                } else {
-//                    specimenTool.setGrabSpecimenPos();
-//                }
+            if (currentGamepad1.a && !previousGamepad1.a) {
+                cycleToNextState();
+                currentState.execute(specimenTool);
+//
             }
 
             if(gamepad1.b){
+                currentState = SpecimenTool.SpecimenState.MOVE;
+                currentState.execute(specimenTool);
+            }
+
+            if(gamepad1.x){
+                specimenTool.reset();
+            }
+
+
+            /* if(gamepad1.b){
                 specimenTool.setGrabAndLiftSpecimenPos();
             }
             if(gamepad1.x){
@@ -144,7 +159,25 @@ public class SpecimenTeleOp extends LinearOpMode {
 
             //set specimen tool to current position
             specimenTool.setCurrentPos();
+            */
 
+            drive.driveRobotCentric(
+                    -driverOp.getLeftX(),
+                    -driverOp.getLeftY(),
+                    -driverOp.getRightX(),
+                    false
+            );
+            specimenTool.printPos(telemetry);
+            telemetry.addLine("State:" + currentState);
+            telemetry.update();
         }
+
+    }
+
+    private void cycleToNextState() {
+        // Cycle to the next state in the SpecimenState enum
+        SpecimenTool.SpecimenState[] states = SpecimenTool.SpecimenState.values();
+        int nextStateOrdinal = (currentState.ordinal() + 1) % states.length;  // Loop back to the first state
+        currentState = states[nextStateOrdinal];
     }
 }

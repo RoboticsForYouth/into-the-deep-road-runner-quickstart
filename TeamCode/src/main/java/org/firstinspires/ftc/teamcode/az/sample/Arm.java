@@ -10,7 +10,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class Arm extends LinearOpMode {
 
     public static final double POWER = 1.0;
-    public static final int INCREMENT = 25;
+    public static final int INCREMENT = 150;
+    private static final int SLOW_INCREMENT = 50;
     private DcMotor arm1;
     private DcMotor arm2;
     LinearOpMode opMode;
@@ -40,6 +41,10 @@ public class Arm extends LinearOpMode {
     public ArmPos getCurrentArmPos(){
         return currentPos;
     }
+
+    public void lowBasketDrop() {
+        setArmPos(ArmPos.LOW_BASKET_DROP);
+    }
 //    public static int toDegrees(int ticks) {
 //        int degree = ticks * 9826 / 194481;
 //        return degree;
@@ -47,26 +52,27 @@ public class Arm extends LinearOpMode {
 
     public enum ArmPos {
         //multiple 1.39 times when we replace 435 motor with 312 motor
-        DROP((int)(42 * ARM_TICKS_PER_DEGREE)), //(530),
+        DROP((int)(70 * ARM_TICKS_PER_DEGREE)), //(530),
         RESET(0),
-        COLLECT((int)(20 * ARM_TICKS_PER_DEGREE)),  //(-785),
+        COLLECT((int)(18 * ARM_TICKS_PER_DEGREE)),  //(-785),
         AUTO_COLLECT((int)(20 * ARM_TICKS_PER_DEGREE)),
         SPECIMEN_HANG((int)(54 * ARM_TICKS_PER_DEGREE)), //(700),
+        LOW_BASKET_DROP((int)(95 * ARM_TICKS_PER_DEGREE)),
         NEW_SPECIMEN_HANG((int)(156 * ARM_TICKS_PER_DEGREE)),
         NEW_SPECIMEN_DROP((int)(160 * ARM_TICKS_PER_DEGREE)),
         LEVEL_ONE_ASCENT_PART_ONE((int)(41 * ARM_TICKS_PER_DEGREE)), //(520),
         LEVEL_ONE_ASCENT((int)(47 * ARM_TICKS_PER_DEGREE)), //(612), //(440),
         SPECIMEN_DROP((int)(47 * ARM_TICKS_PER_DEGREE)), //(600),
 
-        SPECIMEN_PICKUP_UP((int)(115*ARM_TICKS_PER_DEGREE)),
+        SPECIMEN_PICKUP_UP((int)(38*ARM_TICKS_PER_DEGREE)),
 
         SPECIMEN_ARM_CLIP((int)(100 * ARM_TICKS_PER_DEGREE)),
 
         LEVEL_TWO_HANG((int)(126 * ARM_TICKS_PER_DEGREE)),
 
 
-        MOVE((int)(30 * ARM_TICKS_PER_DEGREE)), //(-450),
-        BASKET_DROP((int)(101 * ARM_TICKS_PER_DEGREE));
+        MOVE((int)(11.5 * ARM_TICKS_PER_DEGREE)), //(-450),
+        BASKET_DROP((int)(155 * ARM_TICKS_PER_DEGREE));
         //(1415);
 
 
@@ -167,9 +173,14 @@ public class Arm extends LinearOpMode {
         return arm2.getCurrentPosition();
     }
 
-    public void specimenPicup(){moveToPosition(ArmPos.SPECIMEN_PICKUP_UP);}
+    public void specimenPickUp(){moveToPosition(ArmPos.SPECIMEN_PICKUP_UP);}
     public void moveDown() {
         int newPos = arm2.getCurrentPosition() - INCREMENT;
+        moveToPosition(newPos);
+    }
+
+    public void moveDownSlow() {
+        int newPos = arm2.getCurrentPosition() - SLOW_INCREMENT;
         moveToPosition(newPos);
     }
 
