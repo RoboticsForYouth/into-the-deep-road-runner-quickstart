@@ -13,6 +13,10 @@ import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
 
 @TeleOp (name="EnhancedClaw", group = "sample")
 public class EnhancedClaw extends LinearOpMode {
+    public static final String UNKNOWN = "Unknown";
+    public static final String YELLOW = "Yellow";
+    public static final String BLUE = "Blue";
+    public static final String RED = "Red";
     private ElapsedTime runtime = new ElapsedTime();
     private CRServo roller;
     private Servo wrist;
@@ -39,10 +43,6 @@ public class EnhancedClaw extends LinearOpMode {
         }
     }
 
-    public enum STATE {
-        READY_FOR_PICKUP,
-        READY_FOR_DROP_OFF
-    }
     public enum WRIST_POS {
         RESET(0.0),
         PICKUP(0.55),
@@ -171,7 +171,7 @@ public class EnhancedClaw extends LinearOpMode {
         detectedColor = detectColor();
 
         // If the color detected is red, eject and schedule task
-        if (detectedColor.equals("Red")) {
+        if (detectedColor.equals(RED)) {
             roller.setPower(RollerPower.EJECT.getPower());
 
             // Schedule a task to reverse the roller after 1 second
@@ -185,18 +185,31 @@ public class EnhancedClaw extends LinearOpMode {
         }
 
         // Rumble if Blue or Yellow detected
-        else if(detectedColor.equals("Blue") || detectedColor.equals("Yellow")) {
+        else if(detectedColor.equals(BLUE) || detectedColor.equals(YELLOW)) {
             //gamepad1.rumble(15);
             AZUtil.runInParallel( new Runnable() {
                 @Override
                 public void run() {
                     sleep(750);
-                    specimenReset();// Turn off roller
+
+                    move();// Turn off roller
 
                 }
             });
         }
     }
+
+    public void detectColorActionEject() {
+        // Continuously detect color
+        detectedColor = detectColor();
+
+        // If the color detected is red, eject and schedule task
+        while (!detectedColor.equals(UNKNOWN)) {
+            Thread.yield();
+            };
+        roller.setPower(RollerPower.STOP.getPower());
+        }
+
 
     public void specimenPickUp() {
         setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_SPECIMEN, ELBOW_POS.SPECIMEN_PICKUP);
@@ -259,6 +272,7 @@ public class EnhancedClaw extends LinearOpMode {
         elbow.setPosition(newPos);
     }
     public void drop(){
+
         roller.setPower(RollerPower.EJECT.getPower());
     }
 
@@ -271,13 +285,13 @@ public class EnhancedClaw extends LinearOpMode {
         int minPowerVal = 500;
         // Logic to detect Red, Blue, and Yellow based on RGB values
         if (red > blue  && red > green && red > minPowerVal) {
-            val = "Red";
+            val = RED;
         } else if (blue > red && blue > green && blue > minPowerVal) {
-            val = "Blue";
+            val = BLUE;
         } else if ( green > red && green > blue && green > minPowerVal) { // Yellow detection threshold
-            val =  "Yellow";
+            val = YELLOW;
         } else {
-            val = "Unknown";
+            val = UNKNOWN;
         }
 
         ColorVal.red = red;
