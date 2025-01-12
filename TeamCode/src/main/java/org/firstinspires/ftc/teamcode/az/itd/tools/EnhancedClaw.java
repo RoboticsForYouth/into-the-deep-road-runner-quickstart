@@ -199,13 +199,27 @@ public class EnhancedClaw extends LinearOpMode {
         }
     }
 
-    public void detectColorActionEject() {
+    public void detectColorActionAuto() {
+
+        // Continuously detect color
+        detectedColor = detectColor();
+
+         while(detectedColor.equals(UNKNOWN)) {
+            Thread.yield();
+             detectedColor = detectColor();
+         }
+        move();
+    }
+
+    public void detectColorActionEjectAuto() {
+        drop();
         // Continuously detect color
         detectedColor = detectColor();
 
         // If the color detected is red, eject and schedule task
         while (!detectedColor.equals(UNKNOWN)) {
             Thread.yield();
+            detectedColor = detectColor();
             };
         roller.setPower(RollerPower.STOP.getPower());
         }
@@ -233,6 +247,14 @@ public class EnhancedClaw extends LinearOpMode {
 
     public void autoPickup() {
         setPos(RollerPower.PICKUP, WRIST_POS.AUTO_PICKUP, ELBOW_POS.AUTO_PICKUP);
+
+
+    }
+
+    public void rightAutoDrop() {
+        setPos(RollerPower.EJECT, WRIST_POS.AUTO_PICKUP, ELBOW_POS.AUTO_PICKUP);
+
+
     }
 
     public void reset() {

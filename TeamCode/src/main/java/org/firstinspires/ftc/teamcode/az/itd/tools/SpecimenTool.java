@@ -137,6 +137,18 @@ public class SpecimenTool extends LinearOpMode {
 
 //        sleep(1000);
     }
+
+    public void rightAutoDrop()    {
+        slides.collect();
+//        sleep(500);
+        gripper.rightAutoDrop();
+//        sleep(500);
+        arm.autoCollect();
+//        gripper.moveAround();
+
+//        sleep(1000);
+    }
+
  public void collectVertical() {
         slides.collect();
 //        sleep(500);

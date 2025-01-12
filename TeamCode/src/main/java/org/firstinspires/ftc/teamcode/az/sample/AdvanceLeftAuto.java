@@ -96,8 +96,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.eject();
-                specimenTool.gripper.detectColorActionEject();
+                specimenTool.gripper.detectColorActionEjectAuto();
                 return false;
             }
         };
@@ -116,13 +115,14 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
         };
 
         TrajectoryActionBuilder samplePos2Traj = resetActionTraj.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(24, 27.5, Math.toRadians(50)), 0);
+                .splineToLinearHeading(new Pose2d(24, 39, Math.toRadians(50)), 0);
         samplePos2 = samplePos2Traj.build();
 
         collectAction = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 specimenTool.autoCollect();
+                specimenTool.gripper.detectColorActionAuto();
                 return false;
             }
         };
@@ -154,7 +154,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                 .build();
 
         TrajectoryActionBuilder samplePos3Traj = resetActionTraj2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(24, 27.5, Math.toRadians(50)), 0);
+                .splineToLinearHeading(new Pose2d(24, 50, Math.toRadians(50)), 0);
         samplePos3 = samplePos3Traj.build();
 
         TrajectoryActionBuilder moveToCollect3Traj = samplePos3Traj.endTrajectory().fresh()
