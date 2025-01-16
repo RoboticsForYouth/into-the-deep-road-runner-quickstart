@@ -42,10 +42,13 @@ public class BasicLeftAuto extends LinearOpMode {
         specimenTool = new SpecimenTool(this);
         specimenTool.reset();
 
+        specimenTool.arm.initPos(); //set arm to init position
+
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         runtime.reset();
-        beginPose = new Pose2d(0,0,Math.toRadians(0));
+        beginPose = new Pose2d(0,0,Math.toRadians(90));
         drive = new MecanumDrive(hardwareMap, beginPose);
         telemetry.addData("current position", drive.pose);
         telemetry.update();

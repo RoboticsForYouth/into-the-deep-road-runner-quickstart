@@ -16,6 +16,16 @@ public class SpecimenTool extends LinearOpMode {
     public EnhancedClaw gripper;
     public Slides slides;
 
+    public boolean isSlidesMovingUpInPos(Slides.SlidesPos slidesPos, int tolerance) {
+        return slides.getCurrentPos() > (slidesPos.getValue() - tolerance);
+    }
+    public boolean isSlidesMovingDownInPos(Slides.SlidesPos slidesPos, int tolerance) {
+        return slides.getCurrentPos() < (slidesPos.getValue() + tolerance);
+    }
+
+
+
+
     public enum State {
         //Specimen State
         SPECIMEN_READY_TO_PICKUP,
@@ -37,13 +47,6 @@ public class SpecimenTool extends LinearOpMode {
 //    State specimenState = State.SPECIMEN_READY_TO_PICKUP;
 //    State sampleState = State.SAMPLE_READY_TO_COLLECT;
 
-    public void setState(){
-        if ( arm.getCurrentPosValue() == Arm.ArmPos.SPECIMEN_PICKUP_UP.getValue() &&
-                slides.getCurrentPosValue() == Slides.SlidesPos.SPECIMEN_PICKUP.getValue() &&
-                specimenClaw.getCurrentPosValue() == SpecimenClaw.SpecimenClawPos.SPECIMEN_CLAW_COLLECT.getValue()){
-//            specimenState = State.SPECIMEN_PICKED_UP;
-        }
-    }
     SpecimenClaw specimenClaw;
 
     public SpecimenTool(){
@@ -128,7 +131,9 @@ public class SpecimenTool extends LinearOpMode {
     }
 
     public void autoCollect()    {
+
         slides.collect();
+
 //        sleep(500);
         gripper.autoPickup();
 //        sleep(500);
@@ -136,6 +141,15 @@ public class SpecimenTool extends LinearOpMode {
 //        gripper.moveAround();
 
 //        sleep(1000);
+    }
+
+    public void autoCollectAngled() {
+        slides.collect();
+
+//        sleep(500);
+        gripper.autoPickupAngled();
+//        sleep(500);
+        arm.autoCollect();
     }
 
     public void rightAutoDrop()    {
@@ -201,6 +215,17 @@ public class SpecimenTool extends LinearOpMode {
 
     }
 
+    public void autoMove() {
+        slides.move();
+        while(!isSlidesMovingDownInPos(Slides.SlidesPos.MOVE,50)) {
+            Thread.yield();
+        }
+        arm.move();
+        gripper.move();
+
+
+    }
+
     public void teleOpMove() {
         gripper.move();
         arm.move();
@@ -222,12 +247,14 @@ public class SpecimenTool extends LinearOpMode {
 
     public void reset() {
         slides.reset();
-        sleep(1000);
+        sleep(2000);
         arm.reset();
-        sleep(1000);
+        sleep(2000);
         gripper.reset();
         sleep(500);
     }
+
+
 
     public void resetAndWait() {
         slides.resetAndWait();
@@ -380,11 +407,7 @@ public class SpecimenTool extends LinearOpMode {
 //        specimenClaw.setCurrentPosValue(SpecimenClaw.SpecimenClawPos.SPECIMEN_CLAW_COLLECT);
     }
 
-    public boolean isSpecimenDropPos() {
-        return slides.getCurrentPosValue() == Slides.SlidesPos.SPECIMEN_DROP.getValue()
-                && arm.getCurrentPosValue() == Arm.ArmPos.SPECIMEN_DROP.getValue()
-                && specimenClaw.isGrabbedSpecimen();
-    }
+
 
     public void setAfterDropSpecimenPos() {
         slides.setCurrentPosValue(Slides.SlidesPos.SPECIMEN_CLIP);
@@ -405,15 +428,6 @@ public class SpecimenTool extends LinearOpMode {
         arm.setCurrentPosValue(Arm.ArmPos.SPECIMEN_PICKUP_UP);
     }
 
-    //sets the current state
-    public void setCurrentState(){
-//        //set Specimen State
-//        if ( slides.getCurrentPos() == Slides.SlidesPos.RESET &&
-//        arm.getCurrentPosValue() == Arm.ArmPos.RESET){
-//
-//        }
-
-    }
     public enum SpecimenState {
 
         MOVE(Arm.ArmPos.MOVE, Slides.SlidesPos.MOVE){
@@ -458,15 +472,7 @@ public class SpecimenTool extends LinearOpMode {
         };
         public abstract void execute(SpecimenTool tool);
 
-        SpecimenState currentState;
 
-        public SpecimenState getCurrentState() {
-            return currentState;
-        }
-
-        public void setCurrentState(SpecimenState currentState) {
-            this.currentState = currentState;
-        }
 
         SpecimenState(Arm.ArmPos amrPos, Slides.SlidesPos slidesPos){
             this.armPos = amrPos;
@@ -477,7 +483,6 @@ public class SpecimenTool extends LinearOpMode {
         Arm.ArmPos armPos ;
         public String toString(){
             return new StringBuffer("CurrentState:")
-                    .append(currentState)
                     .append(", SlidePos").append(slidePos)
                     .append(", ArmPos").append(armPos).toString();
 

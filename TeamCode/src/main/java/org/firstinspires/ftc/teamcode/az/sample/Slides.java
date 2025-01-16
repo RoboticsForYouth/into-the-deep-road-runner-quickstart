@@ -16,11 +16,8 @@ public class Slides extends LinearOpMode {
     public static final double EXTEND_POWER = 0.3;
 
     public static final int INCREMENT = 100;
-    public static final int INCREMENT_SLOW = 50;
+    public static final int INCREMENT_SLOW = 25;
 
-    public int getCurrentPosValue() {
-        return currentPosValue;
-    }
 
     private int currentPosValue;
 
@@ -68,21 +65,24 @@ public class Slides extends LinearOpMode {
 
         LEVEL_1_HANG(700),
         LEVEL_2_HANG(950),
-        COLLECT(1000),
+        COLLECT(500),
 
-        MOVE(500),
-        SPECIMEN_HANG(2200),
+        MOVE(400),
+        SPECIMEN_HANG(1500),
         LEVEL_ONE_ASCENT(1800),
         LOWER_BASKET_DROP(1500),
-        BASKET_DROP(3200),
+        BASKET_DROP(2400),
         HALFWAYRESET(700),
 
-        SPECIMEN_PICKUP(500),
+        SPECIMEN_PICKUP(300),
 
         SPECIMEN_LIFT(1000),
         RESET(0),
-        SPECIMEN_DROP(2250),
-        SPECIMEN_CLIP(1850);
+        SPECIMEN_DROP(1000),
+        SPECIMEN_CLIP(1200),
+
+        TEST_HEIGHT(1800)
+        ;
 
 
 
@@ -118,6 +118,11 @@ public class Slides extends LinearOpMode {
     }
 
     public void moveDown(){
+        int newPos = slideMotor1.getCurrentPosition() - INCREMENT;
+        setPos(newPos);
+    }
+
+    public void moveDownSlow(){
         int newPos = slideMotor1.getCurrentPosition() - INCREMENT_SLOW;
         setPos(newPos);
     }
@@ -126,6 +131,8 @@ public class Slides extends LinearOpMode {
         int newPos = slideMotor1.getCurrentPosition() + INCREMENT_SLOW;
         setPosLowPower(newPos);
     }
+
+
     public void quickExtend() {
         int newPos = slideMotor1.getCurrentPosition() + 600;
         setPos(newPos);
@@ -145,7 +152,7 @@ public class Slides extends LinearOpMode {
     }
 
     public void extend(float factor) {
-        int position = Math.round(SlidesPos.COLLECT.value + factor*850);
+        int position = Math.round(SlidesPos.COLLECT.value + factor*500);
         setPos(position);
     }
 
@@ -228,8 +235,11 @@ public class Slides extends LinearOpMode {
 //        teleOpTest();
 
             setPos(SlidesPos.BASKET_DROP.value);
+            sleep(8000);
+            telemetry.addData("Pos1", slideMotor1.getCurrentPosition());
+            telemetry.addData("Pos2", slideMotor2.getCurrentPosition());
+            telemetry.update();
             sleep(5000);
-
             setPos(0);
             sleep(5000);
 

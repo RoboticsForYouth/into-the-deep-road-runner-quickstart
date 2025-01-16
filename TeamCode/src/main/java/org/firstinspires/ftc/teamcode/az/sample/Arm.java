@@ -11,7 +11,7 @@ public class Arm extends LinearOpMode {
 
     public static final double POWER = 1.0;
     public static final int INCREMENT = 150;
-    private static final int SLOW_INCREMENT = 50;
+    private static final int SLOW_INCREMENT = 25;
     private DcMotor arm1;
     private DcMotor arm2;
     LinearOpMode opMode;
@@ -45,6 +45,10 @@ public class Arm extends LinearOpMode {
     public void lowBasketDrop() {
         setArmPos(ArmPos.LOW_BASKET_DROP);
     }
+
+    public void initPos() {
+        setArmPos(ArmPos.INIT);
+    }
 //    public static int toDegrees(int ticks) {
 //        int degree = ticks * 9826 / 194481;
 //        return degree;
@@ -54,10 +58,10 @@ public class Arm extends LinearOpMode {
         //multiple 1.39 times when we replace 435 motor with 312 motor
         DROP((int)(70 * ARM_TICKS_PER_DEGREE)), //(530),
         RESET(0),
-        COLLECT((int)(18 * ARM_TICKS_PER_DEGREE)),  //(-785),
-        AUTO_COLLECT((int)(20 * ARM_TICKS_PER_DEGREE)),
+        COLLECT((int)(24 * ARM_TICKS_PER_DEGREE)),  //(-785),
+        AUTO_COLLECT((int)(0 * ARM_TICKS_PER_DEGREE)),
         SPECIMEN_HANG((int)(54 * ARM_TICKS_PER_DEGREE)), //(700),
-        LOW_BASKET_DROP((int)(95 * ARM_TICKS_PER_DEGREE)),
+        LOW_BASKET_DROP((int)(155 * ARM_TICKS_PER_DEGREE)),
         NEW_SPECIMEN_HANG((int)(156 * ARM_TICKS_PER_DEGREE)),
         NEW_SPECIMEN_DROP((int)(160 * ARM_TICKS_PER_DEGREE)),
         LEVEL_ONE_ASCENT_PART_ONE((int)(41 * ARM_TICKS_PER_DEGREE)), //(520),
@@ -71,8 +75,9 @@ public class Arm extends LinearOpMode {
         LEVEL_TWO_HANG((int)(126 * ARM_TICKS_PER_DEGREE)),
 
 
-        MOVE((int)(11.5 * ARM_TICKS_PER_DEGREE)), //(-450),
-        BASKET_DROP((int)(155 * ARM_TICKS_PER_DEGREE));
+        MOVE((int)(20 * ARM_TICKS_PER_DEGREE)), //(-450),
+        BASKET_DROP((int)(162 * ARM_TICKS_PER_DEGREE)),
+        INIT(1250);
         //(1415);
 
 
@@ -119,6 +124,7 @@ public class Arm extends LinearOpMode {
         arm11.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm11.setTargetPosition(0);
         arm11.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
     }
 
 
@@ -154,6 +160,11 @@ public class Arm extends LinearOpMode {
 
     public void moveUp() {
         int newPos = arm2.getCurrentPosition() + INCREMENT;
+        moveToPosition(newPos);
+    }
+
+    public void moveUpSlow() {
+        int newPos = arm2.getCurrentPosition() + SLOW_INCREMENT;
         moveToPosition(newPos);
     }
 

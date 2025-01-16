@@ -44,9 +44,9 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
     GamepadEx gamepadEx1;
     GamepadEx gamepadEx2;
 
-    public void setup() {
-        specimenTool.reset();
-    }
+//    public void setup() {
+//        specimenTool.reset();
+//    }
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -66,6 +66,8 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
         // the extended gamepad object
         GamepadEx driverOp = new GamepadEx(gamepad1);
+
+        specimenTool.arm.initPos(); //set arm to init position
 
         waitForStart();
 

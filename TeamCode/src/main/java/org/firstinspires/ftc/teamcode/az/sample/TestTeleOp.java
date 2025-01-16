@@ -80,7 +80,7 @@ public class TestTeleOp extends LinearOpMode {
                     }
 
                     if(gamepad1.dpad_down){
-                        specimenTool.slides.moveDown();
+                        specimenTool.slides.moveDownSlow();
                     }
 
                     if( gamepad1.dpad_left){
@@ -88,7 +88,7 @@ public class TestTeleOp extends LinearOpMode {
                     }
 
                     if( gamepad1.dpad_right){
-                        specimenTool.arm.moveUp();
+                        specimenTool.arm.moveUpSlow();
                     }
                     if( gamepad1.b){
                         specimenTool.arm.setupPos();
@@ -104,7 +104,7 @@ public class TestTeleOp extends LinearOpMode {
                         specimenTool.gripper.moveDown();
                     }
                     if(gamepad1.x) {
-                        specimenTool.slides.quickExtend();
+                        specimenTool.slides.moveToPosition(Slides.SlidesPos.TEST_HEIGHT);
                     }
                     if(gamepad1.a) {
                         specimenTool.arm.specimenPickUp();
@@ -128,11 +128,13 @@ public class TestTeleOp extends LinearOpMode {
 
                     // Stop the roller on pressing X button
                     if (gamepad2.x) {
-                        specimenTool.gripper.reset();
+                        specimenTool.reset();
                     }
 
                     if(gamepad2.y){
-                        specimenTool.gripper.autoPickup();
+                        specimenTool.move();
+                        sleep(5000);
+                        specimenTool.autoCollect();
                     }
 
                     if(gamepad2.right_bumper){

@@ -6,7 +6,6 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -15,6 +14,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 public class AdvanceLeftAuto extends BasicLeftAuto {
 
 
+    public static final double HIGH_BASKET_X_POS = 3.5;
+    public static final double HIGH_BASKET_Y_POS = 20.5;
+    public static final int HIGH_BASKET_HEADING = 135;
     private Action samplePos2;
     private Action collectAction;
     private Action resetAction;
@@ -22,6 +24,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
     private Action moveToDrop1;
     private TrajectoryActionBuilder specimenDropPosTraj;
     private Action highDropEjectAction;
+    private Action waitUntilHighBasket;
     private Action dropAction;
     private Action moveBackToResetAction;
     private Action highDropArmSetupAction;
@@ -43,6 +46,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
     private Action moveToDrop4;
     private Action moveToDrop4_1;
     private Action moveBackToResetAction4;
+    private Action angledCollectAction;
 
 
     private void updateInit() {
@@ -76,21 +80,19 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 
 
         TrajectoryActionBuilder moveToDropTraj1 = drive.actionBuilder(drive.pose)
-                .splineToLinearHeading(new Pose2d(10, 28, Math.toRadians(140)), 0);
+                .splineToLinearHeading(new Pose2d(HIGH_BASKET_X_POS, HIGH_BASKET_Y_POS, Math.toRadians(HIGH_BASKET_HEADING)), 0);
         moveToDrop1 = moveToDropTraj1.build();
 
         highDropArmSetupAction = new Action(){
 
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+
                 specimenTool.dropHighBasket();
                 return false;
             }
         };
 
-        TrajectoryActionBuilder moveToDropTraj1_1 = moveToDropTraj1.endTrajectory().fresh()
-                .lineToX(4);
-        moveToDrop1_1 = moveToDropTraj1_1.build();
 
         highDropEjectAction = new Action() {
 
@@ -101,10 +103,20 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
             }
         };
 
-        TrajectoryActionBuilder resetActionTraj = moveToDropTraj1_1.endTrajectory().fresh()
-                .lineToX(14);
-        moveBackToResetAction = resetActionTraj
-                .build();
+        waitUntilHighBasket = new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                while (!specimenTool.isSlidesMovingUpInPos(Slides.SlidesPos.BASKET_DROP, 50)) {
+                    Thread.yield();
+                }
+                return false;
+            }
+        };
+
+//        TrajectoryActionBuilder resetActionTraj = moveToDropTraj1.endTrajectory().fresh()
+//                .lineToX(5);
+//        moveBackToResetAction = resetActionTraj
+//                .build();
 
         resetAction = new Action() {
             @Override
@@ -114,14 +126,27 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
             }
         };
 
-        TrajectoryActionBuilder samplePos2Traj = resetActionTraj.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(24, 39, Math.toRadians(50)), 0);
+        TrajectoryActionBuilder samplePos2Traj = moveToDropTraj1.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(19, 16, Math.toRadians(-5)), 0);
         samplePos2 = samplePos2Traj.build();
 
         collectAction = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                specimenTool.autoMove();
+                sleep(500);
                 specimenTool.autoCollect();
+                specimenTool.gripper.detectColorActionAuto();
+                return false;
+            }
+        };
+
+        angledCollectAction = new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                specimenTool.autoMove();
+                sleep(500);
+                specimenTool.autoCollectAngled();
                 specimenTool.gripper.detectColorActionAuto();
                 return false;
             }
@@ -136,70 +161,36 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
             }
         };
 
-        TrajectoryActionBuilder moveToCollect2Traj = samplePos2Traj.endTrajectory().fresh()
-                .lineToX(25);
-        moveToCollect2 = moveToCollect2Traj.build();
 
-        TrajectoryActionBuilder moveToDropTraj2 = moveToCollect2Traj.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(10, 28, Math.toRadians(140)), 0);
+        TrajectoryActionBuilder moveToDropTraj2 = samplePos2Traj.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(HIGH_BASKET_X_POS, HIGH_BASKET_Y_POS, Math.toRadians(HIGH_BASKET_HEADING)), 0);
         moveToDrop2 = moveToDropTraj2.build();
 
-        TrajectoryActionBuilder moveToDropTraj2_1 = moveToDropTraj2.endTrajectory().fresh()
-                .lineToX(4);
-        moveToDrop2_1 = moveToDropTraj2_1.build();
 
-        TrajectoryActionBuilder resetActionTraj2 = moveToDropTraj2_1.endTrajectory().fresh()
-                .lineToX(14);
-        moveBackToResetAction2 = resetActionTraj2
-                .build();
-
-        TrajectoryActionBuilder samplePos3Traj = resetActionTraj2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(24, 50, Math.toRadians(50)), 0);
+        TrajectoryActionBuilder samplePos3Traj = moveToDropTraj2.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(23, 20, Math.toRadians(10)), 0);
         samplePos3 = samplePos3Traj.build();
 
-        TrajectoryActionBuilder moveToCollect3Traj = samplePos3Traj.endTrajectory().fresh()
-                .lineToX(25);
-        moveToCollect3 = moveToCollect3Traj.build();
 
-        TrajectoryActionBuilder moveToDropTraj3 = moveToCollect3Traj.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(10, 28, Math.toRadians(140)), 0);
+        TrajectoryActionBuilder moveToDropTraj3 = samplePos3Traj.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(HIGH_BASKET_X_POS, HIGH_BASKET_Y_POS, Math.toRadians(HIGH_BASKET_HEADING)),0);
         moveToDrop3 = moveToDropTraj3.build();
 
-        TrajectoryActionBuilder moveToDropTraj3_1 = moveToDropTraj3.endTrajectory().fresh()
-                .lineToX(4);
-        moveToDrop3_1 = moveToDropTraj3_1.build();
-
-        TrajectoryActionBuilder resetActionTraj3 = moveToDropTraj3_1.endTrajectory().fresh()
-                .lineToX(14);
-        moveBackToResetAction3 = resetActionTraj3
-                .build();
-
-        TrajectoryActionBuilder samplePos4Traj = resetActionTraj3.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(24, 27.5, Math.toRadians(50)), 0);
+        TrajectoryActionBuilder samplePos4Traj = moveToDropTraj3.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(23, 24, Math.toRadians(10)), 0);
         samplePos4 = samplePos4Traj.build();
 
-        TrajectoryActionBuilder moveToCollect4Traj = samplePos4Traj.endTrajectory().fresh()
-                .lineToX(25);
-        moveToCollect4 = moveToCollect4Traj.build();
 
-        TrajectoryActionBuilder moveToDropTraj4 = moveToCollect4Traj.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(10, 28, Math.toRadians(140)), 0);
+        TrajectoryActionBuilder moveToDropTraj4 = samplePos4Traj.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(HIGH_BASKET_X_POS, HIGH_BASKET_Y_POS, Math.toRadians(HIGH_BASKET_HEADING)),0);
         moveToDrop4 = moveToDropTraj4.build();
 
-        TrajectoryActionBuilder moveToDropTraj4_1 = moveToDropTraj4.endTrajectory().fresh()
-                .lineToX(4);
-        moveToDrop4_1 = moveToDropTraj4_1.build();
-
-        TrajectoryActionBuilder resetActionTraj4 = moveToDropTraj4_1.endTrajectory().fresh()
-                .lineToX(14);
-        moveBackToResetAction4 = resetActionTraj4
-                .build();
 
 
 
 
 
-        TrajectoryActionBuilder moveToPark = resetActionTraj4.endTrajectory().fresh()
+        TrajectoryActionBuilder moveToPark = samplePos4Traj.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(15, -43, Math.toRadians(0)), 0)
                 .lineToX(2);
         moveToParkAction = moveToPark
@@ -210,10 +201,10 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 
 
 
-        TrajectoryActionBuilder secondSamplePosTraj = resetActionTraj.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(22, 39, Math.toRadians(50)), 0);
-
-        secondSamplePosAction = secondSamplePosTraj.build();
+//        TrajectoryActionBuilder secondSamplePosTraj = resetActionTraj.endTrajectory().fresh()
+//                .splineToLinearHeading(new Pose2d(22, 39, Math.toRadians(50)), 0);
+//
+//        secondSamplePosAction = secondSamplePosTraj.build();
 
     }
 
@@ -222,59 +213,43 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
         updateInit();
         Actions.runBlocking(
                 new SequentialAction(
-                        moveToDrop1, //start here!!!
                         highDropArmSetupAction,
-                        new SleepAction(2),
-                        moveToDrop1_1,
+                        moveToDrop1, //start here!!!
+                        waitUntilHighBasket,
                         highDropEjectAction,
-                        moveBackToResetAction,
-                        resetAction,
+
 
                         samplePos2,
                         collectAction,
-                        new SleepAction(2),
-                        movePosAction,
-                        moveToCollect2,
-                        moveToDrop2,
                         highDropArmSetupAction,
-                        new SleepAction(2),
-                        moveToDrop2_1,
+                        moveToDrop2,
+                        waitUntilHighBasket,
                         highDropEjectAction,
-                        moveBackToResetAction2,
-                        resetAction,
 
                         samplePos3,
-                        collectAction, //
-                        new SleepAction(2), //
-                        movePosAction, //
-                        moveToCollect3,
-                        moveToDrop3,
+                        angledCollectAction, //
                         highDropArmSetupAction, //
-                        new SleepAction(2), //
-                        moveToDrop3_1,
-                        highDropEjectAction, //
-                        moveBackToResetAction3,
-                        resetAction, //
+                        moveToDrop3,
+                        waitUntilHighBasket,
+                        highDropEjectAction,
+
 
                         samplePos4,
-                        collectAction, //
-                        new SleepAction(2), //
-                        movePosAction, //
-                        moveToCollect4,
-                        moveToDrop4,
+                        angledCollectAction, //
                         highDropArmSetupAction, //
-                        new SleepAction(2), //
-                        moveToDrop4_1,
+                        moveToDrop4,
+                        waitUntilHighBasket, //
                         highDropEjectAction, //
-                        moveBackToResetAction4,
-                        resetAction, //
-
-                        moveToParkAction
+                        resetAction //
+//
+//                        moveToParkAction
                 )
         );
 //
         telemetry.addData("current position", drive.pose);
         telemetry.update();
-        sleep(1000);
+
+
+        sleep(10000);
     }
 }
