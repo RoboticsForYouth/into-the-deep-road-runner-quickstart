@@ -83,6 +83,13 @@ public class SpecimenTool extends LinearOpMode {
         gripper.sampleDrop();
     }
 
+    public void autoDropHighBasket() {
+        arm.moveToPosition(Arm.ArmPos.BASKET_DROP);
+        sleep(700);
+        slides.moveToPosition(Slides.SlidesPos.BASKET_DROP);
+        gripper.sampleDrop();
+    }
+
     public void pickUpSpecimen(){
         slides.moveToPosition(Slides.SlidesPos.SPECIMEN_PICKUP);
         arm.moveToPosition(Arm.ArmPos.SPECIMEN_PICKUP_UP);

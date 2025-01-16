@@ -19,7 +19,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
     public static final int HIGH_BASKET_HEADING = 135;
     private Action samplePos2;
     private Action collectAction;
-    private Action resetAction;
+    private Action timeOverResetAction;
     private Action moveToCollect2;
     private Action moveToDrop1;
     private TrajectoryActionBuilder specimenDropPosTraj;
@@ -47,6 +47,8 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
     private Action moveToDrop4_1;
     private Action moveBackToResetAction4;
     private Action angledCollectAction;
+    private Action moveAndWaitAction;
+
 
 
     private void updateInit() {
@@ -88,7 +90,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
 
-                specimenTool.dropHighBasket();
+                specimenTool.autoDropHighBasket();
                 return false;
             }
         };
@@ -118,9 +120,18 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 //        moveBackToResetAction = resetActionTraj
 //                .build();
 
-        resetAction = new Action() {
+        timeOverResetAction = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                if (specimenTool.slides.getCurrentPos() > 2000) {
+                    specimenTool.autoMove();
+
+                }
+                else {
+                    specimenTool.resetAndWait();
+
+                }
+
                 specimenTool.resetAndWait();
                 return false;
             }
@@ -130,11 +141,18 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                 .splineToLinearHeading(new Pose2d(19, 16, Math.toRadians(-5)), 0);
         samplePos2 = samplePos2Traj.build();
 
+        moveAndWaitAction = new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                specimenTool.autoMove();
+                return false;
+            }
+        };
+
         collectAction = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 specimenTool.autoMove();
-                sleep(500);
                 specimenTool.autoCollect();
                 specimenTool.gripper.detectColorActionAuto();
                 return false;
@@ -160,6 +178,8 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                 return false;
             }
         };
+
+
 
 
         TrajectoryActionBuilder moveToDropTraj2 = samplePos2Traj.endTrajectory().fresh()
@@ -218,7 +238,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                         waitUntilHighBasket,
                         highDropEjectAction,
 
-
+                        moveAndWaitAction,
                         samplePos2,
                         collectAction,
                         highDropArmSetupAction,
@@ -226,6 +246,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                         waitUntilHighBasket,
                         highDropEjectAction,
 
+                        moveAndWaitAction,
                         samplePos3,
                         angledCollectAction, //
                         highDropArmSetupAction, //
@@ -233,14 +254,14 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                         waitUntilHighBasket,
                         highDropEjectAction,
 
-
+                        moveAndWaitAction,
                         samplePos4,
                         angledCollectAction, //
                         highDropArmSetupAction, //
                         moveToDrop4,
                         waitUntilHighBasket, //
                         highDropEjectAction, //
-                        resetAction //
+                        timeOverResetAction //
 //
 //                        moveToParkAction
                 )
