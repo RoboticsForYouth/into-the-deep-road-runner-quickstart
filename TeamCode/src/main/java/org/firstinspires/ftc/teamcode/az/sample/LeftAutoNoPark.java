@@ -12,6 +12,8 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.az.itd.tools.EnhancedClaw;
+
 @Autonomous(preselectTeleOp = "IntoTheDeepTeleOp")
 public class LeftAutoNoPark extends BasicLeftAuto {
 
@@ -62,7 +64,7 @@ public class LeftAutoNoPark extends BasicLeftAuto {
         collectAction = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.autoCollect();
+                specimenTool.autoCollect(EnhancedClaw.WRIST_POS.AUTO_PICKUP);
                 return false;
             }
         };

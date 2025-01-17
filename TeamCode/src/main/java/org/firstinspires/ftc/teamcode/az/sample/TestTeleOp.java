@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.az.itd.tools.EnhancedClaw;
 import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
 
 @TeleOp
@@ -134,7 +135,7 @@ public class TestTeleOp extends LinearOpMode {
                     if(gamepad2.y){
                         specimenTool.move();
                         sleep(5000);
-                        specimenTool.autoCollect();
+                        specimenTool.autoCollect(EnhancedClaw.WRIST_POS.AUTO_PICKUP);
                     }
 
                     if(gamepad2.right_bumper){
@@ -146,7 +147,12 @@ public class TestTeleOp extends LinearOpMode {
                     }
 
                     if(gamepad2.dpad_up){
-                        specimenTool.gripper.specimenDrop();
+//                        specimenTool.gripper.specimenDrop();
+                        specimenTool.gripper.drop();
+                    }
+                    if(gamepad2.dpad_down){
+//                        specimenTool.gripper.specimenDrop();
+                        specimenTool.gripper.samplePickup();
                     }
                 }
             });

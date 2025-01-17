@@ -11,6 +11,8 @@ import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.az.itd.tools.EnhancedClaw;
+
 @Autonomous(preselectTeleOp = "IntoTheDeepTeleOp")
 public class AdvanceRightAuto extends BasicRightAuto {
 
@@ -122,8 +124,8 @@ public class AdvanceRightAuto extends BasicRightAuto {
         collectAction = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.autoCollect();
-                specimenTool.gripper.detectColorActionAuto();
+                specimenTool.autoCollect(EnhancedClaw.WRIST_POS.AUTO_PICKUP);
+                specimenTool.detectColorActionAuto();
                 return false;
             }
         };

@@ -66,6 +66,7 @@ public class Slides extends LinearOpMode {
         LEVEL_1_HANG(700),
         LEVEL_2_HANG(950),
         COLLECT(500),
+        AUTO_SAMPLE_COLLECT(1700),
 
         MOVE(400),
         SPECIMEN_HANG(1500),
@@ -81,8 +82,8 @@ public class Slides extends LinearOpMode {
         SPECIMEN_DROP(1000),
         SPECIMEN_CLIP(1200),
 
-        TEST_HEIGHT(1800)
-        ;
+        TEST_HEIGHT(1800),
+        AUTO_BASKET_DROP(2250);
 
 
 

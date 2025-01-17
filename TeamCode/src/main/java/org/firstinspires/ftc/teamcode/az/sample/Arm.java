@@ -59,7 +59,7 @@ public class Arm extends LinearOpMode {
         DROP((int)(70 * ARM_TICKS_PER_DEGREE)), //(530),
         RESET(0),
         COLLECT((int)(24 * ARM_TICKS_PER_DEGREE)),  //(-785),
-        AUTO_COLLECT((int)(0 * ARM_TICKS_PER_DEGREE)),
+        AUTO_COLLECT((int)(17 * ARM_TICKS_PER_DEGREE)),
         SPECIMEN_HANG((int)(54 * ARM_TICKS_PER_DEGREE)), //(700),
         LOW_BASKET_DROP((int)(155 * ARM_TICKS_PER_DEGREE)),
         NEW_SPECIMEN_HANG((int)(156 * ARM_TICKS_PER_DEGREE)),
@@ -77,8 +77,8 @@ public class Arm extends LinearOpMode {
 
         MOVE((int)(20 * ARM_TICKS_PER_DEGREE)), //(-450),
         BASKET_DROP((int)(162 * ARM_TICKS_PER_DEGREE)),
-        INIT(1250);
-        //(1415);
+        INIT(1250),
+        AUTO_BASKET_DROP((int)(190 * ARM_TICKS_PER_DEGREE));
 
 
         private final int value;

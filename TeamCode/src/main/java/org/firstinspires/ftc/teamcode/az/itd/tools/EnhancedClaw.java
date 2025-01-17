@@ -52,7 +52,9 @@ public class EnhancedClaw extends LinearOpMode {
         PICKUP_90(0.27),
         PICKUP_SPECIMEN(0.84),
         DROP_OFF_SPECIMEN(0.84), //0.84 //0.27
-        AUTO_PICKUP_ANGLED(0.84);
+        AUTO_PICKUP_ANGLED(0.84),
+        AUTO_PICKUP_SAMPLE_ONE(0.27),
+        AUTO_PICKUP_SAMPLE_TWO(0.4);
 
 
         public double getPos() {
@@ -75,7 +77,9 @@ public class EnhancedClaw extends LinearOpMode {
         SPECIMEN_DROP(0.72), //0.3, 0.6 before 1/12/25
 
         RESET(0),
-        SPECIMEN_RELEASE(0.12); //0
+        SPECIMEN_RELEASE(0.12),
+        AUTO_DROP(0.7); //0
+
 
 
         public double getPos() {
@@ -99,7 +103,7 @@ public class EnhancedClaw extends LinearOpMode {
         setup();
     }
 
-    private String detectedColor = "unknown"; // Fixed 'string' to 'String'
+    String detectedColor = "unknown"; // Fixed 'string' to 'String'
 
     private TimedRunnable currentRunnable = null; // To track scheduled tasks
 
@@ -131,7 +135,7 @@ public class EnhancedClaw extends LinearOpMode {
             }
 
             if(gamepad1.y){
-                autoPickup();
+                autoPickup(WRIST_POS.AUTO_PICKUP);
             }
 
             if( gamepad1.right_bumper){
@@ -201,17 +205,7 @@ public class EnhancedClaw extends LinearOpMode {
         }
     }
 
-    public void detectColorActionAuto() {
 
-        // Continuously detect color
-        detectedColor = detectColor();
-
-         while(detectedColor.equals(UNKNOWN)) {
-            Thread.yield();
-             detectedColor = detectColor();
-         }
-        move();
-    }
 
     public void detectColorActionEjectAuto() {
         drop();
@@ -224,7 +218,9 @@ public class EnhancedClaw extends LinearOpMode {
             detectedColor = detectColor();
             };
         roller.setPower(RollerPower.STOP.getPower());
-        }
+        setPos(RollerPower.STOP, WRIST_POS.PICKUP, ELBOW_POS.PICKUP);
+
+    }
 
     @Override
     public String toString() {
@@ -255,8 +251,8 @@ public class EnhancedClaw extends LinearOpMode {
         setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_90, ELBOW_POS.PICKUP);
     }
 
-    public void autoPickup() {
-        setPos(RollerPower.PICKUP, WRIST_POS.AUTO_PICKUP, ELBOW_POS.AUTO_PICKUP);
+    public void autoPickup(WRIST_POS autoPickup) {
+        setPos(RollerPower.PICKUP, autoPickup, ELBOW_POS.AUTO_PICKUP);
 
 
     }
@@ -298,6 +294,12 @@ public class EnhancedClaw extends LinearOpMode {
     public void sampleDrop() {
         wrist.setPosition(WRIST_POS.DROP_OFF.getPos());
         elbow.setPosition(ELBOW_POS.DROP.getPos());
+        roller.setPower(RollerPower.STOP.getPower());
+    }
+
+    public void autoSampleDrop() {
+        wrist.setPosition(WRIST_POS.DROP_OFF.getPos());
+        elbow.setPosition(ELBOW_POS.AUTO_DROP.getPos());
         roller.setPower(RollerPower.STOP.getPower());
     }
     public void moveUp() {
