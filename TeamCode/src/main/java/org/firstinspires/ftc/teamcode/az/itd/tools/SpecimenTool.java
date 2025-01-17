@@ -410,6 +410,16 @@ public class SpecimenTool extends LinearOpMode {
         arm.moveToCurrentPos();
 //        specimenClaw.setToCurrentPos();
     }
+    
+    public void autoCollectAndWait(EnhancedClaw.WRIST_POS wristPos) {
+        autoCollect(wristPos);
+        slides.moveToPosition(Slides.SlidesPos.AUTO_SAMPLE_COLLECT);
+
+        while (!isArmMovingDownInPos(Arm.ArmPos.AUTO_COLLECT, 50)) {
+            Thread.yield();
+        }
+
+    }
 
     public boolean hasGrabbedSpecimen() {
         //check if specimenClaw is in grab position
