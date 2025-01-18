@@ -71,7 +71,7 @@ public class Arm extends LinearOpMode {
         AUTO_COLLECT((int)(0 * ARM_TICKS_PER_DEGREE)),
         SPECIMEN_COLLECT((int)(54 * ARM_TICKS_PER_DEGREE)), //(700),
         LOW_BASKET_DROP((int)(155 * ARM_TICKS_PER_DEGREE)),
-        NEW_SPECIMEN_HANG((int)(156 * ARM_TICKS_PER_DEGREE)),
+        NEW_SPECIMEN_HANG((int)(55 * ARM_TICKS_PER_DEGREE)),
         NEW_SPECIMEN_DROP((int)(160 * ARM_TICKS_PER_DEGREE)),
         LEVEL_ONE_ASCENT_PART_ONE((int)(41 * ARM_TICKS_PER_DEGREE)), //(520),
         LEVEL_ONE_ASCENT((int)(47 * ARM_TICKS_PER_DEGREE)), //(612), //(440),

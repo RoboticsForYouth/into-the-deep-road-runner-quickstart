@@ -8,6 +8,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -33,6 +34,7 @@ public class BasicRightAuto extends LinearOpMode {
     private Pose2d beginPose;
 
     private AZImu imu;
+    private Action specimenHang;
 
     public class specimenHang implements Action {
 
@@ -57,14 +59,16 @@ public class BasicRightAuto extends LinearOpMode {
     }
 
     public void initAuto() {
-
         arm = new Arm(this);
         slides = new Slides(this);
         specimenTool = new SpecimenTool(this);
-        imu = new AZImu(hardwareMap);
         specimenTool.reset();
 
+        specimenTool.arm.initPos(); //set arm to init position
+
+
         telemetry.addData("Status", "Initialized");
+        telemetry.update();
         telemetry.update();
         runtime.reset();
         beginPose = new Pose2d(0,0,Math.toRadians(0));
@@ -72,10 +76,22 @@ public class BasicRightAuto extends LinearOpMode {
         telemetry.addData("current position", drive.pose);
         telemetry.update();
 
+        initActions();
+
         waitForStart();
 
     }
 
+    private void initActions() {
+        specimenHang = new Action(){
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                specimenTool.specimenHangPos();
+                return false;
+            }
+        };
+    }
 
 
     public void runOpMode() throws InterruptedException {
@@ -93,8 +109,10 @@ public class BasicRightAuto extends LinearOpMode {
 
         Actions.runBlocking(
                 new SequentialAction(
+                        specimenHang,
                         specimenDropPos,
-                        specimenHang(),
+                        ejectAction(),
+                        new SleepAction(2),
                         new Action() {
                             @Override
                             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
@@ -102,8 +120,8 @@ public class BasicRightAuto extends LinearOpMode {
                                 sleep(1000);
                                 return false;
                             }
-                        },
-                        park
+                        }
+//                        ,park
                 )
         );
 //
@@ -114,6 +132,18 @@ public class BasicRightAuto extends LinearOpMode {
 
 
 
+    }
+
+    private Action ejectAction() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                specimenTool.eject();
+                sleep(1000);
+                specimenTool.gripper.reset();
+                return false;
+            }
+        };
     }
 
 }

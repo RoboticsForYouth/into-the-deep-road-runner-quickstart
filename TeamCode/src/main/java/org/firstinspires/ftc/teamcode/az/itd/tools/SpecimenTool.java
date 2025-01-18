@@ -31,7 +31,11 @@ public class SpecimenTool extends LinearOpMode {
         return slides.getCurrentPos() < (slidesPos.getValue() + tolerance);
     }
 
-
+    public void specimenHangPos() {
+        arm.setArmPos(Arm.ArmPos.NEW_SPECIMEN_HANG);
+        slides.moveToPosition(Slides.SlidesPos.SPECIMEN_DROP);
+        gripper.specimenDrop();
+    }
 
 
     public enum State {
@@ -291,10 +295,12 @@ public class SpecimenTool extends LinearOpMode {
     public void resetAndWait() {
         slides.resetAndWait();
         gripper.move();
-        gripper.drop();
+//        gripper.drop();
 
         sleep(1000);
         arm.reset();
+        gripper.reset();
+
 ////        sleep(1000);
 //        sleep(1000);
 //        gripper.reset();

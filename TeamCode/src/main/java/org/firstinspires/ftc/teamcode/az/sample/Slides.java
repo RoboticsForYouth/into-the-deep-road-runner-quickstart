@@ -81,8 +81,8 @@ public class Slides extends LinearOpMode {
 
         SPECIMEN_LIFT(1000),
         RESET(0),
-        SPECIMEN_DROP(1000),
-        SPECIMEN_CLIP(1200),
+        SPECIMEN_DROP(1500),
+        SPECIMEN_CLIP(700),
 
         TEST_HEIGHT(1800),
         AUTO_BASKET_DROP(2200);
