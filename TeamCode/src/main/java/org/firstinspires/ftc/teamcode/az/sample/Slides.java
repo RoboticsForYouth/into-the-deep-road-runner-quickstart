@@ -38,8 +38,8 @@ public class Slides extends LinearOpMode {
 
     }
 
-    public void specimenHang() {
-        setPos(SlidesPos.SPECIMEN_HANG.value);
+    public void specimenCollect() {
+        setPos(SlidesPos.SPECIMEN_COLLECT.value);
     }
 
     public String printCurrentPos() {
@@ -64,12 +64,14 @@ public class Slides extends LinearOpMode {
     public enum SlidesPos {
 
         LEVEL_1_HANG(700),
-        LEVEL_2_HANG(950),
+        LEVEL_2_HANG(850),
         COLLECT(500),
-        AUTO_SAMPLE_COLLECT(1700),
+        AUTO_SAMPLE_TWO_COLLECT(1400),
+        AUTO_SAMPLE_THREE_COLLECT(1300),
+        AUTO_SAMPLE_FOUR_COLLECT(1000),
 
         MOVE(400),
-        SPECIMEN_HANG(1500),
+        SPECIMEN_COLLECT(500),
         LEVEL_ONE_ASCENT(1800),
         LOWER_BASKET_DROP(1500),
         BASKET_DROP(2400),
@@ -83,7 +85,7 @@ public class Slides extends LinearOpMode {
         SPECIMEN_CLIP(1200),
 
         TEST_HEIGHT(1800),
-        AUTO_BASKET_DROP(2250);
+        AUTO_BASKET_DROP(2200);
 
 
 
@@ -153,7 +155,7 @@ public class Slides extends LinearOpMode {
     }
 
     public void extend(float factor) {
-        int position = Math.round(SlidesPos.COLLECT.value + factor*500);
+        int position = Math.round(SlidesPos.COLLECT.value + factor*900);
         setPos(position);
     }
 

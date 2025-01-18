@@ -220,7 +220,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         @Override
                         public void run() {
                             rightBumperProcessing = true;
-                            arm.moveUp();
+                            specimenTool.pickUpSpecimen();
                             rightBumperProcessing = false;
                         }
                     });
@@ -258,7 +258,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         @Override
                         public void run() {
                             buttonYProcessing = true;
-                            specimenTool.specimenHang();
+                            specimenTool.specimenCollect();
                             buttonYProcessing = false;
                         }
                     });

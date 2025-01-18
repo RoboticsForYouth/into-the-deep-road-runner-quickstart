@@ -94,6 +94,11 @@ public class SpecimenTool extends LinearOpMode {
     public void autoDropHighBasket() {
         arm.moveToPosition(Arm.ArmPos.AUTO_BASKET_DROP);
         sleep(700);
+
+        while (!isArmMovingUpInPos(Arm.ArmPos.AUTO_BASKET_DROP, 70)) {
+            Thread.yield();
+        }
+
         slides.moveToPosition(Slides.SlidesPos.AUTO_BASKET_DROP);
 //        gripper.autoSampleDrop();
     }
@@ -101,7 +106,6 @@ public class SpecimenTool extends LinearOpMode {
     public void pickUpSpecimen(){
         slides.moveToPosition(Slides.SlidesPos.SPECIMEN_PICKUP);
         arm.moveToPosition(Arm.ArmPos.SPECIMEN_PICKUP_UP);
-
 
     }
 
@@ -161,14 +165,14 @@ public class SpecimenTool extends LinearOpMode {
     public void detectColorActionAuto() {
 
         // Continuously detect color
-        gripper.detectedColor = gripper.detectColor();
-
-        while(gripper.detectedColor.equals(gripper.UNKNOWN)) {
-            Thread.yield();
-            gripper.detectedColor = gripper.detectColor();
-        }
-        gripper.move();
-        move();
+//        gripper.detectedColor = gripper.detectColor();
+//
+//        while(gripper.detectedColor.equals(gripper.UNKNOWN)) {
+//            Thread.yield();
+//            gripper.detectedColor = gripper.detectColor();
+//        }
+//        sleep(1000);
+        autoMove();
     }
 
     public void autoCollectAngled() {
@@ -200,10 +204,10 @@ public class SpecimenTool extends LinearOpMode {
 //        sleep(1000);
     }
 
-    public void specimenHang() {
-        arm.specimenHang();
+    public void specimenCollect() {
+        arm.specimenCollect();
         sleep(1000);
-        slides.specimenHang();
+        slides.specimenCollect();
         sleep(1000);
         gripper.specimenPickUp();
         sleep(500);
@@ -215,7 +219,7 @@ public class SpecimenTool extends LinearOpMode {
     public void newSpecimenHang() {
         arm.newSpecimenHang();
         sleep(1000);
-        slides.specimenHang();
+        slides.specimenCollect();
         sleep(1000);
         specimenClaw.reset();
         sleep(500);
@@ -226,7 +230,7 @@ public class SpecimenTool extends LinearOpMode {
  public void specimenLowBasket() {
         arm.lowBasketDrop();
         sleep(1000);
-        slides.specimenHang();
+        slides.specimenCollect();
         sleep(1000);
         gripper.sampleDrop();
         sleep(500);
@@ -249,8 +253,8 @@ public class SpecimenTool extends LinearOpMode {
             Thread.yield();
         }
         arm.move();
-        gripper.move();
-
+//        gripper.move();
+        gripper.autoSampleDrop();
 
     }
 
@@ -286,13 +290,14 @@ public class SpecimenTool extends LinearOpMode {
 
     public void resetAndWait() {
         slides.resetAndWait();
-        gripper.sampleDrop();
+        gripper.move();
+        gripper.drop();
 
         sleep(1000);
         arm.reset();
+////        sleep(1000);
 //        sleep(1000);
-        sleep(1000);
-        gripper.reset();
+//        gripper.reset();
     }
 
     public void highReset () {
@@ -369,7 +374,7 @@ public class SpecimenTool extends LinearOpMode {
         sleep(5000);
 
 
-        specimenHang();
+        specimenCollect();
         sleep(5000);
 
         highReset();
@@ -411,13 +416,14 @@ public class SpecimenTool extends LinearOpMode {
 //        specimenClaw.setToCurrentPos();
     }
     
-    public void autoCollectAndWait(EnhancedClaw.WRIST_POS wristPos) {
+    public void autoCollectAndWait(EnhancedClaw.WRIST_POS wristPos, Slides.SlidesPos slides) {
         autoCollect(wristPos);
-        slides.moveToPosition(Slides.SlidesPos.AUTO_SAMPLE_COLLECT);
+        this.slides.moveToPosition(slides);
 
-        while (!isArmMovingDownInPos(Arm.ArmPos.AUTO_COLLECT, 50)) {
+        while (!isArmMovingDownInPos(Arm.ArmPos.AUTO_COLLECT, 50 ) ) {
             Thread.yield();
         }
+        sleep(300);
 
     }
 

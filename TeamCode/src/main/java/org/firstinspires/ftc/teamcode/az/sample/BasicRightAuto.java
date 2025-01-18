@@ -40,7 +40,7 @@ public class BasicRightAuto extends LinearOpMode {
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
 
 
-                    specimenTool.specimenHang();
+                    specimenTool.specimenCollect();
                     sleep(1000);
 
 //                    specimenTool.sampleDrop();

@@ -47,7 +47,7 @@ public class RightAuto extends LinearOpMode {
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
 
 
-            specimenTool.specimenHang();
+            specimenTool.specimenCollect();
             sleep(1000);
 
 
@@ -93,14 +93,14 @@ public class RightAuto extends LinearOpMode {
                         new Action() {
                             @Override
                             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                                arm.specimenHang();
+                                arm.specimenCollect();
                                 return false;
                             }
                         },
                         new Action() {
                             @Override
                             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                                slides.specimenHang();
+                                slides.specimenCollect();
                                 return false;
                             }
                         },

@@ -84,7 +84,7 @@ public class LeftAuto extends LinearOpMode {
                         new Action() {
                             @Override
                             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                                specimenTool.specimenHang();
+                                specimenTool.specimenCollect();
                                 sleep(1000);
                                 return false;
                             }

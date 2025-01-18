@@ -60,7 +60,7 @@ public class AdvanceRightAuto extends BasicRightAuto {
                 AZUtil.runInParallel(new Runnable() {
                     @Override
                     public void run() {
-                        //specimenTool.specimenHang();
+                        //specimenTool.specimenCollect();
                         sleep(1000);
                     }
                 });

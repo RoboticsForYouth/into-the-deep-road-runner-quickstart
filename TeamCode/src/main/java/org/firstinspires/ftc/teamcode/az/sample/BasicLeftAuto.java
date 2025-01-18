@@ -6,21 +6,39 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.AngularVelConstraint;
+import com.acmerobotics.roadrunner.MinVelConstraint;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
+import com.acmerobotics.roadrunner.TurnConstraints;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
+
+import java.util.Arrays;
 
 
 @Config
 @Autonomous ( preselectTeleOp = "IntoTheDeepTeleOp")
 public class BasicLeftAuto extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
+
+    VelConstraint baseVelConstraint = new MinVelConstraint(Arrays.asList(
+            new TranslationalVelConstraint(50.0),
+            new AngularVelConstraint(Math.PI / 2)
+    ));
+
+    TurnConstraints turnConstraints = new TurnConstraints(
+            Math.PI/2,
+            -Math.PI/2,
+            Math.PI/2);
 
     SpecimenTool specimenTool = null;
     Arm arm = null;
@@ -60,7 +78,7 @@ public class BasicLeftAuto extends LinearOpMode {
     private void setUpActions(){
         specimenDropPos = drive.actionBuilder(beginPose)
                 .splineToConstantHeading(new Vector2d(19, 0), Math.toRadians(0))
-//                .afterDisp(1, specimenHang)
+//                .afterDisp(1, specimenCollect)
                 .build();
 
         prePark = drive.actionBuilder(drive.pose)
@@ -72,7 +90,7 @@ public class BasicLeftAuto extends LinearOpMode {
         specimenHang = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.specimenHang();
+                specimenTool.specimenCollect();
                 sleep(1000);
                 return false;
             }
@@ -117,5 +135,7 @@ public class BasicLeftAuto extends LinearOpMode {
 
 
     }
+
+
 
 }

@@ -154,6 +154,10 @@ public class TestTeleOp extends LinearOpMode {
 //                        specimenTool.gripper.specimenDrop();
                         specimenTool.gripper.samplePickup();
                     }
+                    if(gamepad2.dpad_down){
+//                        specimenTool.gripper.specimenDrop();
+                        specimenTool.gripper.autoSampleDrop();
+                    }
                 }
             });
             drive.driveRobotCentric(

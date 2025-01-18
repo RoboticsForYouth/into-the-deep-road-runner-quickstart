@@ -47,7 +47,7 @@ public class LeftAutoNoPark extends BasicLeftAuto {
                 AZUtil.runInParallel(new Runnable() {
                     @Override
                     public void run() {
-                        specimenTool.specimenHang();
+                        specimenTool.specimenCollect();
                         sleep(1000);
                     }
                 });
