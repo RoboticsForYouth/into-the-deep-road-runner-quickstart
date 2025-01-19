@@ -15,8 +15,8 @@ public class Slides extends LinearOpMode {
     public static final double POWER = 1;
     public static final double EXTEND_POWER = 0.3;
 
-    public static final int INCREMENT = 100;
-    public static final int INCREMENT_SLOW = 25;
+    public static final int INCREMENT = 150;
+    public static final int INCREMENT_SLOW = 50;
 
 
     private int currentPosValue;
@@ -66,15 +66,15 @@ public class Slides extends LinearOpMode {
         LEVEL_1_HANG(700),
         LEVEL_2_HANG(850),
         COLLECT(500),
-        AUTO_SAMPLE_TWO_COLLECT(1400),
-        AUTO_SAMPLE_THREE_COLLECT(1300),
+        AUTO_SAMPLE_TWO_COLLECT(1100),
+        AUTO_SAMPLE_THREE_COLLECT(900),
         AUTO_SAMPLE_FOUR_COLLECT(1000),
 
         MOVE(400),
         SPECIMEN_COLLECT(500),
         LEVEL_ONE_ASCENT(1800),
         LOWER_BASKET_DROP(1500),
-        BASKET_DROP(2400),
+        BASKET_DROP(2450),
         HALFWAYRESET(700),
 
         SPECIMEN_PICKUP(300),

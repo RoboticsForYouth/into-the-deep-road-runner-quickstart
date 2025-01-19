@@ -56,12 +56,12 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
     private void addActions() {
 
         TrajectoryActionBuilder moveToDropTraj1 = drive.actionBuilder(drive.pose)
-                .splineToLinearHeading(new Pose2d(HIGH_BASKET_X_POS+1, HIGH_BASKET_Y_POS+2, Math.toRadians(HIGH_BASKET_HEADING)), 0);
+                .splineToLinearHeading(new Pose2d(HIGH_BASKET_X_POS+2.5, HIGH_BASKET_Y_POS+2, Math.toRadians(HIGH_BASKET_HEADING)), 0);
         moveToDropPos1 = moveToDropTraj1.build();
 
 
         TrajectoryActionBuilder samplePos2Traj = moveToDropTraj1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(HIGH_BASKET_X_POS+0.5, HIGH_BASKET_Y_POS, Math.toRadians(-15)), 0);
+                .splineToLinearHeading(new Pose2d(HIGH_BASKET_X_POS+3, HIGH_BASKET_Y_POS, Math.toRadians(-19)), 0);
 //                .turnTo(Math.toRadians(-15), turnConstraints);
         samplePos2 = samplePos2Traj.build();
 
@@ -72,7 +72,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 
 
         TrajectoryActionBuilder moveToDropTraj2 = samplePos2Traj.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(HIGH_BASKET_X_POS-2.5, HIGH_BASKET_Y_POS-3, Math.toRadians(HIGH_BASKET_HEADING+6)), 0);
+                .splineToLinearHeading(new Pose2d(HIGH_BASKET_X_POS - 3.5, HIGH_BASKET_Y_POS-8, Math.toRadians(HIGH_BASKET_HEADING+6)), 0);
         moveToDropPos2 = moveToDropTraj2.build();
 
 
@@ -86,7 +86,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 
 
         TrajectoryActionBuilder moveToDropTraj3 = samplePos3Traj.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(HIGH_BASKET_X_POS-4.5, HIGH_BASKET_Y_POS-8, Math.toRadians(HIGH_BASKET_HEADING+12)),0);
+                .splineToLinearHeading(new Pose2d(HIGH_BASKET_X_POS-8.5, HIGH_BASKET_Y_POS-15, Math.toRadians(HIGH_BASKET_HEADING+12)),0);
         moveToDropPos3 = moveToDropTraj3.build();
 
 
@@ -150,7 +150,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 //                    }
 //                });
 
-                specimenTool.gripper.drop();
+//                specimenTool.gripper.drop();
                 specimenTool.gripper.drop();
                 sleep(1500);
                 AZUtil.runInParallel(new Runnable() {
@@ -178,6 +178,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 
                 while (!specimenTool.isSlidesMovingUpInPos(Slides.SlidesPos.AUTO_BASKET_DROP, 900)) {
                     Thread.yield();
+
                 }
                 specimenTool.gripper.autoSampleDrop();
 
@@ -300,9 +301,9 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
         Actions.runBlocking(
                 new SequentialAction(
                         //sample 1
-                        highDropArmSetupAction,
-                        moveToDropPos1, //start here!!!
 
+                        moveToDropPos1, //start here!!!
+                        highDropArmSetupAction,
                         waitUntilHighBasketAction,
 
                         highDropEjectAction,
@@ -324,28 +325,21 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                         sampleThreeCollectAction,
                         detectColorAction,
                         moveToDropPos3, //
-                        movePosAction,
+//                        movePosAction,
                         highDropArmSetupAction,
                         waitUntilHighBasketAction,
                         highDropEjectAction,
 
                         //sample 4
-                        samplePos4,
-                        sampleFourCollectAction,
-                        moveToDropPos4,
-                        justEjectAction,
+//                        lowerSlidesAction,
+//                        samplePos4,
+//                        sampleFourCollectAction,
+//                        detectColorAction,
+//                        moveToDropPos4,
+//                        justEjectAction,
 
 
-//                        angledCollectAction, //
-//                        timeOverResetAction,
-//                        highDropArmSetupAction, //
-//                        moveToDrop4,
-//                        waitUntilHighBasket, //
-//                        highDropEjectAction, //
-//                        timeOverResetAction //
-//                        moveToParkAction,
                         resetAction
-//
                 )
         );
 //

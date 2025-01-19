@@ -77,20 +77,42 @@ public class TestTeleOp extends LinearOpMode {
                 @Override
                 public void run() {
                     if(gamepad1.dpad_up){
-                        specimenTool.slides.moveUpSlow();
+                        specimenTool.slides.moveUp();
                     }
 
                     if(gamepad1.dpad_down){
-                        specimenTool.slides.moveDownSlow();
+                        specimenTool.slides.moveDown();
                     }
 
                     if( gamepad1.dpad_left){
-                        specimenTool.arm.moveDownSlow();
+                        specimenTool.arm.moveDown();
                     }
 
                     if( gamepad1.dpad_right){
+                        specimenTool.arm.moveUp();
+                    }
+
+
+
+                    if(gamepad2.dpad_up){
+                        specimenTool.slides.moveUpSlow();
+                    }
+
+                    if(gamepad2.dpad_down){
+                        specimenTool.slides.moveDownSlow();
+                    }
+
+                    if( gamepad2.dpad_left){
+                        specimenTool.arm.moveDownSlow();
+                    }
+
+                    if( gamepad2.dpad_right){
                         specimenTool.arm.moveUpSlow();
                     }
+
+
+
+
                     if( gamepad1.b){
                         specimenTool.arm.setupPos();
                         specimenTool.slides.reset();
@@ -146,18 +168,18 @@ public class TestTeleOp extends LinearOpMode {
                         specimenTool.gripper.specimenPickUp();
                     }
 
-                    if(gamepad2.dpad_up){
-//                        specimenTool.gripper.specimenDrop();
-                        specimenTool.gripper.drop();
-                    }
-                    if(gamepad2.dpad_down){
-//                        specimenTool.gripper.specimenDrop();
-                        specimenTool.gripper.samplePickup();
-                    }
-                    if(gamepad2.dpad_down){
-//                        specimenTool.gripper.specimenDrop();
-                        specimenTool.gripper.autoSampleDrop();
-                    }
+//                    if(gamepad2.dpad_up){
+////                        specimenTool.gripper.specimenDrop();
+//                        specimenTool.gripper.drop();
+//                    }
+//                    if(gamepad2.dpad_down){
+////                        specimenTool.gripper.specimenDrop();
+//                        specimenTool.gripper.samplePickup();
+//                    }
+//                    if(gamepad2.dpad_down){
+////                        specimenTool.gripper.specimenDrop();
+//                        specimenTool.gripper.autoSampleDrop();
+//                    }
                 }
             });
             drive.driveRobotCentric(

@@ -423,7 +423,7 @@ public class SpecimenTool extends LinearOpMode {
     }
     
     public void autoCollectAndWait(EnhancedClaw.WRIST_POS wristPos, Slides.SlidesPos slides) {
-        autoCollect(wristPos);
+        autoCollect(wristPos); //roller starts intaking
         this.slides.moveToPosition(slides);
 
         while (!isArmMovingDownInPos(Arm.ArmPos.AUTO_COLLECT, 50 ) ) {

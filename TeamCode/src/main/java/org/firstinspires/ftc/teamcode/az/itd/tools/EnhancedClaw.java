@@ -75,7 +75,7 @@ public class EnhancedClaw extends LinearOpMode {
         PICKUP(0.12), //0
         DROP(0.12), //0.2
         AUTO_PICKUP(0.12), //0.2 //0.12
-        SPECIMEN_PICKUP(0.62), //0.25
+        SPECIMEN_PICKUP(0.32), //0.25
         MOVE(0.37), //0.35
         SPECIMEN_DROP(0.72), //0.3, 0.6 before 1/12/25
 

@@ -35,6 +35,8 @@ public class BasicRightAuto extends LinearOpMode {
 
     private AZImu imu;
     private Action specimenHang;
+    private Action specimenDropPos;
+    private Action park;
 
     public class specimenHang implements Action {
 
@@ -91,19 +93,22 @@ public class BasicRightAuto extends LinearOpMode {
                 return false;
             }
         };
+
+        specimenDropPos = drive.actionBuilder(beginPose)
+                .splineToConstantHeading(new Vector2d(21, 5), Math.toRadians(0))
+                .build();
+
+        park = drive.actionBuilder(drive.pose)
+                .splineToConstantHeading(new Vector2d(3, -60), Math.toRadians(0))
+                .build();
+
     }
 
 
     public void runOpMode() throws InterruptedException {
         initAuto();
 
-        Action specimenDropPos = drive.actionBuilder(beginPose)
-                .splineToConstantHeading(new Vector2d(21, 5), Math.toRadians(0))
-                .build();
 
-        Action park = drive.actionBuilder(drive.pose)
-                .splineToConstantHeading(new Vector2d(7, -36), Math.toRadians(0))
-                .build();
 
 
 
@@ -121,7 +126,15 @@ public class BasicRightAuto extends LinearOpMode {
                                 return false;
                             }
                         }
-//                        ,park
+                        ,park,
+                        new Action() {
+                            @Override
+                            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                                specimenTool.reset();
+                                sleep(1000);
+                                return false;
+                            }
+                        }
                 )
         );
 //

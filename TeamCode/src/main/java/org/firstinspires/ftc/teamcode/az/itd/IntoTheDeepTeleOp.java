@@ -67,7 +67,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         // the extended gamepad object
         GamepadEx driverOp = new GamepadEx(gamepad1);
 
-        specimenTool.arm.initPos(); //set arm to init position
+        //specimenTool.arm.initPos(); //set arm to init position
 
         waitForStart();
 
@@ -220,7 +220,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         @Override
                         public void run() {
                             rightBumperProcessing = true;
-                            specimenTool.pickUpSpecimen();
+                            specimenTool.specimenHangPos();
                             rightBumperProcessing = false;
                         }
                     });
