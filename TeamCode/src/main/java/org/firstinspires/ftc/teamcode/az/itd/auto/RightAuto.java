@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.az.sample;
+package org.firstinspires.ftc.teamcode.az.itd.auto;
 
 
 import androidx.annotation.NonNull;
@@ -16,7 +16,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.az.itd.tools.Arm;
+import org.firstinspires.ftc.teamcode.az.itd.tools.Gripper;
+import org.firstinspires.ftc.teamcode.az.itd.tools.Slides;
 import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
+import org.firstinspires.ftc.teamcode.az.sample.MecanumDrive;
 
 
 @Config

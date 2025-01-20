@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.az.sample;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.az.itd.tools.Arm;
+
 
 @Autonomous
 public class InitArmPosition extends LinearOpMode{

@@ -1,7 +1,10 @@
-package org.firstinspires.ftc.teamcode.az.sample;
+package org.firstinspires.ftc.teamcode.az.itd.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.az.itd.tools.Gripper;
+import org.firstinspires.ftc.teamcode.az.itd.tools.Slides;
 
 
 @Autonomous

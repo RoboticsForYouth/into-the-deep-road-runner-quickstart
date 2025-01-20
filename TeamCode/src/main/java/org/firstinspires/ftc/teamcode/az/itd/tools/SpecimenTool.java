@@ -5,9 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
-import org.firstinspires.ftc.teamcode.az.sample.Arm;
-import org.firstinspires.ftc.teamcode.az.sample.Slides;
-import org.firstinspires.ftc.teamcode.az.sample.SpecimenClaw;
 
 @TeleOp
 public class SpecimenTool extends LinearOpMode {

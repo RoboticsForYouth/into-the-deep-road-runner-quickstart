@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.az.itd;
+package org.firstinspires.ftc.teamcode.az.itd.teleop;
 
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
 import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
-import org.firstinspires.ftc.teamcode.az.sample.Arm;
+import org.firstinspires.ftc.teamcode.az.itd.tools.Arm;
 
 @TeleOp
 public class IntoTheDeepTeleOp extends LinearOpMode {

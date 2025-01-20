@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.az.sample;
+package org.firstinspires.ftc.teamcode.az.itd.auto;
 
 import androidx.annotation.NonNull;
 
@@ -12,6 +12,8 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.az.itd.tools.EnhancedClaw;
+import org.firstinspires.ftc.teamcode.az.itd.tools.Slides;
+import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
 
 @Autonomous(preselectTeleOp = "IntoTheDeepTeleOp")
 public class AdvanceLeftAuto extends BasicLeftAuto {

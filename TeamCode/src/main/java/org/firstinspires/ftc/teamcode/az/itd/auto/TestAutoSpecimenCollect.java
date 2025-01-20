@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.az.sample;
+package org.firstinspires.ftc.teamcode.az.itd.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 

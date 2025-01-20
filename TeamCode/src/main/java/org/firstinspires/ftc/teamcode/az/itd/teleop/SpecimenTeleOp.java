@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.az.itd;
+package org.firstinspires.ftc.teamcode.az.itd.teleop;
 
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
