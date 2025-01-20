@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.az.itd.tools;
 
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -12,6 +13,8 @@ public class SpecimenTool extends LinearOpMode {
     public Arm arm;
     public EnhancedClaw gripper;
     public Slides slides;
+    public LaserRangeFinder lrf;
+
 
     public boolean isSlidesMovingUpInPos(Slides.SlidesPos slidesPos, int tolerance) {
         return slides.getCurrentPos() > (slidesPos.getValue() - tolerance);
@@ -74,6 +77,9 @@ public class SpecimenTool extends LinearOpMode {
         arm = new Arm(opMode);
         gripper = new EnhancedClaw(opMode);
         slides = new Slides(opMode);
+        lrf = new LaserRangeFinder(hardwareMap.get(RevColorSensorV3.class, "Laser"));
+        lrf.setDistanceMode(LaserRangeFinder.DistanceMode.SHORT);
+
     }
 
     public void eject() {
@@ -258,6 +264,34 @@ public class SpecimenTool extends LinearOpMode {
         gripper.autoSampleDrop();
 
     }
+
+
+    public void initArmDistanceSensor() {
+
+        arm.runWithoutEncoder();
+
+
+        double distance = lrf.getDistance(DistanceUnit.INCH);
+
+        while (!(distance >= (LaserRangeFinder.height - LaserRangeFinder.tolerance)) || !(distance <= (LaserRangeFinder.height + LaserRangeFinder.tolerance))) {
+
+            double factor = (LaserRangeFinder.height - distance) / 7;
+
+            arm.moveFactor(factor);
+
+            distance = lrf.getDistance(DistanceUnit.INCH); //continuously record distance
+
+            telemetry.addData("Factor", factor);
+            telemetry.addData("Distance", distance);
+            telemetry.addData("Status", lrf.getStatus());
+            telemetry.update();
+        }
+        arm.moveFactor(0);
+        telemetry.addLine("Done");
+        telemetry.addData("Distance", distance);
+        telemetry.update();
+
+        }
 
     public void teleOpMove() {
         gripper.move();

@@ -8,8 +8,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class LaserRangeFinder {
     public final LynxI2cDeviceSynch i2c;
 
-    public static final double tolerance = 0.25;
-    public static final double height = 5;
+    public static final double tolerance = 0.4;
+    public static final double height = 2;
 
 
 
@@ -163,7 +163,7 @@ public class LaserRangeFinder {
     }
 
     /**
-     * Read distance via I2C. This also populates the value returned from {@link LaserRangefinder#getStatus}
+     * Read distance via I2C. This also populates the value returned from {@link LaserRangeFinder#getStatus}
      */
     public double getDistance(DistanceUnit unit) {
         byte[] data = i2c.read(R_PS_DATA_0, 2);
@@ -179,7 +179,7 @@ public class LaserRangeFinder {
 
     /**
      * In I2C scan mode, this returns the index of the ROI of the last reading from
-     * {@link LaserRangefinder#getDistance(DistanceUnit)}.
+     * {@link LaserRangeFinder#getDistance(DistanceUnit)}.
      */
     public int getROINum() {
         return b3;

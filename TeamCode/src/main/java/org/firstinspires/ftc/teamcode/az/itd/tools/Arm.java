@@ -152,6 +152,13 @@ public class Arm extends LinearOpMode {
         AZUtil.setMotorTargetPosition(arm2, pos, POWER);
     }
 
+    public void runWithoutEncoder() {
+//        AZUtil.setMotorTargetPosition(arm1, pos, POWER);
+        arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        AZUtil.setMotorTargetPosition(arm2, pos, power);
+    }
+
     public void slowMoveToPosition(int pos) {
 //        AZUtil.setMotorTargetPosition(arm1, pos, POWER);
         AZUtil.setMotorTargetPosition(arm2, pos, LOW_POWER);
@@ -182,6 +189,34 @@ public class Arm extends LinearOpMode {
     public void moveUpSlow() {
         int newPos = arm2.getCurrentPosition() + SLOW_INCREMENT;
         moveToPosition(newPos);
+    }
+
+    public void setPower(double power){
+        arm2.setPower(power);
+    }
+    public void moveFactor (double factor) {
+
+//        int newPos = arm2.getCurrentPosition() + 20;
+
+        if (factor > 1) {
+            factor = 1;
+        }
+        else if (factor < -1) {
+            factor = -1;
+        }
+//        else if(factor < 0) {
+//            factor = 0.25; //fix!!
+//            newPos = newPos * -1;
+//        }
+
+        else if(factor < 0.25 && factor > 0) {
+            factor = 0.25;
+        }
+        else if (factor > -0.25 && factor < 0) {
+            factor = -0.25;
+        }
+
+        setPower(factor);
     }
 
     public void specimenCollect() {
