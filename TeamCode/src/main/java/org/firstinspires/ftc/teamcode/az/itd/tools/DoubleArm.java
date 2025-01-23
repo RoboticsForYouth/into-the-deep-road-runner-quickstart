@@ -1,14 +1,15 @@
 package org.firstinspires.ftc.teamcode.az.itd.tools;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
 
 //@TeleOp
-@Autonomous
+@TeleOp
 public class DoubleArm extends LinearOpMode {
 
     DcMotorEx doubleArmMotor1;
@@ -16,11 +17,18 @@ public class DoubleArm extends LinearOpMode {
     LinearOpMode opMode;
     public static final double POWER = 1.0;
     public static final double LOW_POWER = 0.6;
-    public static final int INCREMENT = 150;
+    public static final int INCREMENT = 50;
     private static final int SLOW_INCREMENT = 50;
     public static final double ARM_TICKS_PER_DEGREE = 19.7924893140647;
+    public static final double ARM_CONVERSION_FACTOR = 14.444444444444;
 
-
+    //PID adjustment
+    private static final double kP = 0.0;
+    private static final double kI = 0.0;
+    private static final double kD = 0.0;
+    private static final double kF = 0.0; // Feedforward term, usually not needed for position control
+    private static final double GRAVITY_COMPENSATION = 0.2;
+    PIDFCoefficients pidfCoefficients = new PIDFCoefficients(kP, kI, kD, kF);
 
 
 
@@ -37,6 +45,10 @@ public class DoubleArm extends LinearOpMode {
 
     public void move() {
         setPos(DoubleArmPos.MOVE.value);
+    }
+
+    public void lowBasketDrop() {
+        setPos(DoubleArmPos.LOW_BASKET_DROP.value);
     }
     public void collect() {
         setPos(DoubleArmPos.COLLECT.value);
@@ -67,29 +79,31 @@ public class DoubleArm extends LinearOpMode {
 
     public enum DoubleArmPos {
         //multiple 1.39 times when we replace 435 motor with 312 motor
-        DROP((int)(70 * ARM_TICKS_PER_DEGREE)), //(530),
+        DROP((int)(90 * ARM_CONVERSION_FACTOR)), //(530),
         RESET(0),
-        COLLECT((int)(24 * ARM_TICKS_PER_DEGREE)),  //(-785),
-        AUTO_COLLECT((int)(0 * ARM_TICKS_PER_DEGREE)),
-        SPECIMEN_COLLECT((int)(54 * ARM_TICKS_PER_DEGREE)), //(700),
-        LOW_BASKET_DROP((int)(155 * ARM_TICKS_PER_DEGREE)),
-        NEW_SPECIMEN_HANG((int)(70 * ARM_TICKS_PER_DEGREE)),
-        NEW_SPECIMEN_DROP((int)(160 * ARM_TICKS_PER_DEGREE)),
-        LEVEL_ONE_ASCENT_PART_ONE((int)(41 * ARM_TICKS_PER_DEGREE)), //(520),
-        LEVEL_ONE_ASCENT((int)(47 * ARM_TICKS_PER_DEGREE)), //(612), //(440),
-        SPECIMEN_DROP((int)(47 * ARM_TICKS_PER_DEGREE)), //(600),
+        COLLECT((int)(20 * ARM_CONVERSION_FACTOR)),  //(-785),
+        AUTO_COLLECT((int)(0 * ARM_CONVERSION_FACTOR)),
+        SPECIMEN_COLLECT((int)(40 * ARM_CONVERSION_FACTOR)), //(700),
+        LOW_BASKET_DROP((int)(60 * ARM_CONVERSION_FACTOR)),
+        NEW_SPECIMEN_HANG((int)(90 * ARM_CONVERSION_FACTOR)),
+        NEW_SPECIMEN_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
+        LEVEL_ONE_ASCENT_PART_ONE((int)(80 * ARM_CONVERSION_FACTOR)), //(520),
+        LEVEL_ONE_ASCENT((int)(80 * ARM_CONVERSION_FACTOR)), //(612), //(440),
+        SPECIMEN_DROP((int)(90 * ARM_CONVERSION_FACTOR)), //(600),
 
-        SPECIMEN_PICKUP_UP((int)(38*ARM_TICKS_PER_DEGREE)),
+        SPECIMEN_PICKUP_UP((int)(40*ARM_CONVERSION_FACTOR)),
 
-        SPECIMEN_ARM_CLIP((int)(100 * ARM_TICKS_PER_DEGREE)),
+        SPECIMEN_ARM_CLIP((int)(90 * ARM_CONVERSION_FACTOR)),
 
-        LEVEL_TWO_HANG((int)(180 * ARM_TICKS_PER_DEGREE)),
+        LEVEL_TWO_HANG((int)(90 * ARM_CONVERSION_FACTOR)),
 
 
-        MOVE((int)(20 * ARM_TICKS_PER_DEGREE)), //(-450),
-        BASKET_DROP((int)(162 * ARM_TICKS_PER_DEGREE)),
+        MOVE((int)(20 * ARM_CONVERSION_FACTOR)), //(-450),
+        BASKET_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
         INIT(1250),
-        AUTO_BASKET_DROP((int)(194 * ARM_TICKS_PER_DEGREE));
+        AUTO_BASKET_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
+
+        VERTICAL_TEST(1300);
 
 
         private final int value;
@@ -104,16 +118,31 @@ public class DoubleArm extends LinearOpMode {
     }
 
     public void setup() {
-        doubleArmMotor1 = opMode.hardwareMap.get(DcMotorEx.class, "DoubleArm1");
-        doubleArmMotor2 = opMode.hardwareMap.get(DcMotorEx.class, "DoubleArm2");
+
+        doubleArmMotor1 = opMode.hardwareMap.get(DcMotorEx.class, "arm1");
+        doubleArmMotor2 = opMode.hardwareMap.get(DcMotorEx.class, "arm2");
+        pidfCoefficients = doubleArmMotor1.getPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION);
+
         doubleArmMotor1.setDirection(DcMotor.Direction.FORWARD);
         doubleArmMotor2.setDirection(DcMotor.Direction.REVERSE);
-        resetdoubleArmPos();
+        resetDoubleArmPos();
     }
 
-    private void resetdoubleArmPos() {
+    private void resetDoubleArmPos() {
+        doubleArmMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        doubleArmMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         doubleArmMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         doubleArmMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        doubleArmMotor1.setTargetPosition(0);
+        doubleArmMotor2.setTargetPosition(0);
+
+
+        doubleArmMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        doubleArmMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
     }
 
     public void moveUp(){
@@ -142,7 +171,10 @@ public class DoubleArm extends LinearOpMode {
         setPos(newPos);
     }
     private void setPos(int pos){
-        AZUtil.setBothMotorTargetPosition(doubleArmMotor1, doubleArmMotor2, pos, POWER);
+        double v = pos/ARM_TICKS_PER_DEGREE;
+        double gravityCompensation = 0.01 * Math.cos(Math.toRadians(v));
+        double power = 1.0 + gravityCompensation;
+        AZUtil.setBothMotorTargetPosition(doubleArmMotor1, doubleArmMotor2, pos, power);
     }
 
     private void setPosLowPower(int pos){
@@ -162,7 +194,7 @@ public class DoubleArm extends LinearOpMode {
 
     public void reset() {
         setPos(DoubleArmPos.RESET.value);
-        resetdoubleArmPos();
+        resetDoubleArmPos();
     }
 
     public void resetAndWait() {
@@ -197,9 +229,39 @@ public class DoubleArm extends LinearOpMode {
 
         waitForStart();
 
-//        teleOp();
-        autoMode();
+        while (opModeIsActive()){
 
+            if (gamepad1.dpad_up) {
+                setArmPos(DoubleArmPos.BASKET_DROP);
+                //sleep(1000);
+            }
+
+            if( gamepad1.dpad_down){
+                setArmPos(DoubleArmPos.RESET);
+            }
+
+            if(gamepad1.dpad_right){
+                setArmPos(DoubleArmPos.COLLECT);
+            }
+
+            if(gamepad1.dpad_left){
+                setArmPos(DoubleArmPos.LOW_BASKET_DROP);
+            }
+            telemetry.addLine(this.toString());
+            telemetry.update();
+        }
+
+
+
+    }
+
+    @Override
+    public String toString() {
+        return "Arm{" +
+                "arm1=" + doubleArmMotor1.getCurrentPosition() +
+                ", arm2=" + doubleArmMotor2.getCurrentPosition() +
+                ", pidfCoefficients=" + pidfCoefficients +
+                '}';
     }
 
     private void teleOp() {
@@ -238,14 +300,14 @@ public class DoubleArm extends LinearOpMode {
 
 //        teleOpTest();
 
-        setPos(DoubleArmPos.BASKET_DROP.value);
-        sleep(8000);
+        setPos(DoubleArmPos.VERTICAL_TEST.value);
+        sleep(4000);
         telemetry.addData("Pos1", doubleArmMotor1.getCurrentPosition());
         telemetry.addData("Pos2", doubleArmMotor2.getCurrentPosition());
         telemetry.update();
         sleep(5000);
-        setPos(0);
-        sleep(5000);
+//        setPos(0);
+//        sleep(5000);
 
     }
 
@@ -268,6 +330,87 @@ public class DoubleArm extends LinearOpMode {
             telemetry.update();
         }
     }
+
+
+
+
+
+    public void autoCollect() {
+        moveToPosition(DoubleArmPos.AUTO_COLLECT);
+    }
+
+
+    public void runWithoutEncoder() {
+//        AZUtil.setMotorTargetPosition(arm1, pos, POWER);
+        doubleArmMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        doubleArmMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+        doubleArmMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        doubleArmMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+//        AZUtil.setMotorTargetPosition(arm2, pos, power);
+    }
+
+    public void slowMoveToPosition(int pos) {
+//        AZUtil.setMotorTargetPosition(arm1, pos, POWER);
+        AZUtil.setBothMotorTargetPosition(doubleArmMotor1, doubleArmMotor2, pos, LOW_POWER);
+    }
+
+
+
+
+    public void setPower(double power){
+
+        doubleArmMotor1.setPower(power);
+        doubleArmMotor2.setPower(power);
+
+    }
+    public void moveFactor (double factor) {
+
+//        int newPos = arm2.getCurrentPosition() + 20;
+
+        if (factor > 1) {
+            factor = 1;
+        }
+        else if (factor < -1) {
+            factor = -1;
+        }
+//        else if(factor < 0) {
+//            factor = 0.25; //fix!!
+//            newPos = newPos * -1;
+//        }
+
+        else if(factor < 0.25 && factor > 0) {
+            factor = 0.25;
+        }
+        else if (factor > -0.25 && factor < 0) {
+            factor = -0.25;
+        }
+
+        setPower(factor);
+    }
+
+
+    public void specimenDrop() {
+        moveToPosition(DoubleArmPos.SPECIMEN_DROP);
+    }
+
+    public void newSpecimenHang() {moveToPosition(DoubleArmPos.NEW_SPECIMEN_HANG);}
+
+    public void newSpecimenDrop() {moveToPosition(DoubleArmPos.NEW_SPECIMEN_DROP);}
+
+    public int getCurrentPosition() {
+        return doubleArmMotor1.getCurrentPosition();
+    }
+
+
+
+    public void setArmPos(DoubleArmPos pos) {
+        moveToPosition(pos);
+    }
+
 }
 
 

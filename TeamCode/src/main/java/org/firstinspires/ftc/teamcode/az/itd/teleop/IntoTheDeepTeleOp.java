@@ -6,9 +6,9 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.az.itd.tools.DoubleArm;
 import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
 import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
-import org.firstinspires.ftc.teamcode.az.itd.tools.Arm;
 
 @TeleOp
 public class IntoTheDeepTeleOp extends LinearOpMode {
@@ -20,7 +20,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
     static final boolean FIELD_CENTRIC = false;
     SpecimenTool specimenTool = null;
 
-    Arm arm = null;
+    DoubleArm arm = null;
 //    Slides slides = null;
     private boolean dpadUpProcessing;
     private boolean gamepad2DpadUpProcessing;
@@ -59,7 +59,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                 new Motor(hardwareMap, "backRight", Motor.GoBILDA.RPM_435)
         );
 
-        arm = new Arm(this);
+        arm = new DoubleArm(this);
         specimenTool = new SpecimenTool(this);
         gamepadEx1 = new GamepadEx(gamepad1);
         gamepadEx2 = new GamepadEx(gamepad2);

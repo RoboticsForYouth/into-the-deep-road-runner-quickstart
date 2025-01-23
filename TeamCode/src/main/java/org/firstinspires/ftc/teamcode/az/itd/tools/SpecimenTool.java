@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.az.itd.tools;
 
-import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -10,7 +9,7 @@ import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
 @TeleOp
 public class SpecimenTool extends LinearOpMode {
     public  LinearOpMode opMode;
-    public Arm arm;
+    public DoubleArm arm;
     public EnhancedClaw gripper;
     public Slides slides;
     public LaserRangeFinder lrf;
@@ -32,7 +31,7 @@ public class SpecimenTool extends LinearOpMode {
     }
 
     public void specimenHangPos() {
-        arm.setArmPos(Arm.ArmPos.NEW_SPECIMEN_HANG);
+        arm.setArmPos(DoubleArm.DoubleArmPos.NEW_SPECIMEN_HANG);
         slides.moveToPosition(Slides.SlidesPos.SPECIMEN_DROP);
         gripper.specimenDrop();
     }
@@ -74,11 +73,11 @@ public class SpecimenTool extends LinearOpMode {
     }
 
     private void init(LinearOpMode opMode){
-        arm = new Arm(opMode);
+        arm = new DoubleArm(opMode);
         gripper = new EnhancedClaw(opMode);
         slides = new Slides(opMode);
-        lrf = new LaserRangeFinder(hardwareMap.get(RevColorSensorV3.class, "Laser"));
-        lrf.setDistanceMode(LaserRangeFinder.DistanceMode.SHORT);
+//        lrf = new LaserRangeFinder(hardwareMap.get(RevColorSensorV3.class, "Laser"));
+//        lrf.setDistanceMode(LaserRangeFinder.DistanceMode.SHORT);
 
     }
 
@@ -92,14 +91,14 @@ public class SpecimenTool extends LinearOpMode {
     }
 
     public void dropHighBasket() {
-        arm.moveToPosition(Arm.ArmPos.BASKET_DROP);
+        arm.moveToPosition(DoubleArm.DoubleArmPos.BASKET_DROP);
         sleep(1000);
         slides.moveToPosition(Slides.SlidesPos.BASKET_DROP);
         gripper.sampleDrop();
     }
 
     public void autoDropHighBasket() {
-        arm.moveToPosition(Arm.ArmPos.AUTO_BASKET_DROP);
+        arm.moveToPosition(DoubleArm.DoubleArmPos.AUTO_BASKET_DROP);
         sleep(700);
 
         while (!isArmMovingUpInPos(Arm.ArmPos.AUTO_BASKET_DROP, 70)) {
@@ -112,17 +111,17 @@ public class SpecimenTool extends LinearOpMode {
 
     public void pickUpSpecimen(){
         slides.moveToPosition(Slides.SlidesPos.SPECIMEN_PICKUP);
-        arm.moveToPosition(Arm.ArmPos.SPECIMEN_PICKUP_UP);
+        arm.moveToPosition(DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP);
 
     }
 
     public void levelOneAscent() {
-        arm.moveToPosition(Arm.ArmPos.LEVEL_ONE_ASCENT_PART_ONE);
+        arm.moveToPosition(DoubleArm.DoubleArmPos.LEVEL_ONE_ASCENT_PART_ONE);
         sleep(1200);
         slides.moveToPosition(Slides.SlidesPos.LEVEL_ONE_ASCENT);
 
         sleep(1000);
-        arm.moveToPosition(Arm.ArmPos.LEVEL_ONE_ASCENT);
+        arm.moveToPosition(DoubleArm.DoubleArmPos.LEVEL_ONE_ASCENT);
     }
 
 
@@ -266,32 +265,32 @@ public class SpecimenTool extends LinearOpMode {
     }
 
 
-    public void initArmDistanceSensor() {
-
-        arm.runWithoutEncoder();
-
-
-        double distance = lrf.getDistance(DistanceUnit.INCH);
-
-        while (!(distance >= (LaserRangeFinder.height - LaserRangeFinder.tolerance)) || !(distance <= (LaserRangeFinder.height + LaserRangeFinder.tolerance))) {
-
-            double factor = (LaserRangeFinder.height - distance) / 7;
-
-            arm.moveFactor(factor);
-
-            distance = lrf.getDistance(DistanceUnit.INCH); //continuously record distance
-
-            telemetry.addData("Factor", factor);
-            telemetry.addData("Distance", distance);
-            telemetry.addData("Status", lrf.getStatus());
-            telemetry.update();
-        }
-        arm.moveFactor(0);
-        telemetry.addLine("Done");
-        telemetry.addData("Distance", distance);
-        telemetry.update();
-
-        }
+//    public void initArmDistanceSensor() {
+//
+//        arm.runWithoutEncoder();
+//
+//
+//        double distance = lrf.getDistance(DistanceUnit.INCH);
+//
+//        while (!(distance >= (LaserRangeFinder.height - LaserRangeFinder.tolerance)) || !(distance <= (LaserRangeFinder.height + LaserRangeFinder.tolerance))) {
+//
+//            double factor = (LaserRangeFinder.height - distance) / 7;
+//
+//            arm.moveFactor(factor);
+//
+//            distance = lrf.getDistance(DistanceUnit.INCH); //continuously record distance
+//
+//            telemetry.addData("Factor", factor);
+//            telemetry.addData("Distance", distance);
+//            telemetry.addData("Status", lrf.getStatus());
+//            telemetry.update();
+//        }
+//        arm.moveFactor(0);
+//        telemetry.addLine("Done");
+//        telemetry.addData("Distance", distance);
+//        telemetry.update();
+//
+//        }
 
     public void teleOpMove() {
         gripper.move();
@@ -392,8 +391,8 @@ public class SpecimenTool extends LinearOpMode {
                 arm.moveUp();
             }
             if( gamepad1.b){
-                arm.setupPos();
-                arm.moveToPosition(1160); //changed for 435 rpm motor to 312rpm
+//                arm.setupPos();
+//                arm.moveToPosition(1160); //changed for 435 rpm motor to 312rpm
             }
         }
 
@@ -430,19 +429,19 @@ public class SpecimenTool extends LinearOpMode {
     }
 
     public void level2Hang() {
-        arm.moveToPosition(Arm.ArmPos.LEVEL_TWO_HANG);
+        arm.moveToPosition(DoubleArm.DoubleArmPos.LEVEL_TWO_HANG);
         sleep(500);
         slides.moveToPositionLowPower(Slides.SlidesPos.LEVEL_2_HANG);
         sleep(1500);
         slides.moveToPosition(Slides.SlidesPos.RESET);
         sleep(1000);
-        arm.moveToPosition(Arm.ArmPos.RESET);
+        arm.moveToPosition(DoubleArm.DoubleArmPos.RESET);
         sleep(1000);
     }
 
     public void setGrabSpecimenPos() {
         slides.setCurrentPosValue(Slides.SlidesPos.SPECIMEN_PICKUP);
-        arm.setCurrentPosValue(Arm.ArmPos.SPECIMEN_PICKUP_UP);
+        arm.setCurrentPosValue(DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP);
         gripper.specimenPickUp();
 //        specimenClaw.setCurrentPosValue(SpecimenClaw.SpecimenClawPos.SPECIMEN_CLAW_RESET);
     }
@@ -471,14 +470,14 @@ public class SpecimenTool extends LinearOpMode {
 
     public void setSpecimenDropPos() {
         slides.setCurrentPosValue(Slides.SlidesPos.SPECIMEN_DROP);
-        arm.setCurrentPosValue(Arm.ArmPos.SPECIMEN_ARM_CLIP);
+        arm.setCurrentPosValue(DoubleArm.DoubleArmPos.SPECIMEN_ARM_CLIP);
         gripper.specimenDrop();
 //        specimenClaw.setCurrentPosValue(SpecimenClaw.SpecimenClawPos.SPECIMEN_CLAW_COLLECT);
     }
 
     public void setSpecimenClipPos() {
         slides.setCurrentPosValue(Slides.SlidesPos.SPECIMEN_CLIP);
-        arm.setCurrentPosValue(Arm.ArmPos.SPECIMEN_PICKUP_UP);
+        arm.setCurrentPosValue(DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP);
         AZUtil.runInParallel(new Runnable() {
             @Override
             public void run() {
@@ -499,7 +498,7 @@ public class SpecimenTool extends LinearOpMode {
 
     public void setResetPos() {
         slides.setCurrentPosValue(Slides.SlidesPos.RESET);
-        arm.setCurrentPosValue(Arm.ArmPos.RESET);
+        arm.setCurrentPosValue(DoubleArm.DoubleArmPos.RESET);
     }
 
     public void setGrabAndLiftSpecimenPos() {
@@ -507,66 +506,66 @@ public class SpecimenTool extends LinearOpMode {
         gripper.specimenPickUp();
         sleep(500);
         slides.setCurrentPosValue(Slides.SlidesPos.SPECIMEN_LIFT);
-        arm.setCurrentPosValue(Arm.ArmPos.SPECIMEN_PICKUP_UP);
+        arm.setCurrentPosValue(DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP);
     }
 
     public enum SpecimenState {
 
-        MOVE(Arm.ArmPos.MOVE, Slides.SlidesPos.MOVE){
+        MOVE(DoubleArm.DoubleArmPos.MOVE, Slides.SlidesPos.MOVE){
             @Override
             public void execute(SpecimenTool tool) {
                 tool.slides.setCurrentPosValue(slidePos);
-                tool.arm.setArmPos(armPos);
+                tool.arm.setArmPos(doubleArmPos);
                 tool.gripper.move();
             }
         },
-        GRAB_SPECIMEN(Arm.ArmPos.SPECIMEN_PICKUP_UP, Slides.SlidesPos.SPECIMEN_PICKUP) {
+        GRAB_SPECIMEN(DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP, Slides.SlidesPos.SPECIMEN_PICKUP) {
             @Override
             public void execute(SpecimenTool tool) {
                 tool.setGrabSpecimenPos();
                 tool.slides.setCurrentPosValue(slidePos);
-                tool.arm.setArmPos(armPos);
+                tool.arm.setArmPos(doubleArmPos);
             }
         },
-        LIFT_SPECIMEN(Arm.ArmPos.SPECIMEN_PICKUP_UP, Slides.SlidesPos.SPECIMEN_LIFT){
+        LIFT_SPECIMEN(DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP, Slides.SlidesPos.SPECIMEN_LIFT){
             @Override
             public void execute(SpecimenTool tool) {
                 tool.setGrabAndLiftSpecimenPos();
                 tool.slides.setCurrentPosValue(slidePos);
-                tool.arm.setArmPos(armPos);
+                tool.arm.setArmPos(doubleArmPos);
             }
         },
-        DROP_SPECIMEN(Arm.ArmPos.SPECIMEN_DROP, Slides.SlidesPos.SPECIMEN_DROP) {
+        DROP_SPECIMEN(DoubleArm.DoubleArmPos.SPECIMEN_DROP, Slides.SlidesPos.SPECIMEN_DROP) {
             @Override
             public void execute(SpecimenTool tool) {
                 tool.setSpecimenDropPos();
                 tool.slides.setCurrentPosValue(slidePos);
-                tool.arm.setArmPos(armPos);
+                tool.arm.setArmPos(doubleArmPos);
             }
         },
-        CLIP_SPECIMEN(Arm.ArmPos.SPECIMEN_ARM_CLIP, Slides.SlidesPos.SPECIMEN_CLIP){
+        CLIP_SPECIMEN(DoubleArm.DoubleArmPos.SPECIMEN_ARM_CLIP, Slides.SlidesPos.SPECIMEN_CLIP){
             @Override
             public void execute(SpecimenTool tool) {
                 tool.setSpecimenClipPos();
                 tool.slides.setCurrentPosValue(slidePos);
-                tool.arm.setArmPos(armPos);
+                tool.arm.setArmPos(doubleArmPos);
             }
         };
         public abstract void execute(SpecimenTool tool);
 
 
 
-        SpecimenState(Arm.ArmPos amrPos, Slides.SlidesPos slidesPos){
-            this.armPos = amrPos;
+        SpecimenState(DoubleArm.DoubleArmPos amrPos, Slides.SlidesPos slidesPos){
+            this.doubleArmPos = amrPos;
             this.slidePos = slidesPos;
         }
 
         Slides.SlidesPos  slidePos ;
-        Arm.ArmPos armPos ;
+        DoubleArm.DoubleArmPos doubleArmPos ;
         public String toString(){
             return new StringBuffer("CurrentState:")
                     .append(", SlidePos").append(slidePos)
-                    .append(", ArmPos").append(armPos).toString();
+                    .append(", ArmPos").append(doubleArmPos).toString();
 
         }
 

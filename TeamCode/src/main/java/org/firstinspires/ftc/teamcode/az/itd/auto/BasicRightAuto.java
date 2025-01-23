@@ -68,7 +68,7 @@ public class BasicRightAuto extends LinearOpMode {
         specimenTool = new SpecimenTool(this);
         specimenTool.reset();
 
-        specimenTool.initArmDistanceSensor(); //set arm to init position
+//        specimenTool.initArmDistanceSensor(); //set arm to init position
 
 
         telemetry.addData("Status", "Initialized");

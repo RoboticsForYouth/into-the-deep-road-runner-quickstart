@@ -1,28 +1,38 @@
 package org.firstinspires.ftc.teamcode.az.itd.tools;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
 
 //@Autonomous
 
-@Autonomous
+@TeleOp
 public class Arm extends LinearOpMode {
 
     public static final double POWER = 1.0;
     public static final double LOW_POWER = 0.6;
     public static final int INCREMENT = 150;
     private static final int SLOW_INCREMENT = 50;
-    private DcMotor arm1;
-    private DcMotor arm2;
+    private DcMotorEx arm1;
+    private DcMotorEx arm2;
     LinearOpMode opMode;
     private int currentPosValue;
 
     private ArmPos currentPos;
 
-    public static final double ARM_TICKS_PER_DEGREE = 19.7924893140647;
+    //PID adjustment
+    private static final double kP = 0.0;
+    private static final double kI = 0.0;
+    private static final double kD = 0.0;
+    private static final double kF = 0.0; // Feedforward term, usually not needed for position control
+    private static final double GRAVITY_COMPENSATION = 0.2;
+    PIDFCoefficients pidfCoefficients = new PIDFCoefficients(kP, kI, kD, kF);
+
+    public static final double ARM_TICKS_PER_DEGREE = 14.4;
 
     public void moveToPosition(ArmPos pos) {
         moveToPosition(pos.value);
@@ -69,7 +79,9 @@ public class Arm extends LinearOpMode {
         //multiple 1.39 times when we replace 435 motor with 312 motor
         DROP((int)(70 * ARM_TICKS_PER_DEGREE)), //(530),
         RESET(0),
-        COLLECT((int)(24 * ARM_TICKS_PER_DEGREE)),  //(-785),
+        COLLECT((int)(16 * ARM_TICKS_PER_DEGREE)),  //(-785),
+        MOVE((int)(20 * ARM_TICKS_PER_DEGREE)), //(-450),
+
         AUTO_COLLECT((int)(0 * ARM_TICKS_PER_DEGREE)),
         SPECIMEN_COLLECT((int)(54 * ARM_TICKS_PER_DEGREE)), //(700),
         LOW_BASKET_DROP((int)(155 * ARM_TICKS_PER_DEGREE)),
@@ -86,8 +98,7 @@ public class Arm extends LinearOpMode {
         LEVEL_TWO_HANG((int)(180 * ARM_TICKS_PER_DEGREE)),
 
 
-        MOVE((int)(20 * ARM_TICKS_PER_DEGREE)), //(-450),
-        BASKET_DROP((int)(162 * ARM_TICKS_PER_DEGREE)),
+        BASKET_DROP((int)(140 * ARM_TICKS_PER_DEGREE)),
         INIT(1250),
         AUTO_BASKET_DROP((int)(194 * ARM_TICKS_PER_DEGREE));
 
@@ -119,8 +130,8 @@ public class Arm extends LinearOpMode {
         setupPos();
     }
 
-    private DcMotor getArm(String arm11) {
-        return opMode.hardwareMap.get(DcMotor.class, arm11);
+    private DcMotorEx getArm(String arm11) {
+        return (DcMotorEx) opMode.hardwareMap.get(DcMotor.class, arm11);
     }
 
     public void setupPos() {
@@ -129,13 +140,13 @@ public class Arm extends LinearOpMode {
         setupArm(arm2);
     }
 
-     private void setupArm(DcMotor arm11) {
+     private void setupArm(DcMotorEx arm11) {
+        pidfCoefficients = arm11.getPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION);
         arm11.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm11.setDirection(DcMotor.Direction.FORWARD);
         arm11.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm11.setTargetPosition(0);
         arm11.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
     }
 
 
@@ -253,19 +264,42 @@ public class Arm extends LinearOpMode {
         telemetry.addLine("Init");
         telemetry.update();
         setup();
+
         waitForStart();
-        //AZUtil.setMotorTargetPosition(arm1, -1000, 1.0);
-//        AZUtil.setMotorTargetPosition(arm2, -1000, 1.0);
-//        AZUtil.setBothMotorTargetPosition(arm1, arm2, 100, .5);
-//        moveToPosition(100);
-//        sleep(5000);
-//        AZUtil.setMotorTargetPosition(arm1, 0, 1.0);
-//        sleep(2000);
+
+        while (opModeIsActive()){
+
+            if (gamepad1.dpad_up) {
+               setArmPos(ArmPos.BASKET_DROP);
+                //sleep(1000);
+            }
+
+            if( gamepad1.dpad_down){
+                setArmPos(ArmPos.RESET);
+            }
+
+            if(gamepad1.dpad_right){
+                setArmPos(ArmPos.COLLECT);
+            }
+
+            if(gamepad1.dpad_left){
+                setArmPos(ArmPos.LOW_BASKET_DROP);
+            }
+            telemetry.addLine(this.toString());
+            telemetry.update();
+        }
 
 
-//        teleOpTest();
-        autoTest();
 
+    }
+
+    @Override
+    public String toString() {
+        return "Arm{" +
+                "arm1=" + arm1.getCurrentPosition() +
+                ", arm2=" + arm2.getCurrentPosition() +
+                ", pidfCoefficients=" + pidfCoefficients +
+                '}';
     }
 
     private void teleOpTest() {

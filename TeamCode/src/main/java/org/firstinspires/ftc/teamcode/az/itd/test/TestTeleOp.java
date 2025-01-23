@@ -117,7 +117,7 @@ public class TestTeleOp extends LinearOpMode {
 
 
                     if( gamepad1.b){
-                        specimenTool.arm.setupPos();
+                        specimenTool.arm.setup();
                         specimenTool.slides.reset();
                     }
                     if(gamepad1.y) {
