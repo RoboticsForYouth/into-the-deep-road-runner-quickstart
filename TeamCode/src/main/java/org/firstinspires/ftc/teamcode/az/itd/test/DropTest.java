@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.az.itd.test;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.az.itd.tools.Gripper;
+import org.firstinspires.ftc.teamcode.az.itd.tools.EnhancedClaw;
 import org.firstinspires.ftc.teamcode.az.itd.tools.Slides;
 
 
@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.az.itd.tools.Slides;
 public class DropTest extends LinearOpMode{
 
     Slides slides = null;
-    Gripper gripper = null;
+    EnhancedClaw gripper = null;
     LinearOpMode opMode;
 
 
@@ -23,7 +23,7 @@ public class DropTest extends LinearOpMode{
         telemetry.update();
 
         Slides slides = new Slides(this);
-        Gripper gripper = new Gripper(this);
+        EnhancedClaw gripper = new EnhancedClaw(this);
 
         waitForStart();
 

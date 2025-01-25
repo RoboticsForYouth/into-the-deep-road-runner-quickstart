@@ -22,10 +22,14 @@ public class SpecimenTeleOp extends LinearOpMode {
     Gamepad previousGamepad2 = new Gamepad();
 
 
+
+
     private MecanumDrive drive;
     private SpecimenTool specimenTool;
 
     private SpecimenTool.SpecimenState currentState;
+
+    private SpecimenTool.SampleState currentSampleState;
     private boolean previousButtonState = false;
 
     //I want to be able to execute commands after a specified delay. the commands
@@ -127,19 +131,28 @@ public class SpecimenTeleOp extends LinearOpMode {
             */
 
             //if game pad a is pressed then get ready to grab the specimen
-            if (currentGamepad1.a && !previousGamepad1.a) {
-                cycleToNextState();
+            if (currentGamepad1.y && !previousGamepad1.y) {
+                cycleToNextStateSpecimen();
                 currentState.execute(specimenTool);
-//
+
             }
 
-            if(gamepad1.b){
-                currentState = SpecimenTool.SpecimenState.MOVE;
-                currentState.execute(specimenTool);
+            if (currentGamepad1.x && !previousGamepad1.x) {
+                if(currentState != SpecimenTool.SpecimenState.MOVE) {
+                    exitStateSpecimen();
+                    currentState.execute(specimenTool);
+                }
+                if(currentSampleState != SpecimenTool.SampleState.MOVE){
+                    exitSampleState();
+                    currentSampleState.execute(specimenTool);
+                }
+
             }
 
-            if(gamepad1.x){
-                specimenTool.reset();
+            if(currentGamepad1.a && !previousGamepad1.a){
+                //specimenTool.collect();
+                cycleToNextStateSample();
+                currentSampleState.execute(specimenTool);
             }
 
 
@@ -161,23 +174,39 @@ public class SpecimenTeleOp extends LinearOpMode {
             specimenTool.setCurrentPos();
             */
 
-            drive.driveRobotCentric(
-                    -driverOp.getLeftX(),
-                    -driverOp.getLeftY(),
-                    -driverOp.getRightX(),
-                    false
-            );
-            specimenTool.printPos(telemetry);
-            telemetry.addLine("State:" + currentState);
-            telemetry.update();
+                drive.driveRobotCentric(
+                        -driverOp.getLeftX(),
+                        -driverOp.getLeftY(),
+                        -driverOp.getRightX(),
+                        false
+                );
+                specimenTool.printPos(telemetry);
+                telemetry.addLine("State:" + currentState);
+                telemetry.update();
+            }
+
         }
-
-    }
-
-    private void cycleToNextState() {
+    private void cycleToNextStateSpecimen(){
         // Cycle to the next state in the SpecimenState enum
         SpecimenTool.SpecimenState[] states = SpecimenTool.SpecimenState.values();
         int nextStateOrdinal = (currentState.ordinal() + 1) % states.length;  // Loop back to the first state
         currentState = states[nextStateOrdinal];
+    }
+
+    private void exitStateSpecimen(){
+        // Exit the current state in the SpecimenState enum
+        currentState = SpecimenTool.SpecimenState.MOVE;
+    }
+
+    private void cycleToNextStateSample(){
+        // Cycle to the next state in the SampleState enum
+        SpecimenTool.SampleState[] states = SpecimenTool.SampleState.values();
+        int nextStateOrdinal = (currentSampleState.ordinal() + 1) % states.length;  // Loop back to the first state
+        currentSampleState = states[nextStateOrdinal];
+    }
+
+    private void exitSampleState(){
+        // Exit the current state in the SampleState enum
+        currentSampleState = SpecimenTool.SampleState.MOVE;
     }
 }

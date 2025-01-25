@@ -13,10 +13,6 @@ import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
 @TeleOp
 public class IntoTheDeepTeleOp extends LinearOpMode {
 
-    // This variable determines whether the following program
-    // uses field-centric or robot-centric driving styles. The
-    // differences between them can be read here in the docs:
-    // https://docs.ftclib.org/ftclib/features/drivebases#control-scheme
     static final boolean FIELD_CENTRIC = false;
     SpecimenTool specimenTool = null;
 
@@ -194,6 +190,10 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                     });
                 }
 
+            }
+
+            if( gamepad2.right_bumper){
+                specimenTool.specimentDrop();
             }
 
             //extend the slides

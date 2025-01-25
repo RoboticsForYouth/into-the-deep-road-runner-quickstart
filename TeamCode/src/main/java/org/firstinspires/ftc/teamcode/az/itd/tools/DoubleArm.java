@@ -56,7 +56,7 @@ public class DoubleArm extends LinearOpMode {
     }
 
     public void specimenCollect() {
-        setPos(DoubleArmPos.SPECIMEN_COLLECT.value);
+        setPos(DoubleArmPos.SPECIMEN_PICKUP_UP.value);
     }
 
     public String printCurrentPos() {
@@ -81,24 +81,21 @@ public class DoubleArm extends LinearOpMode {
         //multiple 1.39 times when we replace 435 motor with 312 motor
         DROP((int)(90 * ARM_CONVERSION_FACTOR)), //(530),
         RESET(0),
-        COLLECT((int)(20 * ARM_CONVERSION_FACTOR)),  //(-785),
+        COLLECT((int)(16 * ARM_CONVERSION_FACTOR)),  //(-785),
         AUTO_COLLECT((int)(0 * ARM_CONVERSION_FACTOR)),
-        SPECIMEN_COLLECT((int)(40 * ARM_CONVERSION_FACTOR)), //(700),
         LOW_BASKET_DROP((int)(60 * ARM_CONVERSION_FACTOR)),
-        NEW_SPECIMEN_HANG((int)(90 * ARM_CONVERSION_FACTOR)),
         NEW_SPECIMEN_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
         LEVEL_ONE_ASCENT_PART_ONE((int)(80 * ARM_CONVERSION_FACTOR)), //(520),
         LEVEL_ONE_ASCENT((int)(80 * ARM_CONVERSION_FACTOR)), //(612), //(440),
-        SPECIMEN_DROP((int)(90 * ARM_CONVERSION_FACTOR)), //(600),
 
-        SPECIMEN_PICKUP_UP((int)(40*ARM_CONVERSION_FACTOR)),
-
+        SPECIMEN_DROP((int)(70 * ARM_CONVERSION_FACTOR)), //(600),
+        SPECIMEN_PICKUP_UP((int)(15*ARM_CONVERSION_FACTOR)),
         SPECIMEN_ARM_CLIP((int)(90 * ARM_CONVERSION_FACTOR)),
 
         LEVEL_TWO_HANG((int)(90 * ARM_CONVERSION_FACTOR)),
 
 
-        MOVE((int)(20 * ARM_CONVERSION_FACTOR)), //(-450),
+        MOVE((int)(18 * ARM_CONVERSION_FACTOR)), //(-450),
         BASKET_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
         INIT(1250),
         AUTO_BASKET_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
@@ -397,7 +394,7 @@ public class DoubleArm extends LinearOpMode {
         moveToPosition(DoubleArmPos.SPECIMEN_DROP);
     }
 
-    public void newSpecimenHang() {moveToPosition(DoubleArmPos.NEW_SPECIMEN_HANG);}
+    public void newSpecimenHang() {moveToPosition(DoubleArmPos.SPECIMEN_DROP);}
 
     public void newSpecimenDrop() {moveToPosition(DoubleArmPos.NEW_SPECIMEN_DROP);}
 

@@ -27,7 +27,6 @@ public class EnhancedClaw extends LinearOpMode {
 
 
 
-
     public enum RollerPower {
         PICKUP(-1),
         EJECT(1.0),
@@ -46,12 +45,12 @@ public class EnhancedClaw extends LinearOpMode {
 
     public enum WRIST_POS {
         RESET(0.0),
-        PICKUP(0.55),
-        AUTO_PICKUP(0.27), //0
+        PICKUP(0.5),
+        AUTO_PICKUP(0.55), //0
         DROP_OFF(0.55),
         PICKUP_90(0.27),
-        PICKUP_SPECIMEN(0.84),
-        DROP_OFF_SPECIMEN(0.84), //0.84 //0.27
+        PICKUP_SPECIMEN(0.27),
+        DROP_OFF_SPECIMEN(0.8), //0.84 //0.27
         AUTO_PICKUP_ANGLED(0.84),
         AUTO_PICKUP_SAMPLE_TWO(0.27),
         AUTO_PICKUP_SAMPLE_THREE(0.27),
@@ -72,14 +71,14 @@ public class EnhancedClaw extends LinearOpMode {
     }
 
     public enum ELBOW_POS {
-        PICKUP(0.12), //0
+        PICKUP(0.09), //0
         DROP(0.72), //0.2
-        AUTO_PICKUP(0.12), //0.2 //0.12
-        SPECIMEN_PICKUP(0.32), //0.25
-        MOVE(0.37), //0.35
-        SPECIMEN_DROP(0.72), //0.3, 0.6 before 1/12/25
+        AUTO_PICKUP(0.17), //0.2 //0.12
+        SPECIMEN_PICKUP(0.35), //0.25
+        MOVE(0.12), //0.35
+        SPECIMEN_DROP(.70), //0.3, 0.6 before 1/12/25
 
-        RESET(0),
+        RESET(0.75),
         SPECIMEN_RELEASE(0.12),
         AUTO_DROP(0.7); //0
 
@@ -164,8 +163,45 @@ public class EnhancedClaw extends LinearOpMode {
         }
     }
 
+//    @Override
+//    public void runOpMode() {
+//        this.opMode = opMode;
+//        // Initialize hardware
+//        roller = opMode.hardwareMap.get(CRServo.class, "roller");
+//        roller.setDirection(CRServo.Direction.REVERSE);
+//        telemetry.addData("Status", "Initialized");
+//        telemetry.update();
+//
+//
+//
+//        waitForStart();
+//
+//        while (opModeIsActive()) {
+//
+//            // Pickup block on pressing A button
+//            if (gamepad1.a) {
+//                roller.setPower(0);
+//            }
+//
+//            // Eject block on pressing B button
+//            if (gamepad1.b) {
+//                drop();
+//            }
+//
+//            // Stop the roller on pressing X button
+//            if (gamepad1.x) {
+//                roller.setPower(-1);
+//            }
+//
+//
+//
+//        }
+//    }
+
     private void setup() {
         roller = opMode.hardwareMap.get(CRServo.class, "roller");
+        roller.setDirection(CRServo.Direction.REVERSE);
+
         wrist = opMode.hardwareMap.get(Servo.class, "wrist");
         sampleSensor = opMode.hardwareMap.get(ColorSensor.class, "sampleSensor");
         elbow = opMode.hardwareMap.get(Servo.class, "elbow");
@@ -247,11 +283,16 @@ public class EnhancedClaw extends LinearOpMode {
     }
 
     public void specimenDrop() {
-        roller.setPower(RollerPower.STOP.getPower());
+        elbow.setPosition(ELBOW_POS.SPECIMEN_DROP.getPos());
+        sleep(1000);
+    }
+    public void specimenDropPos() {
+        roller.setPower(RollerPower.PICKUP.getPower());
         wrist.setPosition(WRIST_POS.DROP_OFF_SPECIMEN.getPos());
         sleep(500);
         elbow.setPosition(ELBOW_POS.SPECIMEN_DROP.getPos());
     }
+
 
     public void samplePickUp90() {
         setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_90, ELBOW_POS.PICKUP);

@@ -70,6 +70,7 @@ public class BasicLeftAuto extends LinearOpMode {
         telemetry.update();
         beginPose = new Pose2d(0,0,Math.toRadians(-90));
         drive = new MecanumDrive(hardwareMap, beginPose);
+        Pose2d currentPose = new Pose2d(0,0, Math.toRadians(-90));
         telemetry.addData("current position", drive.pose);
         telemetry.update();
         setUpActions();
@@ -129,6 +130,7 @@ public class BasicLeftAuto extends LinearOpMode {
                         //levelOneAscent
                 )
         );
+
 //
         sleep(5000);
         telemetry.addData("current position",drive.pose);
