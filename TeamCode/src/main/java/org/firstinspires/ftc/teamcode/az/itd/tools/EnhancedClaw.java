@@ -48,7 +48,7 @@ public class EnhancedClaw extends LinearOpMode {
         PICKUP(0.5),
         AUTO_PICKUP(0.55), //0
         DROP_OFF(0.55),
-        PICKUP_90(0.27),
+        PICKUP_90(0),
         PICKUP_SPECIMEN(0.27),
         DROP_OFF_SPECIMEN(0.8), //0.84 //0.27
         AUTO_PICKUP_ANGLED(0.84),
@@ -72,7 +72,7 @@ public class EnhancedClaw extends LinearOpMode {
 
     public enum ELBOW_POS {
         PICKUP(0.09), //0
-        DROP(0.72), //0.2
+        DROP(0.5), //0.2
         AUTO_PICKUP(0.17), //0.2 //0.12
         SPECIMEN_PICKUP(0.35), //0.25
         MOVE(0.12), //0.35

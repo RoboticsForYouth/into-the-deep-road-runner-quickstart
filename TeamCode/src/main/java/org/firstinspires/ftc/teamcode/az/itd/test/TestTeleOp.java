@@ -6,7 +6,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.az.itd.tools.Arm;
+import org.firstinspires.ftc.teamcode.az.itd.tools.DoubleArm;
 import org.firstinspires.ftc.teamcode.az.itd.tools.EnhancedClaw;
 import org.firstinspires.ftc.teamcode.az.itd.tools.Slides;
 import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
@@ -22,7 +22,7 @@ public class TestTeleOp extends LinearOpMode {
     static final boolean FIELD_CENTRIC = false;
     SpecimenTool specimenTool = null;
 
-    Arm arm = null;
+    DoubleArm arm = null;
     //    Slides slides = null;
     private boolean dpadUpProcessing;
     private boolean gamepad2DpadUpProcessing;

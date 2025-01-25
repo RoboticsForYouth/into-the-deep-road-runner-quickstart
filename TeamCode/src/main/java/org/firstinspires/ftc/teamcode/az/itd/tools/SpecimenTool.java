@@ -18,11 +18,11 @@ public class SpecimenTool extends LinearOpMode {
         return slides.getCurrentPos() > (slidesPos.getValue() - tolerance);
     }
 
-    public boolean isArmMovingDownInPos(Arm.ArmPos armPos, int tolerance) {
+    public boolean isArmMovingDownInPos(DoubleArm.DoubleArmPos armPos, int tolerance) {
         return arm.getCurrentPosition() < (armPos.getValue() + tolerance);
     }
 
-    public boolean isArmMovingUpInPos(Arm.ArmPos armPos, int tolerance) {
+    public boolean isArmMovingUpInPos(DoubleArm.DoubleArmPos armPos, int tolerance) {
         return arm.getCurrentPosition() > (armPos.getValue() - tolerance);
     }
     public boolean isSlidesMovingDownInPos(Slides.SlidesPos slidesPos, int tolerance) {
@@ -91,6 +91,7 @@ public class SpecimenTool extends LinearOpMode {
         arm.moveToPosition(DoubleArm.DoubleArmPos.BASKET_DROP);
         sleep(1000);
         slides.moveToPosition(Slides.SlidesPos.BASKET_DROP);
+        sleep(700);
         gripper.sampleDrop();
     }
 
@@ -98,7 +99,7 @@ public class SpecimenTool extends LinearOpMode {
         arm.moveToPosition(DoubleArm.DoubleArmPos.AUTO_BASKET_DROP);
         sleep(700);
 
-        while (!isArmMovingUpInPos(Arm.ArmPos.AUTO_BASKET_DROP, 70)) {
+        while (!isArmMovingUpInPos(DoubleArm.DoubleArmPos.AUTO_BASKET_DROP, 70)) {
             Thread.yield();
         }
 
@@ -422,7 +423,7 @@ public class SpecimenTool extends LinearOpMode {
         autoCollect(wristPos); //roller starts intaking
         this.slides.moveToPosition(slides);
 
-        while (!isArmMovingDownInPos(Arm.ArmPos.AUTO_COLLECT, 50)) {
+        while (!isArmMovingDownInPos(DoubleArm.DoubleArmPos.AUTO_COLLECT, 50)) {
             Thread.yield();
         }
         sleep(300);

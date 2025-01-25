@@ -2,45 +2,45 @@ package org.firstinspires.ftc.teamcode.az.itd.tools;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="TapeDrive", group = "sample")
-public class TapeDrive extends LinearOpMode {
+@Autonomous(name="CandyCane", group = "sample")
+public class CandyCane extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
-    private CRServo tapeDrive;
+    private Servo candyCane;
     private LinearOpMode opMode;
 
 
-    public enum TapeDrivePower {
+    public enum CandyCanePos {
         EXTEND(1),
         RETRACT(-1),
         STOP(0);
 
-        public double getPower() {
-            return power;
+        public double getValue() {
+            return value;
         }
 
-        private double power;
+        private double value;
 
-        TapeDrivePower(double power) {
-            this.power = power;
+        CandyCanePos(double val) {
+            this.value = val;
         }
     }
 
-    public TapeDrive() {
+    public CandyCane() {
         super();
         opMode = this;
     }
 
-    public TapeDrive(LinearOpMode opMode) {
+    public CandyCane(LinearOpMode opMode) {
         this.opMode = opMode;
         setup();
     }
 
     private void setup() {
-        tapeDrive = opMode.hardwareMap.get(CRServo.class, "tapeDrive");
+        candyCane = opMode.hardwareMap.get(Servo.class, "candyCane");
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -48,7 +48,7 @@ public class TapeDrive extends LinearOpMode {
     }
 
     public void reset() {
-        tapeDrive.setPower(TapeDrivePower.STOP.getPower());
+        candyCane.setPosition(CandyCanePos.STOP.getValue());
     }
 
     @Override
@@ -59,11 +59,11 @@ public class TapeDrive extends LinearOpMode {
 
         waitForStart();
 
-        tapeDrive.setPower(TapeDrivePower.EXTEND.getPower());
+        candyCane.setPosition(CandyCanePos.EXTEND.getValue());
         sleep(10000);
-        tapeDrive.setPower(TapeDrivePower.STOP.getPower());
+        candyCane.setPosition(CandyCanePos.STOP.getValue());
         sleep(5000);
-        tapeDrive.setPower(TapeDrivePower.RETRACT.getPower());
+        candyCane.setPosition(CandyCanePos.RETRACT.getValue());
         sleep(10000);
     }
 }

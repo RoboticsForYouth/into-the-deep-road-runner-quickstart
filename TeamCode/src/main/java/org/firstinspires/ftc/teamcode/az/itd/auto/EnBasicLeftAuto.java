@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.az.itd.tools.Arm;
+import org.firstinspires.ftc.teamcode.az.itd.tools.DoubleArm;
 import org.firstinspires.ftc.teamcode.az.itd.tools.Slides;
 import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
 import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
@@ -29,7 +29,7 @@ public class EnBasicLeftAuto extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
 
     SpecimenTool specimenTool = null;
-    Arm arm = null;
+    DoubleArm arm = null;
     Slides slides = null;
     DistanceSensor distanceSensor;
     MecanumDrive drive;
@@ -44,7 +44,7 @@ public class EnBasicLeftAuto extends LinearOpMode {
 
     public void initAuto() {
 
-        arm = new Arm(this);
+        arm = new DoubleArm(this);
         slides = new Slides(this);
         specimenTool = new SpecimenTool(this);
         specimenTool.reset();

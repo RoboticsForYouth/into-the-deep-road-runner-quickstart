@@ -81,7 +81,7 @@ public class DoubleArm extends LinearOpMode {
         //multiple 1.39 times when we replace 435 motor with 312 motor
         DROP((int)(90 * ARM_CONVERSION_FACTOR)), //(530),
         RESET(0),
-        COLLECT((int)(16 * ARM_CONVERSION_FACTOR)),  //(-785),
+        COLLECT((int)(18 * ARM_CONVERSION_FACTOR)),  //(-785),
         AUTO_COLLECT((int)(0 * ARM_CONVERSION_FACTOR)),
         LOW_BASKET_DROP((int)(60 * ARM_CONVERSION_FACTOR)),
         NEW_SPECIMEN_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
@@ -95,7 +95,7 @@ public class DoubleArm extends LinearOpMode {
         LEVEL_TWO_HANG((int)(90 * ARM_CONVERSION_FACTOR)),
 
 
-        MOVE((int)(18 * ARM_CONVERSION_FACTOR)), //(-450),
+        MOVE((int)(20 * ARM_CONVERSION_FACTOR)), //(-450),
         BASKET_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
         INIT(1250),
         AUTO_BASKET_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
@@ -175,6 +175,9 @@ public class DoubleArm extends LinearOpMode {
     }
 
     private void setPosLowPower(int pos){
+        double v = pos/ARM_TICKS_PER_DEGREE;
+        double gravityCompensation = 0.01 * Math.cos(Math.toRadians(v));
+        double power = 1.0 + gravityCompensation;
         AZUtil.setBothMotorTargetPosition(doubleArmMotor1, doubleArmMotor2, pos, LOW_POWER);
     }
 
@@ -352,6 +355,9 @@ public class DoubleArm extends LinearOpMode {
 
     public void slowMoveToPosition(int pos) {
 //        AZUtil.setMotorTargetPosition(arm1, pos, POWER);
+        double v = pos/ARM_TICKS_PER_DEGREE;
+        double gravityCompensation = 0.01 * Math.cos(Math.toRadians(v));
+        double power = 1.0 + gravityCompensation;
         AZUtil.setBothMotorTargetPosition(doubleArmMotor1, doubleArmMotor2, pos, LOW_POWER);
     }
 
