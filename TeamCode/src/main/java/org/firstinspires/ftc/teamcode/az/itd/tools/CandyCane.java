@@ -15,8 +15,7 @@ public class CandyCane extends LinearOpMode {
 
     public enum CandyCanePos {
         EXTEND(1),
-        RETRACT(-1),
-        STOP(0);
+        RESET(0);
 
         public double getValue() {
             return value;
@@ -48,7 +47,7 @@ public class CandyCane extends LinearOpMode {
     }
 
     public void reset() {
-        candyCane.setPosition(CandyCanePos.STOP.getValue());
+        candyCane.setPosition(CandyCanePos.RESET.getValue());
     }
 
     @Override
@@ -61,9 +60,7 @@ public class CandyCane extends LinearOpMode {
 
         candyCane.setPosition(CandyCanePos.EXTEND.getValue());
         sleep(10000);
-        candyCane.setPosition(CandyCanePos.STOP.getValue());
+        candyCane.setPosition(CandyCanePos.RESET.getValue());
         sleep(5000);
-        candyCane.setPosition(CandyCanePos.RETRACT.getValue());
-        sleep(10000);
     }
 }

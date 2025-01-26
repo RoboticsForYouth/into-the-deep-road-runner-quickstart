@@ -29,19 +29,6 @@ public class SpecimenTool extends LinearOpMode {
         return slides.getCurrentPos() < (slidesPos.getValue() + tolerance);
     }
 
-    public void specimenHangPos() {
-        arm.setArmPos(DoubleArm.DoubleArmPos.SPECIMEN_DROP);
-        slides.moveToPosition(Slides.SlidesPos.SPECIMEN_DROP);
-        gripper.specimenDropPos();
-//        gripper.specimenDrop();
-    }
-
-    public void specimentDrop() {
-        slides.moveToPosition(Slides.SlidesPos.RESET);
-//        gripper.specimenDrop();
-    }
-
-
     public enum State {
         //Specimen State
         SPECIMEN_READY_TO_PICKUP,
@@ -60,17 +47,14 @@ public class SpecimenTool extends LinearOpMode {
 
     }
 
-//    State specimenState = State.SPECIMEN_READY_TO_PICKUP;
-//    State sampleState = State.SAMPLE_READY_TO_COLLECT;
-
     public SpecimenTool(){
         super();
     }
+
     public SpecimenTool(LinearOpMode opMode) {
         this.opMode = opMode;
         init(opMode);
     }
-
 
     private void init(LinearOpMode opMode){
         arm = new DoubleArm(opMode);
@@ -78,13 +62,50 @@ public class SpecimenTool extends LinearOpMode {
         slides = new Slides(opMode);
     }
 
+    public void printPos(Telemetry telemetry){
+        telemetry.addData("Slide Pos", slides.printCurrentPos());
+        telemetry.addData("Arm Pos:", arm.getCurrentPosition());
+        telemetry.update();
+    }
+
+    public void specimenToolInit() {
+        slides.move();
+        sleep(500);
+        arm.move();
+        sleep(1000);
+        gripper.move();
+    }
+
+    public void extend(float factor) {slides.extend(factor);}
+    //extend by a factor between 0 and 1
+
+
+
+
+
+
+
+
+
+
+    public void specimenHangPos() {
+        arm.setArmPos(DoubleArm.DoubleArmPos.SPECIMEN_DROP);
+        slides.moveToPosition(Slides.SlidesPos.SPECIMEN_DROP);
+        gripper.specimenDropPos();
+//        gripper.specimenDrop();
+    }
+
+    public void specimentDrop() {
+        slides.moveToPosition(Slides.SlidesPos.RESET);
+//        gripper.specimenDrop();
+    }
+
+//    State specimenState = State.SPECIMEN_READY_TO_PICKUP;
+//    State sampleState = State.SAMPLE_READY_TO_COLLECT;
+
     public void eject() {
         gripper.drop();
         //sleep(500);
-    }
-
-    public void ejectPos(){
-        //gripper.setCurrentPos(Gripper.GripperPos.);
     }
 
     public void dropHighBasket() {
@@ -107,12 +128,6 @@ public class SpecimenTool extends LinearOpMode {
 //        gripper.autoSampleDrop();
     }
 
-    public void pickUpSpecimen(){
-        slides.moveToPosition(Slides.SlidesPos.SPECIMEN_PICKUP);
-        arm.moveToPosition(DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP);
-
-    }
-
     public void levelOneAscent() {
         arm.moveToPosition(DoubleArm.DoubleArmPos.LEVEL_ONE_ASCENT_PART_ONE);
         sleep(1200);
@@ -122,21 +137,6 @@ public class SpecimenTool extends LinearOpMode {
         arm.moveToPosition(DoubleArm.DoubleArmPos.LEVEL_ONE_ASCENT);
     }
 
-
-    public void printPos(Telemetry telemetry){
-        telemetry.addData("Slide Pos", slides.printCurrentPos());
-        telemetry.addData("Arm Pos:", arm.getCurrentPosition());
-        telemetry.update();
-    }
-
-    public void gripper_drop() {
-        gripper.sampleDrop();
-    }
-
-    public void gripper_reset() {
-        gripper.reset();
-    }
-
     public void collect() {
         slides.collect();
 //        sleep(500);
@@ -144,13 +144,6 @@ public class SpecimenTool extends LinearOpMode {
 //        sleep(500);
         arm.collect();
 //        sleep(1000);
-    }
-
-    public void setCollectPos() {
-//        slides.setCurrentPosValue(Slides.SlidesPos.COLLECT);
-//       gripper.setCurrentPos(Gripper.GripperPos.WRISTCOLLECT.getValue(),
-//               Gripper.RollerPower.COLLECT.getValue());
-//        arm.setArmPos(Arm.ArmPos.COLLECT.getValue());
     }
 
     public void autoCollect(EnhancedClaw.WRIST_POS autoPickup)    {
@@ -215,18 +208,8 @@ public class SpecimenTool extends LinearOpMode {
         sleep(1000);
         gripper.specimenPickUp();
         sleep(500);
-
     }
 
-    public void newSpecimenHang() {
-        arm.newSpecimenHang();
-        sleep(1000);
-        slides.specimenCollect();
-        sleep(1000);
-
-        arm.newSpecimenDrop();
-        sleep(500);
-    }
  public void specimenLowBasket() {
         arm.lowBasketDrop();
         sleep(1000);
@@ -236,15 +219,12 @@ public class SpecimenTool extends LinearOpMode {
         sleep(500);
     }
 
-
     public void move() {
         arm.move();
         sleep(1000);
         gripper.move();
         sleep(500);
         slides.move();
-
-
     }
 
     public void autoMove() {
@@ -255,27 +235,6 @@ public class SpecimenTool extends LinearOpMode {
         arm.move();
 //        gripper.move();
         gripper.autoSampleDrop();
-
-    }
-
-
-    public void teleOpMove() {
-        gripper.move();
-        arm.move();
-        sleep(1000);
-        slides.move();
-        sleep(500);
-
-    }
-
-    public void specimenToolInit() {
-        slides.move();
-        sleep(500);
-        arm.move();
-        sleep(1000);
-        gripper.move();
-
-
     }
 
     public void reset() {
@@ -286,8 +245,6 @@ public class SpecimenTool extends LinearOpMode {
         gripper.reset();
         sleep(500);
     }
-
-
 
     public void resetAndWait() {
         slides.resetAndWait();
@@ -312,89 +269,6 @@ public class SpecimenTool extends LinearOpMode {
 
     }
 
-    public void setArmCurrentPos (int pos) {
-        arm.setCurrentPosValue(pos);
-    }
-
-    public void setSlidesCurrentPos (int pos) {
-        slides.setCurrentPosValue(pos);
-    }
-
-
-    public void moveToCurrentPos() {
-        arm.moveToCurrentPos();
-    }
-
-
-
-    //extend by a factor between 0 and 1
-    public void extend(float factor) {slides.extend(factor);}
-
-    public void slides_reset() {slides_reset();}
-
-    @Override
-    public void runOpMode() throws InterruptedException {
-        this.opMode = this;
-        init(opMode);
-
-        waitForStart();
-
-//        autoTest();
-        while(opModeIsActive()){
-
-            if(gamepad1.dpad_up){
-                slides.moveUpSlow();
-            }
-
-            if(gamepad1.dpad_down){
-                slides.moveDown();
-            }
-
-            if( gamepad1.dpad_left){
-                arm.moveDownSlow();
-            }
-
-            if( gamepad1.dpad_right){
-                arm.moveUp();
-            }
-            if( gamepad1.b){
-//                arm.setupPos();
-//                arm.moveToPosition(1160); //changed for 435 rpm motor to 312rpm
-            }
-        }
-
-
-    }
-
-    private void autoTest() {
-        specimenToolInit();
-        sleep(5000);
-
-        collect();
-        sleep(5000);
-
-        move();
-        sleep(5000);
-
-
-        specimenCollect();
-        sleep(5000);
-
-        highReset();
-        sleep(5000);
-
-
-        dropHighBasket();
-        sleep(5000);
-
-        highReset();
-        sleep(5000);
-
-
-        reset();
-        sleep(5000);
-    }
-
     public void level2Hang() {
         arm.moveToPosition(DoubleArm.DoubleArmPos.LEVEL_TWO_HANG);
         sleep(500);
@@ -413,12 +287,6 @@ public class SpecimenTool extends LinearOpMode {
 //        specimenClaw.setCurrentPosValue(SpecimenClaw.SpecimenClawPos.SPECIMEN_CLAW_RESET);
     }
 
-    public void setCurrentPos() {
-        slides.moveToCurrentPos();
-        arm.moveToCurrentPos();
-//        specimenClaw.setToCurrentPos();
-    }
-    
     public void autoCollectAndWait(EnhancedClaw.WRIST_POS wristPos, Slides.SlidesPos slides) {
         autoCollect(wristPos); //roller starts intaking
         this.slides.moveToPosition(slides);
@@ -427,7 +295,6 @@ public class SpecimenTool extends LinearOpMode {
             Thread.yield();
         }
         sleep(300);
-
     }
 
     public void setSpecimenDropPos() {
@@ -450,13 +317,6 @@ public class SpecimenTool extends LinearOpMode {
 //        specimenClaw.setCurrentPosValue(SpecimenClaw.SpecimenClawPos.SPECIMEN_CLAW_COLLECT);
     }
 
-
-
-    public void setResetPos() {
-        slides.setCurrentPosValue(Slides.SlidesPos.RESET);
-        arm.setCurrentPosValue(DoubleArm.DoubleArmPos.RESET);
-    }
-
     public void setGrabAndLiftSpecimenPos() {
 //        specimenClaw.setCurrentPosValue(SpecimenClaw.SpecimenClawPos.SPECIMEN_CLAW_COLLECT);
         gripper.specimenPickUp();
@@ -464,6 +324,13 @@ public class SpecimenTool extends LinearOpMode {
         slides.setCurrentPosValue(Slides.SlidesPos.SPECIMEN_LIFT);
         arm.setCurrentPosValue(DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP);
     }
+
+
+
+
+
+
+
 
     public enum SpecimenState {
 
@@ -592,4 +459,75 @@ public class SpecimenTool extends LinearOpMode {
     }
 
 
+
+
+
+
+
+
+
+
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+        this.opMode = this;
+        init(opMode);
+
+        waitForStart();
+
+//        autoTest();
+        while(opModeIsActive()){
+
+            if(gamepad1.dpad_up){
+                slides.moveUpSlow();
+            }
+
+            if(gamepad1.dpad_down){
+                slides.moveDown();
+            }
+
+            if( gamepad1.dpad_left){
+                arm.moveDownSlow();
+            }
+
+            if( gamepad1.dpad_right){
+                arm.moveUp();
+            }
+            if( gamepad1.b){
+//                arm.setupPos();
+//                arm.moveToPosition(1160); //changed for 435 rpm motor to 312rpm
+            }
+        }
+
+
+    }
+
+    private void autoTest() {
+        specimenToolInit();
+        sleep(5000);
+
+        collect();
+        sleep(5000);
+
+        move();
+        sleep(5000);
+
+
+        specimenCollect();
+        sleep(5000);
+
+        highReset();
+        sleep(5000);
+
+
+        dropHighBasket();
+        sleep(5000);
+
+        highReset();
+        sleep(5000);
+
+
+        reset();
+        sleep(5000);
+    }
 }

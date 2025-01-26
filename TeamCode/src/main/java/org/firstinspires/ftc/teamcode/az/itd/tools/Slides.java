@@ -32,36 +32,12 @@ public class Slides extends LinearOpMode {
         setup();
     }
 
-    public void move() {
-        setPos(SlidesPos.MOVE.value);
-    }
-    public void collect() {
-        setPos(SlidesPos.COLLECT.value);
-
-    }
-
-    public void specimenCollect() {
-        setPos(SlidesPos.SPECIMEN_COLLECT.value);
-    }
-
     public String printCurrentPos() {
        return  new StringBuffer().append("Slide 1: ")
                 .append(slideMotor1.getCurrentPosition())
                 .append(",\n Slide 2:")
                 .append(slideMotor2.getCurrentPosition()).toString();
     }
-
-    public void setCurrentPosValue(int pos) {
-        currentPosValue = pos;
-    }
-    public void setCurrentPosValue(SlidesPos pos) {
-        currentPosValue = pos.value;
-    }
-
-    public void moveToCurrentPos() {
-        setPos(currentPosValue);
-    }
-
 
     public enum SlidesPos {
 
@@ -112,36 +88,6 @@ public class Slides extends LinearOpMode {
         resetSlidePos();
     }
 
-    private void resetSlidePos() {
-        slideMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        slideMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
-
-    public void moveUp(){
-        int newPos = slideMotor1.getCurrentPosition() + INCREMENT;
-        setPos(newPos);
-    }
-
-    public void moveDown(){
-        int newPos = slideMotor1.getCurrentPosition() - INCREMENT;
-        setPos(newPos);
-    }
-
-    public void moveDownSlow(){
-        int newPos = slideMotor1.getCurrentPosition() - INCREMENT_SLOW;
-        setPos(newPos);
-    }
-
-    public void moveUpSlow(){
-        int newPos = slideMotor1.getCurrentPosition() + INCREMENT_SLOW;
-        setPosLowPower(newPos);
-    }
-
-
-    public void quickExtend() {
-        int newPos = slideMotor1.getCurrentPosition() + 600;
-        setPos(newPos);
-    }
     private void setPos(int pos){
         AZUtil.setBothMotorTargetPosition(slideMotor1, slideMotor2, pos, POWER);
     }
@@ -156,9 +102,54 @@ public class Slides extends LinearOpMode {
         AZUtil.waitUntilMotorAtPos(this, slideMotor2, pos);
     }
 
+    public void setCurrentPosValue(SlidesPos pos) {
+        currentPosValue = pos.value;
+    }
+
+    public void moveUp(){
+        int newPos = slideMotor1.getCurrentPosition() + INCREMENT;
+        setPos(newPos);
+    }
+
+    public void moveDown(){
+        int newPos = slideMotor1.getCurrentPosition() - INCREMENT;
+        setPos(newPos);
+    }
+
+    public void moveUpSlow(){
+        int newPos = slideMotor1.getCurrentPosition() + INCREMENT_SLOW;
+        setPosLowPower(newPos);
+    }
+
+    public void moveDownSlow(){
+        int newPos = slideMotor1.getCurrentPosition() - INCREMENT_SLOW;
+        setPos(newPos);
+    }
+
+    public void moveUpSlider() {
+        if( getCurrentPos() < 3800) {
+            setPos(getCurrentPos() + 300);
+        }
+    }
+
+    public void moveDownSlider() {
+        if( getCurrentPos() > 800) {
+            setPos(getCurrentPos() - 300);
+        }
+    }
+
+    public int getCurrentPos(){
+        return slideMotor1.getCurrentPosition();
+    }
+
     public void extend(float factor) {
         int position = Math.round(SlidesPos.COLLECT.value + factor*900);
         setPos(position);
+    }
+
+    private void resetSlidePos() {
+        slideMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public void reset() {
@@ -166,28 +157,50 @@ public class Slides extends LinearOpMode {
         resetSlidePos();
     }
 
+
+
+
+
+
     public void resetAndWait() {
         setPosAndWait(SlidesPos.RESET.value);
     }
 
-    public void halfwayReset() {
-        setPos(SlidesPos.HALFWAYRESET.value);
-    }
-
-
     public void moveToPosition(SlidesPos slidesPos){
         setPos(slidesPos.value);
     }
+
     public void moveToPositionLowPower(SlidesPos slidesPos){
         setPosLowPower(slidesPos.value);
     }
+
     public void specimenPickUp() {
         moveToPosition(SlidesPos.SPECIMEN_PICKUP);
     }
 
-    public int getCurrentPos(){
-        return slideMotor1.getCurrentPosition();
+    public void move() {
+        setPos(SlidesPos.MOVE.value);
     }
+
+    public void collect() {
+        setPos(SlidesPos.COLLECT.value);
+    }
+
+    public void specimenCollect() {
+        setPos(SlidesPos.SPECIMEN_COLLECT.value);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
     public void runOpMode() {
         this.opMode = this;
@@ -202,32 +215,6 @@ public class Slides extends LinearOpMode {
         autoMode();
 
     }
-
-    private void teleOp() {
-        while (opModeIsActive()){
-            if (gamepad1.dpad_up){
-                moveUpSlider();
-            }
-            else if( gamepad1.dpad_down){
-                moveDownSlider();
-            }
-        }
-    }
-
-
-    public void moveDownSlider() {
-
-        if( getCurrentPos() > 800) {
-            setPos(getCurrentPos() - 300);
-        }
-    }
-
-    public void moveUpSlider() {
-        if( getCurrentPos() < 3800) {
-            setPos(getCurrentPos() + 300);
-        }
-    }
-
 
     private void autoMode() {
 
@@ -263,10 +250,20 @@ public class Slides extends LinearOpMode {
                 //sleep(1000);
             }
 
-
             telemetry.addData("Pos1", slideMotor1.getCurrentPosition());
             telemetry.addData("Pos2", slideMotor2.getCurrentPosition());
             telemetry.update();
+        }
+    }
+
+    private void teleOp() {
+        while (opModeIsActive()){
+            if (gamepad1.dpad_up){
+                moveUpSlider();
+            }
+            else if( gamepad1.dpad_down){
+                moveDownSlider();
+            }
         }
     }
 }
