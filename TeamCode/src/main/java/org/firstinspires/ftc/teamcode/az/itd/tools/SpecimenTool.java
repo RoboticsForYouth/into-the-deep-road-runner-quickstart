@@ -89,16 +89,33 @@ public class SpecimenTool extends LinearOpMode {
 
 
     public void specimenHangPos() {
-        arm.setArmPos(DoubleArm.DoubleArmPos.SPECIMEN_DROP);
+        arm.setArmPos(DoubleArm.DoubleArmPos.SPECIMEN_DROP_INTEMEDIATE);
         slides.moveToPosition(Slides.SlidesPos.SPECIMEN_DROP);
         gripper.specimenDropPos();
 //        gripper.specimenDrop();
     }
 
-    public void specimentDrop() {
-        slides.moveToPosition(Slides.SlidesPos.RESET);
+    public void teleOpspecimenHangPos() {
+        arm.setArmPos(DoubleArm.DoubleArmPos.SPECIMEN_DROP);
+        slides.moveToPosition(Slides.SlidesPos.SPECIMEN_DROP);
+        gripper.teleOpspecimenDropPos();
 //        gripper.specimenDrop();
     }
+
+    public void specimenDrop() {
+//        slides.moveToPosition(Slides.SlidesPos.RESET);
+        arm.setArmPos(DoubleArm.DoubleArmPos.SPECIMEN_DROP);
+        sleep(1000);
+        gripper.drop();
+        sleep(1000);
+        gripper.stopPower();
+    }
+
+    public void teleOpSpecimenDrop(){
+        gripper.specimenExtradrop();
+    }
+
+
 
 //    State specimenState = State.SPECIMEN_READY_TO_PICKUP;
 //    State sampleState = State.SAMPLE_READY_TO_COLLECT;
@@ -219,6 +236,10 @@ public class SpecimenTool extends LinearOpMode {
         sleep(500);
     }
 
+    public void teleOpMove() {
+        arm.move();
+    }
+
     public void move() {
         arm.move();
         sleep(1000);
@@ -226,7 +247,6 @@ public class SpecimenTool extends LinearOpMode {
         sleep(500);
         slides.move();
     }
-
     public void autoMove() {
         slides.move();
         while(!isSlidesMovingDownInPos(Slides.SlidesPos.MOVE,50)) {
@@ -245,6 +265,16 @@ public class SpecimenTool extends LinearOpMode {
         gripper.reset();
         sleep(500);
     }
+
+    public void specimenAutoReset(){
+        slides.reset();
+        sleep(2000);
+        arm.reset();
+        sleep(2000);
+        gripper.specimenAutoReset();
+        sleep(500);
+    }
+
 
     public void resetAndWait() {
         slides.resetAndWait();
@@ -272,9 +302,10 @@ public class SpecimenTool extends LinearOpMode {
     public void level2Hang() {
         arm.moveToPosition(DoubleArm.DoubleArmPos.LEVEL_TWO_HANG);
         sleep(500);
-        slides.moveToPositionLowPower(Slides.SlidesPos.LEVEL_2_HANG);
-        sleep(1500);
-        slides.moveToPosition(Slides.SlidesPos.RESET);
+        slides.moveToPositionLowPower(Slides.SlidesPos.LEVEL_2_HANG_START);
+        sleep(3500);
+
+        slides.moveToPosition(Slides.SlidesPos.LEVEL_2_HANG_END);
         sleep(1000);
         arm.moveToPosition(DoubleArm.DoubleArmPos.RESET);
         sleep(1000);

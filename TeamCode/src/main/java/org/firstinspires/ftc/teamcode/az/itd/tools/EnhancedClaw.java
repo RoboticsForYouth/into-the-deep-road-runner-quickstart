@@ -22,10 +22,21 @@ public class EnhancedClaw extends LinearOpMode {
     private Servo wrist;
     private ColorSensor sampleSensor;
     private Servo elbow;
-    private LinearOpMode opMode;
+    private LinearOpMode linearOpMode;
     public static final double INCREMENT = 0.1;
 
 
+    public EnhancedClaw() {
+        super();
+    }
+
+    public void stopPower() {
+        roller.setPower(RollerPower.STOP.getPower());
+    }
+
+    public void specimenExtradrop() {
+        elbow.setPosition(ELBOW_POS.SPECIMEN_DROP_EXTRA.pos);
+    }
 
     public enum RollerPower {
         PICKUP(-1),
@@ -45,12 +56,12 @@ public class EnhancedClaw extends LinearOpMode {
 
     public enum WRIST_POS {
         RESET(0.0),
-        PICKUP(0.5),
+        PICKUP(1), //0.5
         AUTO_PICKUP(0.55), //0
-        DROP_OFF(0.55),
-        PICKUP_90(0),
-        PICKUP_SPECIMEN(0.27),
-        DROP_OFF_SPECIMEN(0.8), //0.84 //0.27
+        DROP_OFF(1), //0.55
+        PICKUP_90(0.7),
+        PICKUP_SPECIMEN(0.75),
+        DROP_OFF_SPECIMEN(0.2), //0.8
         AUTO_PICKUP_ANGLED(0.84),
         AUTO_PICKUP_SAMPLE_TWO(0.27),
         AUTO_PICKUP_SAMPLE_THREE(0.27),
@@ -76,7 +87,10 @@ public class EnhancedClaw extends LinearOpMode {
         AUTO_PICKUP(0.17), //0.2 //0.12
         SPECIMEN_PICKUP(0.35), //0.25
         MOVE(0.12), //0.35
-        SPECIMEN_DROP(.70), //0.3, 0.6 before 1/12/25
+        SPECIMEN_DROP(.44), //0.7
+
+        SPECIMEN_DROP_EXTRA(1),
+        TELEOP_SPECIMEN_DROP(.36),
 
         RESET(0.75),
         SPECIMEN_RELEASE(0.12),
@@ -104,8 +118,8 @@ public class EnhancedClaw extends LinearOpMode {
 
     private TimedRunnable currentRunnable = null; // To track scheduled tasks
 
-    public EnhancedClaw(LinearOpMode opMode) {
-        this.opMode = opMode;
+    public EnhancedClaw(LinearOpMode linearOpMode) {
+        this.linearOpMode = linearOpMode;
         setup();
     }
 
@@ -119,12 +133,12 @@ public class EnhancedClaw extends LinearOpMode {
     }
 
     private void setup() {
-        roller = opMode.hardwareMap.get(CRServo.class, "roller");
+        roller = linearOpMode.hardwareMap.get(CRServo.class, "roller");
         roller.setDirection(CRServo.Direction.REVERSE);
 
-        wrist = opMode.hardwareMap.get(Servo.class, "wrist");
-        sampleSensor = opMode.hardwareMap.get(ColorSensor.class, "sampleSensor");
-        elbow = opMode.hardwareMap.get(Servo.class, "elbow");
+        wrist = linearOpMode.hardwareMap.get(Servo.class, "wrist");
+        sampleSensor = linearOpMode.hardwareMap.get(ColorSensor.class, "sampleSensor");
+        elbow = linearOpMode.hardwareMap.get(Servo.class, "elbow");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -212,8 +226,7 @@ public class EnhancedClaw extends LinearOpMode {
     }
 
     public void specimenDrop() {
-        elbow.setPosition(ELBOW_POS.SPECIMEN_DROP.getPos());
-        sleep(1000);
+        roller.setPower(RollerPower.EJECT.getPower());
     }
 
     public void specimenDropPos() {
@@ -222,6 +235,15 @@ public class EnhancedClaw extends LinearOpMode {
         sleep(500);
         elbow.setPosition(ELBOW_POS.SPECIMEN_DROP.getPos());
     }
+
+    public void teleOpspecimenDropPos() {
+        roller.setPower(RollerPower.PICKUP.getPower());
+        wrist.setPosition(WRIST_POS.DROP_OFF_SPECIMEN.getPos());
+        sleep(500);
+        elbow.setPosition(ELBOW_POS.TELEOP_SPECIMEN_DROP.getPos());
+    }
+
+
 
     public void samplePickUp90() {
         setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_90, ELBOW_POS.PICKUP);
@@ -245,6 +267,13 @@ public class EnhancedClaw extends LinearOpMode {
         wrist.setPosition(WRIST_POS.RESET.getPos());
     }
 
+    public void  specimenAutoReset() {
+        elbow.setPosition(ELBOW_POS.RESET.getPos());
+        roller.setPower(RollerPower.PICKUP.getPower());
+        wrist.setPosition(WRIST_POS.RESET.getPos());
+    }
+
+
     public void samplePickup() {
         setPos(RollerPower.PICKUP, WRIST_POS.PICKUP, ELBOW_POS.PICKUP);
     }
@@ -267,6 +296,10 @@ public class EnhancedClaw extends LinearOpMode {
 
     public void drop(){
         roller.setPower(RollerPower.EJECT.getPower());
+    }
+
+    public void specimenHang(){
+        setPos(RollerPower.STOP, WRIST_POS.DROP_OFF_SPECIMEN, ELBOW_POS.SPECIMEN_DROP);
     }
 
 
@@ -306,7 +339,7 @@ public class EnhancedClaw extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        this.opMode = opMode;
+        this.linearOpMode = this;
         // Initialize hardware
         setup();
 

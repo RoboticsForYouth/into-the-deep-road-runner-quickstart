@@ -40,6 +40,8 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
     GamepadEx gamepadEx1;
     GamepadEx gamepadEx2;
 
+
+
 //    public void setup() {
 //        specimenTool.reset();
 //    }
@@ -105,8 +107,8 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         public void run() {
                             buttonXProcessing = true;
 
-                            if(arm.getCurrentPosition() < 0) {
-                                specimenTool.move();
+                            if(arm.getCurrentPosition() < 500) {
+                                specimenTool.teleOpMove();
                             }
                             else {
                                 //change order of reset to ensure that slides do not hit the basket
@@ -193,7 +195,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             }
 
             if( gamepad2.right_bumper){
-                specimenTool.specimentDrop();
+                specimenTool.teleOpSpecimenDrop();
             }
 
             //extend the slides
@@ -220,7 +222,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         @Override
                         public void run() {
                             rightBumperProcessing = true;
-                            specimenTool.specimenHangPos();
+                            specimenTool.teleOpspecimenHangPos();
                             rightBumperProcessing = false;
                         }
                     });
