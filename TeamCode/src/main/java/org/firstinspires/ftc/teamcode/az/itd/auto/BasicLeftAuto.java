@@ -20,6 +20,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.az.itd.tools.CandyCane;
 import org.firstinspires.ftc.teamcode.az.itd.tools.DoubleArm;
 import org.firstinspires.ftc.teamcode.az.itd.tools.Slides;
 import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
@@ -44,6 +45,8 @@ public class BasicLeftAuto extends LinearOpMode {
             Math.PI/2);
 
     SpecimenTool specimenTool = null;
+    CandyCane candyCane = null;
+
     DoubleArm arm = null;
     Slides slides = null;
     DistanceSensor distanceSensor;
@@ -61,7 +64,9 @@ public class BasicLeftAuto extends LinearOpMode {
         arm = new DoubleArm(this);
         slides = new Slides(this);
         specimenTool = new SpecimenTool(this);
-        specimenTool.reset();
+        specimenTool.leftAutoReset();
+        candyCane = new CandyCane((this));
+
 
 //        specimenTool.initArmDistanceSensor(); //set arm to init position
 
@@ -70,7 +75,6 @@ public class BasicLeftAuto extends LinearOpMode {
         telemetry.update();
         beginPose = new Pose2d(0,0,Math.toRadians(-90));
         drive = new MecanumDrive(hardwareMap, beginPose);
-        Pose2d currentPose = new Pose2d(0,0, Math.toRadians(-90));
         telemetry.addData("current position", drive.pose);
         telemetry.update();
         setUpActions();
