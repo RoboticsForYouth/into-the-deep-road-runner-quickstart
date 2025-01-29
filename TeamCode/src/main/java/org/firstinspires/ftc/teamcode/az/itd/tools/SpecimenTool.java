@@ -262,9 +262,15 @@ public class SpecimenTool extends LinearOpMode {
     }
 
     public void autoSpecimenCollect() {
+        gripper.specimenPickUp();
         arm.setPosAndWait((int) DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP.getValue());
+        sleep(500);
+    }
 
-        slides.specimenCollect();
+    public void afterDropAutoSpecimenCollect() {
+
+        arm.setPosAndWait((int) DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_INTERMEDIATE_WAIT.getValue());
+        arm.setArmPos(DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP);
         gripper.specimenPickUp();
         sleep(500);
     }
