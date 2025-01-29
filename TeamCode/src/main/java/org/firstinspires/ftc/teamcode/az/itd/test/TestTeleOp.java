@@ -139,12 +139,12 @@ public class TestTeleOp extends LinearOpMode {
                     }
 
                     if(gamepad1.right_bumper) {
-                        specimenTool.gripper.specimenRelease();
+                        specimenTool.gripper.specimenDropPos();
                     }
 
                     // Pickup block on pressing A button
                     if (gamepad2.a) {
-                        specimenTool.gripper.samplePickup();
+                        specimenTool.collect();
                     }
 
                     // Eject block on pressing B button
@@ -191,8 +191,9 @@ public class TestTeleOp extends LinearOpMode {
                     -driverOp.getRightX(),
                     false
             );
-            specimenTool.gripper.detectColorAction();
+//            specimenTool.gripper.detectColorAction();
             specimenTool.printPos(telemetry);
+            telemetry.addLine(specimenTool.arm.toString());
             telemetry.update();
         }
     }

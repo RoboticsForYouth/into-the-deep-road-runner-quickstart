@@ -95,6 +95,17 @@ public class SpecimenTool extends LinearOpMode {
 //        gripper.specimenDrop();
     }
 
+    public void rightAutoSpecimenHangPos() {
+
+        arm.setArmPos(DoubleArm.DoubleArmPos.SPECIMEN_DROP_INTEMEDIATE);
+
+
+        slides.moveToPosition(Slides.SlidesPos.SPECIMEN_DROP);
+        gripper.specimenDropPos();
+//        gripper.specimenDrop();
+    }
+
+
     public void teleOpspecimenHangPos() {
         arm.setArmPos(DoubleArm.DoubleArmPos.SPECIMEN_DROP);
         slides.moveToPosition(Slides.SlidesPos.SPECIMEN_DROP);
@@ -104,11 +115,19 @@ public class SpecimenTool extends LinearOpMode {
 
     public void specimenDrop() {
 //        slides.moveToPosition(Slides.SlidesPos.RESET);
-        arm.setArmPos(DoubleArm.DoubleArmPos.SPECIMEN_DROP);
-        sleep(1000);
+        arm.setPosAndWait((int) DoubleArm.DoubleArmPos.SPECIMEN_DROP.getValue());
+
+
         gripper.drop();
-        sleep(1000);
-        gripper.stopPower();
+
+        AZUtil.runInParallel(new Runnable() {
+            @Override
+            public void run() {
+                sleep(500);
+                gripper.stopPower();
+            }
+        });
+
     }
 
     public void teleOpSpecimenDrop(){
@@ -176,6 +195,21 @@ public class SpecimenTool extends LinearOpMode {
 //        sleep(1000);
     }
 
+    public void rightAutoCollect()    {
+
+        arm.rightAutoCollect();
+        gripper.rightAutoPickup();
+
+
+        slides.rightAutoCollect();
+
+//        sleep(500);
+//        sleep(500);
+//        gripper.moveAround();
+
+//        sleep(1000);
+    }
+
     public void detectColorActionAuto() {
 
         // Continuously detect color
@@ -223,6 +257,14 @@ public class SpecimenTool extends LinearOpMode {
         sleep(1000);
         slides.specimenCollect();
         sleep(1000);
+        gripper.specimenPickUp();
+        sleep(500);
+    }
+
+    public void autoSpecimenCollect() {
+        arm.setPosAndWait((int) DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP.getValue());
+
+        slides.specimenCollect();
         gripper.specimenPickUp();
         sleep(500);
     }

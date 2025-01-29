@@ -87,7 +87,7 @@ public class AdvanceRightAuto extends BasicRightAuto {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 specimenTool.rightAutoDrop();
-                specimenTool.gripper.detectColorActionEjectAuto();
+//                specimenTool.gripper.detectColorActionEjectAuto();
                 return false;
             }
         };
@@ -100,7 +100,7 @@ public class AdvanceRightAuto extends BasicRightAuto {
 
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.gripper.detectColorActionEjectAuto();
+//                specimenTool.gripper.detectColorActionEjectAuto();
                 return false;
             }
         };

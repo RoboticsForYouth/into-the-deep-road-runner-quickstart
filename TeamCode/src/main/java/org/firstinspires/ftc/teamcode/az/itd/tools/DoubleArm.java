@@ -57,18 +57,20 @@ public class DoubleArm extends LinearOpMode {
         RESET(0),
         COLLECT((int)(18 * ARM_CONVERSION_FACTOR)),  //(-785),
         AUTO_COLLECT((int)(0 * ARM_CONVERSION_FACTOR)),
+        RIGHT_AUTO_COLLECT((int)(7 * ARM_CONVERSION_FACTOR)),
         LOW_BASKET_DROP((int)(60 * ARM_CONVERSION_FACTOR)),
         NEW_SPECIMEN_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
         LEVEL_ONE_ASCENT_PART_ONE((int)(80 * ARM_CONVERSION_FACTOR)), //(520),
         LEVEL_ONE_ASCENT((int)(80 * ARM_CONVERSION_FACTOR)), //(612), //(440),
 
         SPECIMEN_DROP((int)(92 * ARM_CONVERSION_FACTOR)), //(600),
-        SPECIMEN_DROP_INTEMEDIATE((int)(42 * ARM_CONVERSION_FACTOR)), //(600),
-        SPECIMEN_PICKUP_UP((int)(10*ARM_CONVERSION_FACTOR)),
+        SPECIMEN_DROP_INTEMEDIATE((int)(20 * ARM_CONVERSION_FACTOR)), //(600),
+        SPECIMEN_DROP_INTEMEDIATE_WAIT((int)(20 * ARM_CONVERSION_FACTOR)),
+        SPECIMEN_PICKUP_UP((int)(0*ARM_CONVERSION_FACTOR)),
         SPECIMEN_ARM_CLIP((int)(90 * ARM_CONVERSION_FACTOR)),
 
         LEVEL_TWO_HANG((int)(90 * ARM_CONVERSION_FACTOR)),
-
+        SPECIMEN_DROP_TEST((int)(90 * ARM_CONVERSION_FACTOR)),
 
         MOVE((int)(18 * ARM_CONVERSION_FACTOR)), //(-450),
         BASKET_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
@@ -85,6 +87,10 @@ public class DoubleArm extends LinearOpMode {
         public double getValue() {
             return this.value;
         }
+    }
+
+    public DoubleArm() {
+        super();
     }
 
     public DoubleArm(LinearOpMode newOpMode) {
@@ -123,6 +129,12 @@ public class DoubleArm extends LinearOpMode {
         double gravityCompensation = 0.01 * Math.cos(Math.toRadians(v));
         double power = 1.0 + gravityCompensation;
         AZUtil.setBothMotorTargetPosition(doubleArmMotor1, doubleArmMotor2, pos, power);
+    }
+
+    public void setPosAndWait(int pos){
+        setPos(pos);
+        AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos);
+
     }
 
     public void moveToPosition(DoubleArmPos DoubleArmPos){
@@ -202,6 +214,11 @@ public class DoubleArm extends LinearOpMode {
     public void autoCollect() {
         moveToPosition(DoubleArmPos.AUTO_COLLECT);
     }
+
+    public void rightAutoCollect() {
+        setPosAndWait(DoubleArmPos.RIGHT_AUTO_COLLECT.value);
+    }
+
 
     public void setArmPos(DoubleArmPos pos) {
         moveToPosition(pos);

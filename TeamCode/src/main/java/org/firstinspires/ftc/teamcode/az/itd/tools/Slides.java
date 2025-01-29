@@ -45,6 +45,7 @@ public class Slides extends LinearOpMode {
         LEVEL_2_HANG_START(1200),
         LEVEL_2_HANG_END(600),
         COLLECT(500),
+        RIGHT_AUTO_COLLECT(1500),
         AUTO_SAMPLE_TWO_COLLECT(1100),
         AUTO_SAMPLE_THREE_COLLECT(900),
         AUTO_SAMPLE_FOUR_COLLECT(1000),
@@ -185,6 +186,10 @@ public class Slides extends LinearOpMode {
 
     public void collect() {
         setPos(SlidesPos.COLLECT.value);
+    }
+
+    public void rightAutoCollect() {
+        setPosAndWait(SlidesPos.RIGHT_AUTO_COLLECT.value);
     }
 
     public void specimenCollect() {

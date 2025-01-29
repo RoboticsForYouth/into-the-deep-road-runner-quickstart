@@ -14,8 +14,9 @@ public class CandyCane extends LinearOpMode {
 
 
     public enum CandyCanePos {
-        EXTEND(1),
-        RESET(0);
+        LOWER(0.0),
+        RAISE(0.1),
+        RESET(0.65);
 
         public double getValue() {
             return value;
@@ -30,7 +31,6 @@ public class CandyCane extends LinearOpMode {
 
     public CandyCane() {
         super();
-        opMode = this;
     }
 
     public CandyCane(LinearOpMode opMode) {
@@ -50,17 +50,28 @@ public class CandyCane extends LinearOpMode {
         candyCane.setPosition(CandyCanePos.RESET.getValue());
     }
 
+    public void autoLower() {
+        candyCane.setPosition(CandyCanePos.LOWER.getValue());
+    }
+
+    public void autoRaise() {
+        candyCane.setPosition(CandyCanePos.RAISE.getValue());
+    }
+
+
     @Override
     public void runOpMode() throws InterruptedException {
-        this.opMode = opMode;
+        this.opMode = this;
         // Initialize hardware
         setup();
 
         waitForStart();
 
-        candyCane.setPosition(CandyCanePos.EXTEND.getValue());
-        sleep(10000);
-        candyCane.setPosition(CandyCanePos.RESET.getValue());
-        sleep(5000);
+        autoLower();
+        sleep(3000);
+        autoRaise();
+        sleep(3000);
+        reset();
+        sleep(3000);
     }
 }

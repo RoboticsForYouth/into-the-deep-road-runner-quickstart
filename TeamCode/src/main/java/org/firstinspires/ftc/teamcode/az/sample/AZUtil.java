@@ -28,22 +28,25 @@ public class AZUtil {
 
     public static void setBothMotorTargetPosition(DcMotor motor1, DcMotor motor2,  int pos, double power) {
         motor1.setTargetPosition(pos);
-        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor2.setTargetPosition(pos);
+        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor1.setPower(power);
         motor2.setPower(power);
     }
 
     public static void waitUntilMotorAtPos(LinearOpMode opMode, DcMotor motor, int pos) {
-        int tolerance = 3;
+        waitUntilMotorAtPos(opMode, motor, pos, 5, 2000);
+    }
+
+    public static void waitUntilMotorAtPos(LinearOpMode opMode, DcMotor motor, int pos, int tolerance, int wait) {
         long currentTimeMs = System.currentTimeMillis();
         while (opMode.opModeIsActive() && motor.isBusy()
                 &&
-                !(motor.getCurrentPosition() > (pos-3) && motor.getCurrentPosition() < (pos+3))
-                && ((System.currentTimeMillis() - currentTimeMs) < 3000))
+                !(motor.getCurrentPosition() > (pos-tolerance) && motor.getCurrentPosition() < (pos+tolerance))
+                && ((System.currentTimeMillis() - currentTimeMs) < wait))
         {
-            opMode.sleep(100);
+            Thread.yield();
         }
     }
 
