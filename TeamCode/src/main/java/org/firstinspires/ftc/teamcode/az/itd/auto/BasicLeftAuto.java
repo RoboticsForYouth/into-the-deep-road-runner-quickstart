@@ -116,8 +116,8 @@ public class BasicLeftAuto extends LinearOpMode {
         levelOneAscent = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.levelOneAscent();
-                sleep(1000);
+
+                candyCane.leftAutoLevelOneAscent();
                 return false;
             }
         };

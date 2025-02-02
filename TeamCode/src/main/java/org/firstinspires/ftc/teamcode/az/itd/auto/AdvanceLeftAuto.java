@@ -24,8 +24,8 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
             (Math.PI)/3);
 
 
-    public static final double HIGH_BASKET_X_POS = 14.25;
-    public static final double HIGH_BASKET_Y_POS = 9.5;
+    public static final double HIGH_BASKET_X_POS = 17.75;
+    public static final double HIGH_BASKET_Y_POS = 13;
     public static final int HIGH_BASKET_HEADING = -45;
 
     private Action moveToDropPos1;
@@ -47,6 +47,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
     private Action highLaterDropsArmSetupAction;
     private Action waitForArmAction2;
     private Action waitForArmAction3;
+    private Action parkPos;
 
    int lastActionSeq = 0;
 
@@ -60,53 +61,61 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
     private void addActions() {
 
         TrajectoryActionBuilder moveToDropTraj1 = drive.actionBuilder(drive.pose)
-                .strafeToLinearHeading(new Vector2d(HIGH_BASKET_X_POS+0.5, HIGH_BASKET_Y_POS-0.75), Math.toRadians(HIGH_BASKET_HEADING));
+                .strafeToLinearHeading(new Vector2d(HIGH_BASKET_X_POS-1.5, HIGH_BASKET_Y_POS-2.75), Math.toRadians(HIGH_BASKET_HEADING));
         moveToDropPos1 = moveToDropTraj1.build();
 
         TrajectoryActionBuilder collectTraj1 = moveToDropTraj1.endTrajectory().fresh()
-                .strafeToConstantHeading(new Vector2d(14.25, 9.5))
+                .strafeToConstantHeading(new Vector2d(14.25, 12.5))
 //                .strafeToLinearHeading(new Vector2d(14.25, 9.5), Math.toRadians(6));
-                .turnTo(Math.toRadians(-25), turnConstraints); //6
+                .turnTo(Math.toRadians(-20), turnConstraints); //6
         collectPos1 = collectTraj1.build();
 
         TrajectoryActionBuilder collectTraj1_1 = collectTraj1.endTrajectory().fresh()
-                .turnTo(Math.toRadians(6), turnConstraints);
+                .strafeToConstantHeading(new Vector2d(14, 20.5));
+//                .turnTo(Math.toRadians(6), turnConstraints);
         collectPos1_1 = collectTraj1_1.build();
 
         TrajectoryActionBuilder moveToDropTraj2 = collectTraj1_1.endTrajectory().fresh()
 //                .turnTo(Math.toRadians(HIGH_BASKET_HEADING));
-                .strafeToLinearHeading(new Vector2d(HIGH_BASKET_X_POS-3.25, HIGH_BASKET_Y_POS), Math.toRadians(HIGH_BASKET_HEADING));
+                .strafeToLinearHeading(new Vector2d(HIGH_BASKET_X_POS-3.25, HIGH_BASKET_Y_POS+1), Math.toRadians(HIGH_BASKET_HEADING));
         moveToDropPos2 = moveToDropTraj2.build();
 
         TrajectoryActionBuilder collectTraj2 = moveToDropTraj2.endTrajectory().fresh()
-                .strafeToConstantHeading(new Vector2d(10, 8.5))
+                .strafeToConstantHeading(new Vector2d(9.75, 13.5))
 //                .strafeToLinearHeading(new Vector2d(10, 8.5), Math.toRadians(10));
                 .turnTo(Math.toRadians(10), turnConstraints); //35
         collectPos2 = collectTraj2.build();
 
         TrajectoryActionBuilder collectTraj2_1 = collectTraj2.endTrajectory().fresh()
-                .turnTo(Math.toRadians(35), turnConstraints);
+                .strafeToConstantHeading(new Vector2d(10, 18.5));
+//                .turnTo(Math.toRadians(35), turnConstraints);
         collectPos2_1 = collectTraj2_1.build();
 
         TrajectoryActionBuilder moveToDropTraj3 = collectTraj2_1.endTrajectory().fresh()
 //                .turnTo(Math.toRadians(HIGH_BASKET_HEADING));
-                .strafeToLinearHeading(new Vector2d(HIGH_BASKET_X_POS-4.5, HIGH_BASKET_Y_POS-3), Math.toRadians(HIGH_BASKET_HEADING));
+                .strafeToLinearHeading(new Vector2d(HIGH_BASKET_X_POS-4, HIGH_BASKET_Y_POS-1), Math.toRadians(HIGH_BASKET_HEADING));
         moveToDropPos3 = moveToDropTraj3.build();
 
         TrajectoryActionBuilder collectTraj3 = moveToDropTraj3.endTrajectory().fresh()
-                .strafeToConstantHeading(new Vector2d(9, 6.5))
+                .strafeToConstantHeading(new Vector2d(8.75, 14))
 //                .strafeToLinearHeading(new Vector2d(9, 6.5), Math.toRadians(36));
-                .turnTo(Math.toRadians(36), turnConstraints); //31
+                .turnTo(Math.toRadians(27), turnConstraints); //31
         collectPos3 = collectTraj3.build();
 
         TrajectoryActionBuilder collectTraj3_1 = collectTraj3.endTrajectory().fresh()
-                .turnTo(Math.toRadians(45), turnConstraints);
+                .strafeToConstantHeading(new Vector2d(9, 18.5));
+//                .turnTo(Math.toRadians(45), turnConstraints);
         collectPos3_1 = collectTraj3_1.build();
 
         TrajectoryActionBuilder moveToDropTraj4 = collectTraj3_1.endTrajectory().fresh()
 //                .turnTo(Math.toRadians(HIGH_BASKET_HEADING));
-                .strafeToLinearHeading(new Vector2d(HIGH_BASKET_X_POS-6, HIGH_BASKET_Y_POS-0.25), Math.toRadians(HIGH_BASKET_HEADING+5));
+                .strafeToLinearHeading(new Vector2d(HIGH_BASKET_X_POS-5.25, HIGH_BASKET_Y_POS-0.25), Math.toRadians(HIGH_BASKET_HEADING+5));
         moveToDropPos4 = moveToDropTraj4.build();
+
+        TrajectoryActionBuilder parkTraj = moveToDropTraj4.endTrajectory().fresh()
+                .strafeToLinearHeading(new Vector2d(52, 0), Math.toRadians(-90))
+                .strafeToConstantHeading(new Vector2d(52, -12));
+        parkPos = parkTraj.build();
 
 
 
@@ -205,10 +214,12 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 
 
                 specimenTool.leftAutoResetEnd();
+                candyCane.preLeftAutoLevelOneAscent();
 
                 return false;
             }
         };
+
     }
 
     @Override
@@ -240,7 +251,9 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 
                         highLaterDropsArmSetupAction,
                         moveToDropPos4,
-                        resetAction
+                        resetAction,
+                        parkPos,
+                        levelOneAscent
 
 
                         )

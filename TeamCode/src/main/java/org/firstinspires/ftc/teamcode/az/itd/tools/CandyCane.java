@@ -16,6 +16,8 @@ public class CandyCane extends LinearOpMode {
     public enum CandyCanePos {
         RIGHT_AUTO_LOWER(0.0),
         RIGHT_AUTO_RAISE(0.1),
+        LEFT_AUTO_LEVEL_ONE_ASCENT(0.25),
+        PRE_LEFT_AUTO_LEVEL_ONE_ASCENT(0.4),
         RESET(0.65);
 
         public double getValue() {
@@ -56,6 +58,14 @@ public class CandyCane extends LinearOpMode {
 
     public void rightAutoRaise() {
         candyCane.setPosition(CandyCanePos.RIGHT_AUTO_RAISE.getValue());
+    }
+
+    public void leftAutoLevelOneAscent() {
+        candyCane.setPosition(CandyCanePos.LEFT_AUTO_LEVEL_ONE_ASCENT.getValue());
+    }
+
+    public void preLeftAutoLevelOneAscent() {
+        candyCane.setPosition(CandyCanePos.PRE_LEFT_AUTO_LEVEL_ONE_ASCENT.getValue());
     }
 
 

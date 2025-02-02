@@ -342,7 +342,7 @@ public class EnhancedClaw extends LinearOpMode {
     public void leftAutoSampleDrop() {
         elbow.setPosition(ELBOW_POS.LEFT_AUTO_DROP.getPos());
         wrist.setPosition(WRIST_POS.LEFT_AUTO_DROP_OFF.getPos());
-        sleep(500);
+        sleep(700);
         roller.setPower(RollerPower.EJECT.getPower());
         sleep(700);
     }
