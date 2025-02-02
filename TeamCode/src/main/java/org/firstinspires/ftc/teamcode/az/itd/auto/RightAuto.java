@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
@@ -47,7 +46,6 @@ public class RightAuto extends LinearOpMode {
     public static final int SPECIMEN_DROP_POS_YYYY = 13;
     public static final int SPECIMEN_DROP_POS_HEADING = 180;
     public static final int SPIKE_MARK_POS_XXXX = 20;
-    public static final int OBS_ZONE_POS_XXXX = 11;
     public static final int OBS_ZONE_POS_YYYY = -33;
     public static final double OBS_ZONE_POS_1_XXXX = 5.5;
     public static final int OBS_ZONE_DROP_HEADING = -140;
@@ -61,40 +59,26 @@ public class RightAuto extends LinearOpMode {
     private Pose2d beginPose;
     private Action specimenDropPos1;
     private Action observationZonePos1;
-    private Action observationZonePos1_1;
     private Action specimenDropPos2;
-    private Action parkPos;
-    private Action specimenToolDrop;
-    private Action armDrop;
-    private Action slidesReset;
-    private Action readyToDropSpecimen;
-    private Action park;
-    private Action armGripperReset;
     private Action releaseSpecimenAction;
     private Action specimenCollectAction;
     private Action spikeMarkPos1;
-    private Action lowerCandyCane;
-    private Action raiseCandyCane;
+    private Action lowerCandyCaneAction;
+    private Action raiseCandyCaneAction;
     private Action spikeMarkPos3;
 
     private Action observationZoneDropPos1;
-    private Action move;
-    private Action drop;
     private Action spikeMarkPos2;
     private Action observationZoneDropPos2;
     private Action observationZoneDropPos3;
-    private Action resetCandyCane;
+    private Action resetCandyCaneAction;
     private Action observationZonePos2;
-    private Action observationZonePos2_1;
     private Action specimenDropPos3;
     private Action observationZonePos3;
-    private Action observationZonePos3_1;
     private Action specimenDropPos4;
     private Action observationZonePos4;
-    private Action observationZonePos4_1;
     private Action specimenDropPos5;
-    private Action specimenToolDropAfterPickup;
-    private Action lowerCandyCaneAfterDrop;
+    private Action specimenToolDropAfterPickupAction;
     private Action afterDropSpecimenCollectAction;
     private Action firstReleaseSpecimenAction;
 
@@ -178,10 +162,6 @@ public class RightAuto extends LinearOpMode {
 
 
 
-//        TrajectoryActionBuilder observationZoneTraj1_1 = observationZoneTraj1.endTrajectory().fresh()
-//                .lineToX(OBS_ZONE_POS_1_XXXX);
-//        observationZonePos1_1 = observationZoneTraj1_1.build();
-
 
 
         TrajectoryActionBuilder specimenDropTraj2 = observationZoneTraj1.endTrajectory().fresh()
@@ -194,9 +174,10 @@ public class RightAuto extends LinearOpMode {
                 .strafeToConstantHeading(new Vector2d(OBS_ZONE_POS_1_XXXX, OBS_ZONE_POS_YYYY));
         observationZonePos2 = observationZoneTraj2.build();
 
-//        TrajectoryActionBuilder observationZoneTraj2_1 = observationZoneTraj2.endTrajectory().fresh()
-//                .lineToX(OBS_ZONE_POS_1_XXXX);
-//        observationZonePos2_1 = observationZoneTraj2_1.build();
+
+
+
+
 
         TrajectoryActionBuilder specimenDropTraj3 = observationZoneTraj2.endTrajectory().fresh()
                 .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.2, SPECIMEN_DROP_POS_YYYY-4));
@@ -208,9 +189,9 @@ public class RightAuto extends LinearOpMode {
                 .strafeToConstantHeading(new Vector2d(OBS_ZONE_POS_1_XXXX, OBS_ZONE_POS_YYYY));
         observationZonePos3 = observationZoneTraj3.build();
 
-//        TrajectoryActionBuilder observationZoneTraj3_1 = observationZoneTraj3.endTrajectory().fresh()
-//                .lineToX(OBS_ZONE_POS_1_XXXX);
-//        observationZonePos3_1 = observationZoneTraj3_1.build();
+
+
+
 
         TrajectoryActionBuilder specimenDropTraj4 = observationZoneTraj3.endTrajectory().fresh()
                 .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.3, SPECIMEN_DROP_POS_YYYY-6));
@@ -222,9 +203,9 @@ public class RightAuto extends LinearOpMode {
                 .strafeToConstantHeading(new Vector2d(OBS_ZONE_POS_1_XXXX, OBS_ZONE_POS_YYYY));
         observationZonePos4 = observationZoneTraj4.build();
 
-//        TrajectoryActionBuilder observationZoneTraj4_1 = observationZoneTraj4.endTrajectory().fresh()
-//                .lineToX(OBS_ZONE_POS_1_XXXX);
-//        observationZonePos4_1 = observationZoneTraj4_1.build();
+
+
+
 
         TrajectoryActionBuilder specimenDropTraj5 = observationZoneTraj4.endTrajectory().fresh()
                 .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.4, SPECIMEN_DROP_POS_YYYY-8));
@@ -237,9 +218,14 @@ public class RightAuto extends LinearOpMode {
 
 
 
-        parkPos = drive.actionBuilder(drive.pose)
-                .splineToConstantHeading(new Vector2d(3, -36), Math.toRadians(0))
-                .build();
+
+
+
+
+
+
+
+
 
 
         firstReleaseSpecimenAction = new Action(){
@@ -250,9 +236,9 @@ public class RightAuto extends LinearOpMode {
                     public void run() {
                         sleep(500);
 
-                        specimenTool.gripper.specimenDropPos();
+                        specimenTool.gripper.rightAutoSpecimenDropPos();
 
-                        specimenTool.specimenDrop();
+                        specimenTool.rightAutoSpecimenDrop();
                     }
                 });
                 return false;
@@ -270,7 +256,7 @@ public class RightAuto extends LinearOpMode {
         specimenCollectAction = new Action(){
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.autoSpecimenCollect();
+                specimenTool.rightAutoSpecimenCollect();
                 return false;
             }
         };
@@ -291,24 +277,11 @@ public class RightAuto extends LinearOpMode {
 
 
 
-        specimenToolDrop = new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                AZUtil.runInParallel(new Runnable() {
-                    @Override
-                    public void run() {
-                        specimenTool.rightAutoSpecimenHangPos();
-                    }
-                });
-                return false;
-            }
-        };
-
-        specimenToolDropAfterPickup = new Action() {
+        specimenToolDropAfterPickupAction = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
 
-                specimenTool.arm.setPosAndWait((int) DoubleArm.DoubleArmPos.SPECIMEN_DROP_INTEMEDIATE_WAIT.getValue());
+                specimenTool.arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP_INTEMEDIATE_WAIT.getValue());
 
                 AZUtil.runInParallel(new Runnable() {
                     @Override
@@ -323,25 +296,25 @@ public class RightAuto extends LinearOpMode {
         };
 
 
-        lowerCandyCane = new Action() {
+        lowerCandyCaneAction = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                candyCane.autoLower();
+                candyCane.rightAutoLower();
                 return false;
             }
         };
 
 
 
-        raiseCandyCane = new Action() {
+        raiseCandyCaneAction = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                candyCane.autoRaise();
+                candyCane.rightAutoRaise();
                 return false;
             }
         };
 
-        resetCandyCane = new Action() {
+        resetCandyCaneAction = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 candyCane.reset();
@@ -349,59 +322,9 @@ public class RightAuto extends LinearOpMode {
             }
         };
 
-        move = new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.gripper.autoMoveAfterSpecimenCollect();
-                return false;
-            }
-        };
-
-        drop = new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.gripper.drop();
-                return false;
-            }
-        };
 
 
 
-//        readyToDropSpecimen = new ParallelAction(specimenToolDrop, specimenDropPos);
-
-
-
-
-
-        armDrop = new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.arm.specimenDrop();
-                return false;
-            }
-        };
-
-
-        slidesReset = new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.slides.resetPos();
-                return false;
-            }
-        };
-
-
-        armGripperReset = new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.arm.reset();
-                specimenTool.gripper.reset();
-                return false;
-            }
-        };
-
-
-        park = new ParallelAction(armGripperReset, parkPos);
     }
 
 
@@ -411,49 +334,49 @@ public class RightAuto extends LinearOpMode {
 
         Actions.runBlocking(
                 new SequentialAction(
-                        firstReleaseSpecimenAction,
+                        firstReleaseSpecimenAction, //YAY
                         specimenDropPos1,
 
-                        raiseCandyCane,
+                        raiseCandyCaneAction, //yay
                         spikeMarkPos1,
-                        lowerCandyCane,
+                        lowerCandyCaneAction, //yay
                         new SleepAction(0.45),
                         observationZoneDropPos1,
 
-                        raiseCandyCane,
+                        raiseCandyCaneAction, //yay
                         spikeMarkPos2,
-                        lowerCandyCane,
+                        lowerCandyCaneAction, //yay
                         new SleepAction(0.45),
                         observationZoneDropPos2,
 
-                        raiseCandyCane,
+                        raiseCandyCaneAction, //yay
                         spikeMarkPos3,
-                        lowerCandyCane,
+                        lowerCandyCaneAction, //yay
                         new SleepAction(0.45),
                         observationZoneDropPos3,
 
-                        resetCandyCane,
+                        resetCandyCaneAction, //yay
                         observationZonePos1,
-                        specimenCollectAction,
-                        specimenToolDropAfterPickup,
+                        specimenCollectAction, //yay
+                        specimenToolDropAfterPickupAction, //yay
                         specimenDropPos2,
                         releaseSpecimenAction,
 
                         afterDropSpecimenCollectAction,
                         observationZonePos2,
-                        specimenToolDropAfterPickup,
+                        specimenToolDropAfterPickupAction, //yay
                         specimenDropPos3,
                         releaseSpecimenAction,
 
                         afterDropSpecimenCollectAction,
                         observationZonePos3,
-                        specimenToolDropAfterPickup,
+                        specimenToolDropAfterPickupAction, //yay
                         specimenDropPos4,
                         releaseSpecimenAction,
 //
                         afterDropSpecimenCollectAction,
                         observationZonePos4,
-                        specimenToolDropAfterPickup,
+                        specimenToolDropAfterPickupAction, //yay
                         specimenDropPos5,
                         releaseSpecimenAction
 

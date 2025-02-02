@@ -20,7 +20,7 @@ public class SlidesBeltSmoothAuto extends SpecimenTool{
         waitForStart();
 
         while (opModeIsActive()){
-            slides.moveToPosition(Slides.SlidesPos.BASKET_DROP);
+            slides.moveToPosition(Slides.SlidesPos.LEFT_AUTO_BASKET_DROP);
             sleep(5000);
             slides.moveToPosition(Slides.SlidesPos.COLLECT);
             sleep(5000);

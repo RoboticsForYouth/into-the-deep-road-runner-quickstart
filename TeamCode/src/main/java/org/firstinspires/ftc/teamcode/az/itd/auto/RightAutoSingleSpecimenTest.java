@@ -262,7 +262,7 @@ public class RightAutoSingleSpecimenTest extends LinearOpMode {
         specimenCollectAction = new Action(){
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.autoSpecimenCollect();
+                specimenTool.rightAutoSpecimenCollect();
                 return false;
             }
         };
@@ -274,7 +274,7 @@ public class RightAutoSingleSpecimenTest extends LinearOpMode {
                     @Override
                     public void run() {
                         sleep(2000);
-                        specimenTool.autoSpecimenCollect();
+                        specimenTool.rightAutoSpecimenCollect();
                     }
                 });
                 return false;
@@ -300,7 +300,7 @@ public class RightAutoSingleSpecimenTest extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
 
-                specimenTool.arm.setPosAndWait((int) DoubleArm.DoubleArmPos.SPECIMEN_DROP_INTEMEDIATE_WAIT.getValue());
+                specimenTool.arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP_INTEMEDIATE_WAIT.getValue());
 
                 AZUtil.runInParallel(new Runnable() {
                     @Override
@@ -318,7 +318,7 @@ public class RightAutoSingleSpecimenTest extends LinearOpMode {
         lowerCandyCane = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                candyCane.autoLower();
+                candyCane.rightAutoLower();
                 return false;
             }
         };
@@ -328,7 +328,7 @@ public class RightAutoSingleSpecimenTest extends LinearOpMode {
         raiseCandyCane = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                candyCane.autoRaise();
+                candyCane.rightAutoRaise();
                 return false;
             }
         };

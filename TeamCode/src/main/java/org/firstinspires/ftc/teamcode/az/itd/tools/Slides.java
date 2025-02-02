@@ -62,14 +62,15 @@ public class Slides extends LinearOpMode {
         SPECIMEN_LIFT(1000),
         RESET(0),
         SPECIMEN_DROP(0), //650
+        RIGHT_AUTO_SPECIMEN_DROP(0), //650
         SPECIMEN_CLIP(700),
 
         TEST_HEIGHT(1800),
         LEFT_AUTO_INTERMEDIATE_PICKUP(700),
         LEFT_AUTO_PICKUP_FIRST(900),
-        LEFT_AUTO_PICKUP_SECOND(1450),
+        LEFT_AUTO_PICKUP_SECOND(1400),
         LEFT_AUTO_PICKUP_THIRD(1900),
-        LEFT_AUTO_BASKET_DROP(2500);
+        LEFT_AUTO_BASKET_DROP(2600);
 
 
 
@@ -256,7 +257,7 @@ public class Slides extends LinearOpMode {
 
 //        teleOpTest();
 
-            setPos(SlidesPos.BASKET_DROP.value);
+            setPos(SlidesPos.LEFT_AUTO_BASKET_DROP.value);
             sleep(8000);
             telemetry.addData("Pos1", slideMotor1.getCurrentPosition());
             telemetry.addData("Pos2", slideMotor2.getCurrentPosition());

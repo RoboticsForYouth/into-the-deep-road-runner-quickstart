@@ -50,7 +50,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 
    int lastActionSeq = 0;
 
-   public static boolean HighDropArmSetupActionDone = false;
+   public static boolean LeftAutoHighDropArmSetupActionDone = false;
 
     private void updateInit() {
         initAuto();
@@ -109,7 +109,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                HighDropArmSetupActionDone = false;
+                LeftAutoHighDropArmSetupActionDone = false;
                 specimenTool.leftAutoDropHighBasket();
                 return false;
             }
@@ -119,7 +119,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                HighDropArmSetupActionDone = false;
+                LeftAutoHighDropArmSetupActionDone = false;
 
                 specimenTool.leftAutoLaterDropsHighBasket();
                 return false;
@@ -129,7 +129,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
         collectAction1 = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                while( !HighDropArmSetupActionDone){
+                while( !LeftAutoHighDropArmSetupActionDone){
                     Thread.yield();
                 }
                 specimenTool.leftAutoCollect(Slides.SlidesPos.LEFT_AUTO_PICKUP_FIRST, EnhancedClaw.WRIST_POS.LEFT_AUTO_PICKUP_FIRST, DoubleArm.DoubleArmPos.LEFT_AUTO_PICKUP_FIRST);
@@ -140,7 +140,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
         collectAction2 = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                while( !HighDropArmSetupActionDone){
+                while( !LeftAutoHighDropArmSetupActionDone){
                     Thread.yield();
                 }
                 specimenTool.leftAutoCollect(Slides.SlidesPos.LEFT_AUTO_PICKUP_SECOND, EnhancedClaw.WRIST_POS.LEFT_AUTO_PICKUP_SECOND, DoubleArm.DoubleArmPos.LEFT_AUTO_PICKUP_SECOND);
@@ -151,7 +151,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
         collectAction3 = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                while( !HighDropArmSetupActionDone){
+                while( !LeftAutoHighDropArmSetupActionDone){
                     Thread.yield();
                 }
                 specimenTool.leftAutoCollect(Slides.SlidesPos.LEFT_AUTO_PICKUP_THIRD, EnhancedClaw.WRIST_POS.LEFT_AUTO_PICKUP_THIRD, DoubleArm.DoubleArmPos.LEFT_AUTO_PICKUP_THIRD);
@@ -193,7 +193,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
         resetAction = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                while( !HighDropArmSetupActionDone) {
+                while( !LeftAutoHighDropArmSetupActionDone) {
                     Thread.yield();
                 }
 
@@ -213,7 +213,6 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                         //sample 1
                         highDropArmSetupAction,
                         moveToDropPos1, //start here!!!
-//                        new SleepAction(2),
                         collectAction1,
                         collectPos1,
                         waitForArmAction1,
@@ -221,7 +220,6 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 
                         highLaterDropsArmSetupAction,
                         moveToDropPos2,
-//                        new SleepAction(2),
                         collectAction2,
                         collectPos2,
                         waitForArmAction2,
@@ -229,16 +227,13 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 
                         highLaterDropsArmSetupAction,
                         moveToDropPos3,
-//                        new SleepAction(2),
                         collectAction3,
                         collectPos3,
                         waitForArmAction3,
-//                        new SleepAction(0.5),
                         collectPos3_1,
 
                         highLaterDropsArmSetupAction,
                         moveToDropPos4,
-//                        new SleepAction(3),
                         resetAction
 
 
