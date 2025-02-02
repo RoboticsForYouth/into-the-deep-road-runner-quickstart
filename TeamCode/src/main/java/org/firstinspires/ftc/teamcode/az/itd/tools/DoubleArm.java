@@ -57,9 +57,6 @@ public class DoubleArm extends LinearOpMode {
         RESET(0),
         COLLECT((int)(18 * ARM_CONVERSION_FACTOR)),  //(-785),
         AUTO_COLLECT((int)(0 * ARM_CONVERSION_FACTOR)),
-        LEFT_AUTO_PICKUP_FIRST((int)(10 * ARM_CONVERSION_FACTOR)),
-        LEFT_AUTO_PICKUP_SECOND((int)(11 * ARM_CONVERSION_FACTOR)),
-        LEFT_AUTO_PICKUP_THIRD((int)(12 * ARM_CONVERSION_FACTOR)),
         RIGHT_AUTO_COLLECT((int)(7 * ARM_CONVERSION_FACTOR)),
         LOW_BASKET_DROP((int)(60 * ARM_CONVERSION_FACTOR)),
         NEW_SPECIMEN_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
@@ -80,9 +77,21 @@ public class DoubleArm extends LinearOpMode {
 
         MOVE((int)(18 * ARM_CONVERSION_FACTOR)), //(-450),
         BASKET_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
-        LEFT_AUTO_BASKET_DROP((int)(95 * ARM_CONVERSION_FACTOR)),
 
-        VERTICAL_TEST(1300);
+        VERTICAL_TEST(1300),
+
+
+        //--------------------------------------------------------------------------------------------------------------------
+        //LEFT AUTO!!!
+        LEFT_AUTO_PICKUP_FIRST((int)(10 * ARM_CONVERSION_FACTOR)),
+        LEFT_AUTO_PICKUP_SECOND((int)(11 * ARM_CONVERSION_FACTOR)),
+        LEFT_AUTO_PICKUP_THIRD((int)(12 * ARM_CONVERSION_FACTOR)),
+        LEFT_AUTO_BASKET_DROP((int)(95 * ARM_CONVERSION_FACTOR))
+
+        //--------------------------------------------------------------------------------------------------------------------
+
+
+        ;
 
         private final int value;
 
@@ -213,9 +222,8 @@ public class DoubleArm extends LinearOpMode {
         resetDoubleArmPos();
     }
 
-    public void leftAutoReset() {
-        setPosLowPower(DoubleArmPos.RESET.value);
-    }
+
+
 
 
 
@@ -233,9 +241,7 @@ public class DoubleArm extends LinearOpMode {
     public void autoCollect() {
         moveToPosition(DoubleArmPos.AUTO_COLLECT);
     }
-    public void leftAutoPickup(DoubleArmPos armPos) {
-        setPosLowPower((int) armPos.getValue());
-    }
+
     public void rightAutoCollect() {
         setPosAndWait(DoubleArmPos.RIGHT_AUTO_COLLECT.value);
     }
@@ -267,6 +273,16 @@ public class DoubleArm extends LinearOpMode {
 
 
 
+    //--------------------------------------------------------------------------------------------------------------------
+    //LEFT AUTO!!!
+    public void leftAutoPickup(DoubleArmPos armPos) {
+        setPosLowPower((int) armPos.getValue());
+    }
+
+    public void leftAutoReset() {
+        setPosLowPower(DoubleArmPos.RESET.value);
+    }
+    //--------------------------------------------------------------------------------------------------------------------
 
 
 

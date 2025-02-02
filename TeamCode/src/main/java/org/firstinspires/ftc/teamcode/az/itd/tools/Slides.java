@@ -66,11 +66,22 @@ public class Slides extends LinearOpMode {
         SPECIMEN_CLIP(700),
 
         TEST_HEIGHT(1800),
-        LEFT_AUTO_INTERMEDIATE_PICKUP(700),
+
+
+
+
+        //--------------------------------------------------------------------------------------------------------------------
+        //LEFT AUTO!!!
         LEFT_AUTO_PICKUP_FIRST(1100),
         LEFT_AUTO_PICKUP_SECOND(1350),
         LEFT_AUTO_PICKUP_THIRD(1550),
-        LEFT_AUTO_BASKET_DROP(2500);
+        LEFT_AUTO_BASKET_DROP(2500),
+        LEFT_AUTO_INTERMEDIATE_PICKUP(700)
+
+        //--------------------------------------------------------------------------------------------------------------------
+
+
+        ;
 
 
 
@@ -213,15 +224,17 @@ public class Slides extends LinearOpMode {
         setPosAndWait(SlidesPos.RIGHT_AUTO_COLLECT.value);
     }
 
-    public void leftAutoPickup(SlidesPos slidesPos) {
-        setPosAndWait(slidesPos.value);
-    }
-
     public void specimenCollect() {
         setPos(SlidesPos.SPECIMEN_COLLECT.value);
     }
 
 
+    //--------------------------------------------------------------------------------------------------------------------
+    //LEFT AUTO!!!
+    public void leftAutoPickup(SlidesPos slidesPos) {
+        setPosAndWait(slidesPos.value);
+    }
+    //--------------------------------------------------------------------------------------------------------------------
 
 
 

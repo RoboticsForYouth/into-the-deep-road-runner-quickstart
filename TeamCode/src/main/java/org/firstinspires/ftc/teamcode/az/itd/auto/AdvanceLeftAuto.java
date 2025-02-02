@@ -48,8 +48,10 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
     private Action waitForArmAction2;
     private Action waitForArmAction3;
     private Action parkPos;
+    private Action levelOneAscentAction;
 
-   int lastActionSeq = 0;
+
+    int lastActionSeq = 0;
 
    public static boolean LeftAutoHighDropArmSetupActionDone = false;
 
@@ -87,7 +89,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
         collectPos2 = collectTraj2.build();
 
         TrajectoryActionBuilder collectTraj2_1 = collectTraj2.endTrajectory().fresh()
-                .strafeToConstantHeading(new Vector2d(10, 18.5));
+                .strafeToConstantHeading(new Vector2d(10, 19));
 //                .turnTo(Math.toRadians(35), turnConstraints);
         collectPos2_1 = collectTraj2_1.build();
 
@@ -220,6 +222,15 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
             }
         };
 
+        levelOneAscentAction = new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+
+                candyCane.leftAutoLevelOneAscent();
+                return false;
+            }
+        };
+
     }
 
     @Override
@@ -253,7 +264,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                         moveToDropPos4,
                         resetAction,
                         parkPos,
-                        levelOneAscent
+                        levelOneAscentAction
 
 
                         )

@@ -134,22 +134,7 @@ public class SpecimenTool extends LinearOpMode {
 
 
 
-    public void rightAutoSpecimenDrop() {
-//        slides.moveToPosition(Slides.SlidesPos.RESET);
-        arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP.getValue());
 
-
-        gripper.drop();
-
-        AZUtil.runInParallel(new Runnable() {
-            @Override
-            public void run() {
-                sleep(500);
-                gripper.stopPower();
-            }
-        });
-
-    }
 
     public void teleOpSpecimenDrop(){
         gripper.specimenExtradrop();
@@ -173,46 +158,7 @@ public class SpecimenTool extends LinearOpMode {
         gripper.sampleDrop();
     }
 
-    public void leftAutoDropHighBasket() {
 
-        AZUtil.runInParallel(new Runnable() {
-            @Override
-            public void run() {
-                //gripper.autoProtect();
-                //sleep(500);
-                arm.setPosAndWait((int) DoubleArm.DoubleArmPos.LEFT_AUTO_BASKET_DROP.getValue());
-                slides.setPosAndWaitWithTolerance((int) Slides.SlidesPos.LEFT_AUTO_BASKET_DROP.getValue(), 5);
-                sleep(1200);
-                gripper.leftAutoSampleDrop();
-                LeftAutoHighDropArmSetupActionDone = true;
-            }
-        });
-    }
-
-    public void leftAutoLaterDropsHighBasket() {
-
-//        slides.reset();
-//        sleep(500);
-
-        slides.setPosAndWaitWithTolerance((int) Slides.SlidesPos.RESET.getValue(), 5);
-        sleep(400);
-
-        AZUtil.runInParallel(new Runnable() {
-            @Override
-            public void run() {
-                //gripper.autoProtect();
-                //sleep(500);
-
-                gripper.leftAutoIntermediate();
-                arm.setPosAndWait((int) DoubleArm.DoubleArmPos.LEFT_AUTO_BASKET_DROP.getValue());
-                slides.setPosAndWaitWithTolerance((int) Slides.SlidesPos.LEFT_AUTO_BASKET_DROP.getValue(), 10);
-                sleep(800);
-                gripper.leftAutoSampleDrop();
-
-                LeftAutoHighDropArmSetupActionDone = true;
-            }
-        });
-    }
 
     public void levelOneAscent() {
         arm.moveToPosition(DoubleArm.DoubleArmPos.LEVEL_ONE_ASCENT_PART_ONE);
@@ -245,19 +191,7 @@ public class SpecimenTool extends LinearOpMode {
 //        sleep(1000);
     }
 
-    public void leftAutoCollect(final Slides.SlidesPos slidesPos, final EnhancedClaw.WRIST_POS wristPos, final DoubleArm.DoubleArmPos armPos)   {
-        AZUtil.runInParallel(new Runnable() {
-            @Override
-            public void run() {
-                gripper.leftAutoPickup(wristPos);
-                sleep(500);
-                slides.setPosAndWait((int) Slides.SlidesPos.LEFT_AUTO_INTERMEDIATE_PICKUP.getValue());
-                arm.leftAutoPickup(armPos);
-                slides.leftAutoPickup(slidesPos);
 
-            }
-        });
-    }
 
     public void rightAutoCollect()    {
 
@@ -387,16 +321,6 @@ public class SpecimenTool extends LinearOpMode {
         sleep(500);
     }
 
-    public void leftAutoReset(){
-        slides.resetPos();
-        sleep(2000);
-        arm.reset();
-        sleep(2000);
-        gripper.leftAutoReset();
-        sleep(500);
-    }
-
-
     public void resetAndWait() {
         gripper.move();
         sleep(200);
@@ -404,7 +328,7 @@ public class SpecimenTool extends LinearOpMode {
 //        gripper.drop();
 
         sleep(1000);
-        arm.leftAutoReset();
+        arm.reset();
         gripper.reset();
 
 ////        sleep(1000);
@@ -412,20 +336,6 @@ public class SpecimenTool extends LinearOpMode {
 //        gripper.resetPos();
     }
 
-    public void leftAutoResetEnd() {
-        gripper.move();
-        sleep(200);
-        slides.reset();
-//        gripper.drop();
-
-        sleep(1000);
-        arm.leftAutoReset();
-        gripper.reset();
-
-////        sleep(1000);
-//        sleep(1000);
-//        gripper.resetPos();
-    }
 
     public void highReset () {
         slides.move();
@@ -492,6 +402,119 @@ public class SpecimenTool extends LinearOpMode {
         slides.setCurrentPosValue(Slides.SlidesPos.SPECIMEN_LIFT);
         arm.setCurrentPosValue(DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP);
     }
+
+
+
+
+
+
+
+    //--------------------------------------------------------------------------------------------------------------------
+    //LEFT AUTO!!!!
+
+    public void leftAutoReset(){
+        slides.resetPos();
+        sleep(2000);
+        arm.reset();
+        sleep(2000);
+        gripper.leftAutoReset();
+        sleep(500);
+    }
+
+
+    public void leftAutoDropHighBasket() {
+
+        AZUtil.runInParallel(new Runnable() {
+            @Override
+            public void run() {
+                //gripper.autoProtect();
+                //sleep(500);
+                arm.setPosAndWait((int) DoubleArm.DoubleArmPos.LEFT_AUTO_BASKET_DROP.getValue());
+                slides.setPosAndWaitWithTolerance((int) Slides.SlidesPos.LEFT_AUTO_BASKET_DROP.getValue(), 5);
+                sleep(1200);
+                gripper.leftAutoSampleDrop();
+                LeftAutoHighDropArmSetupActionDone = true;
+            }
+        });
+    }
+
+    public void leftAutoCollect(final Slides.SlidesPos slidesPos, final EnhancedClaw.WRIST_POS wristPos, final DoubleArm.DoubleArmPos armPos)   {
+        AZUtil.runInParallel(new Runnable() {
+            @Override
+            public void run() {
+                gripper.leftAutoPickup(wristPos);
+                sleep(500);
+                slides.setPosAndWait((int) Slides.SlidesPos.LEFT_AUTO_INTERMEDIATE_PICKUP.getValue());
+                arm.leftAutoPickup(armPos);
+                slides.leftAutoPickup(slidesPos);
+
+            }
+        });
+    }
+
+    public void leftAutoLaterDropsHighBasket() {
+
+//        slides.reset();
+//        sleep(500);
+
+        slides.setPosAndWaitWithTolerance((int) Slides.SlidesPos.RESET.getValue(), 5);
+        sleep(400);
+
+        AZUtil.runInParallel(new Runnable() {
+            @Override
+            public void run() {
+                //gripper.autoProtect();
+                //sleep(500);
+
+                gripper.leftAutoIntermediate();
+                arm.setPosAndWait((int) DoubleArm.DoubleArmPos.LEFT_AUTO_BASKET_DROP.getValue());
+                slides.setPosAndWaitWithTolerance((int) Slides.SlidesPos.LEFT_AUTO_BASKET_DROP.getValue(), 10);
+                sleep(800);
+                gripper.leftAutoSampleDrop();
+
+                LeftAutoHighDropArmSetupActionDone = true;
+            }
+        });
+    }
+
+    public void leftAutoResetEnd() {
+        gripper.move();
+        sleep(200);
+        slides.reset();
+//        gripper.drop();
+
+        sleep(1000);
+        arm.leftAutoReset();
+        gripper.reset();
+
+////        sleep(1000);
+//        sleep(1000);
+//        gripper.resetPos();
+    }
+
+    //--------------------------------------------------------------------------------------------------------------------
+
+
+    //--------------------------------------------------------------------------------------------------------------------
+    //LEFT AUTO!!!!
+    public void rightAutoSpecimenDrop() {
+//        slides.moveToPosition(Slides.SlidesPos.RESET);
+        arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP.getValue());
+
+
+        gripper.drop();
+
+        AZUtil.runInParallel(new Runnable() {
+            @Override
+            public void run() {
+                sleep(500);
+                gripper.stopPower();
+            }
+        });
+
+    }
+    //--------------------------------------------------------------------------------------------------------------------
+
 
 
 

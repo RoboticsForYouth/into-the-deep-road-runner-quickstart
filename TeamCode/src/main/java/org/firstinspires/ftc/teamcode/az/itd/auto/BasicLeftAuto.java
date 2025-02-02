@@ -56,7 +56,6 @@ public class BasicLeftAuto extends LinearOpMode {
     Action prePark;
     Action specimenHang;
     Action specimenToolWait;
-    Action levelOneAscent;
 
 
     public void initAuto() {
@@ -113,14 +112,7 @@ public class BasicLeftAuto extends LinearOpMode {
                 return false;
             }
         };
-        levelOneAscent = new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
 
-                candyCane.leftAutoLevelOneAscent();
-                return false;
-            }
-        };
     }
 
     public void runOpMode() throws InterruptedException {
@@ -128,11 +120,11 @@ public class BasicLeftAuto extends LinearOpMode {
 
         Actions.runBlocking(
                 new SequentialAction(
-                        specimenDropPos,
-                        specimenHang,
-                        specimenToolWait,
-                        prePark,
-                        levelOneAscent
+//                        specimenDropPos,
+//                        specimenHang,
+//                        specimenToolWait,
+//                        prePark,
+//                        levelOneAscentAction
                         //levelOneAscent
                 )
         );
