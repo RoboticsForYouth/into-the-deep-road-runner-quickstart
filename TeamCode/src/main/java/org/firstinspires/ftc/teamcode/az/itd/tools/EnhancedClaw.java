@@ -65,9 +65,9 @@ public class EnhancedClaw extends LinearOpMode {
         DROP_OFF_SPECIMEN(0.2), //0.2 0.77
         RIGHT_AUTO_DROP_OFF_SPECIMEN(0.2), //0.2 0.77
         AUTO_PICKUP_ANGLED(0.84),
-        LEFT_AUTO_PICKUP_FIRST(0.1),
+        LEFT_AUTO_PICKUP_FIRST(0.7),
         LEFT_AUTO_PICKUP_SECOND(0.8), //0.2
-        LEFT_AUTO_PICKUP_THIRD(0.9),
+        LEFT_AUTO_PICKUP_THIRD(0.85),
         AUTO_PICKUP_SAMPLE_TWO(0.27),
         AUTO_PICKUP_SAMPLE_THREE(0.27),
         AUTO_PICKUP_SAMPLE_FOUR(0.84)
@@ -104,6 +104,7 @@ public class EnhancedClaw extends LinearOpMode {
 
         RESET(0.75),
         LEFT_AUTO_RESET(0.6),
+        LEFT_AUTO_DROP_INTERMEDIATE(0.2),
         SPECIMEN_RELEASE(0.12),
         LEFT_AUTO_DROP(0.5), //0.49
         AUTO_DROP(0.5); //0
@@ -339,9 +340,9 @@ public class EnhancedClaw extends LinearOpMode {
     }
 
     public void leftAutoSampleDrop() {
-        wrist.setPosition(WRIST_POS.LEFT_AUTO_DROP_OFF.getPos());
         elbow.setPosition(ELBOW_POS.LEFT_AUTO_DROP.getPos());
-        sleep(400);
+        wrist.setPosition(WRIST_POS.LEFT_AUTO_DROP_OFF.getPos());
+        sleep(500);
         roller.setPower(RollerPower.EJECT.getPower());
         sleep(700);
     }
@@ -356,6 +357,10 @@ public class EnhancedClaw extends LinearOpMode {
 
     public void autoProtect() {
         setPos(RollerPower.PICKUP, WRIST_POS.DROP_OFF, ELBOW_POS.AUTO_PROTECT);
+    }
+
+    public void leftAutoIntermediate() {
+        setPos(RollerPower.PICKUP, WRIST_POS.LEFT_AUTO_DROP_OFF, ELBOW_POS.LEFT_AUTO_DROP_INTERMEDIATE);
     }
 
 

@@ -248,7 +248,7 @@ public class RightAuto extends LinearOpMode {
         releaseSpecimenAction = new Action(){
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.specimenDrop();
+                specimenTool.rightAutoSpecimenDrop();
                 return false;
             }
         };
@@ -268,7 +268,7 @@ public class RightAuto extends LinearOpMode {
                     @Override
                     public void run() {
                         sleep(200);
-                        specimenTool.afterDropAutoSpecimenCollect();
+                        specimenTool.afterDropRightAutoSpecimenCollect();
                     }
                 });
                 return false;
@@ -334,49 +334,48 @@ public class RightAuto extends LinearOpMode {
 
         Actions.runBlocking(
                 new SequentialAction(
-                        firstReleaseSpecimenAction, //YAY
+                        firstReleaseSpecimenAction,
                         specimenDropPos1,
 
-                        raiseCandyCaneAction, //yay
+                        raiseCandyCaneAction,
                         spikeMarkPos1,
-                        lowerCandyCaneAction, //yay
+                        lowerCandyCaneAction,
                         new SleepAction(0.45),
                         observationZoneDropPos1,
 
-                        raiseCandyCaneAction, //yay
+                        raiseCandyCaneAction,
                         spikeMarkPos2,
-                        lowerCandyCaneAction, //yay
+                        lowerCandyCaneAction,
                         new SleepAction(0.45),
                         observationZoneDropPos2,
 
-                        raiseCandyCaneAction, //yay
+                        raiseCandyCaneAction,
                         spikeMarkPos3,
-                        lowerCandyCaneAction, //yay
+                        lowerCandyCaneAction,
                         new SleepAction(0.45),
                         observationZoneDropPos3,
 
-                        resetCandyCaneAction, //yay
+                        resetCandyCaneAction,
                         observationZonePos1,
-                        specimenCollectAction, //yay
-                        specimenToolDropAfterPickupAction, //yay
+                        specimenCollectAction,
+                        specimenToolDropAfterPickupAction,
                         specimenDropPos2,
                         releaseSpecimenAction,
 
                         afterDropSpecimenCollectAction,
                         observationZonePos2,
-                        specimenToolDropAfterPickupAction, //yay
+                        specimenToolDropAfterPickupAction,
                         specimenDropPos3,
                         releaseSpecimenAction,
 
                         afterDropSpecimenCollectAction,
                         observationZonePos3,
-                        specimenToolDropAfterPickupAction, //yay
+                        specimenToolDropAfterPickupAction,
                         specimenDropPos4,
                         releaseSpecimenAction,
-//
                         afterDropSpecimenCollectAction,
                         observationZonePos4,
-                        specimenToolDropAfterPickupAction, //yay
+                        specimenToolDropAfterPickupAction,
                         specimenDropPos5,
                         releaseSpecimenAction
 

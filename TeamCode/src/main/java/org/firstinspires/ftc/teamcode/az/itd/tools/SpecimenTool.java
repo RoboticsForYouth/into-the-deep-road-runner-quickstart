@@ -202,6 +202,8 @@ public class SpecimenTool extends LinearOpMode {
             public void run() {
                 //gripper.autoProtect();
                 //sleep(500);
+
+                gripper.leftAutoIntermediate();
                 arm.setPosAndWait((int) DoubleArm.DoubleArmPos.LEFT_AUTO_BASKET_DROP.getValue());
                 slides.setPosAndWaitWithTolerance((int) Slides.SlidesPos.LEFT_AUTO_BASKET_DROP.getValue(), 10);
                 sleep(800);
@@ -329,7 +331,7 @@ public class SpecimenTool extends LinearOpMode {
         sleep(500);
     }
 
-    public void afterDropAutoSpecimenCollect() {
+    public void afterDropRightAutoSpecimenCollect() {
 
         arm.setPosAndWait((int) DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_INTERMEDIATE_WAIT.getValue());
         arm.setArmPos(DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP);
