@@ -97,17 +97,6 @@ public class SpecimenTool extends LinearOpMode {
 //        gripper.specimenDrop();
     }
 
-    public void rightAutoSpecimenHangPos() {
-
-        arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP_INTEMEDIATE);
-
-
-        slides.moveToPosition(Slides.SlidesPos.RIGHT_AUTO_SPECIMEN_DROP);
-        gripper.rightAutoSpecimenDropPos();
-//        gripper.specimenDrop();
-    }
-
-
     public void teleOpspecimenHangPos() {
         arm.setArmPos(DoubleArm.DoubleArmPos.SPECIMEN_DROP);
         slides.moveToPosition(Slides.SlidesPos.SPECIMEN_DROP);
@@ -259,19 +248,7 @@ public class SpecimenTool extends LinearOpMode {
         sleep(500);
     }
 
-    public void rightAutoSpecimenCollect() {
-        gripper.specimenPickUp();
-        arm.setPosAndWait((int) DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP.getValue());
-        sleep(500);
-    }
 
-    public void afterDropRightAutoSpecimenCollect() {
-
-        arm.setPosAndWait((int) DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_INTERMEDIATE_WAIT.getValue());
-        arm.setArmPos(DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP);
-        gripper.specimenPickUp();
-        sleep(500);
-    }
 
  public void specimenLowBasket() {
         arm.lowBasketDrop();
@@ -496,7 +473,7 @@ public class SpecimenTool extends LinearOpMode {
 
 
     //--------------------------------------------------------------------------------------------------------------------
-    //LEFT AUTO!!!!
+    //RIGHT AUTO!!!!
     public void rightAutoSpecimenDrop() {
 //        slides.moveToPosition(Slides.SlidesPos.RESET);
         arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP.getValue());
@@ -512,6 +489,30 @@ public class SpecimenTool extends LinearOpMode {
             }
         });
 
+    }
+
+    public void rightAutoSpecimenCollect() {
+        gripper.rightAutoSpecimenPickUp();
+        arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_PICKUP_UP.getValue());
+        sleep(500);
+    }
+
+    public void afterDropRightAutoSpecimenCollect() {
+
+        arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_PICKUP_INTERMEDIATE_WAIT.getValue());
+        arm.setArmPos(DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP);
+        gripper.specimenPickUp();
+        sleep(500);
+    }
+
+    public void rightAutoSpecimenHangPos() {
+
+        arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP_INTEMEDIATE);
+
+
+        slides.moveToPosition(Slides.SlidesPos.RIGHT_AUTO_SPECIMEN_DROP);
+        gripper.rightAutoSpecimenDropPos();
+//        gripper.specimenDrop();
     }
     //--------------------------------------------------------------------------------------------------------------------
 

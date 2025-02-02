@@ -62,7 +62,6 @@ public class Slides extends LinearOpMode {
         SPECIMEN_LIFT(1000),
         RESET(0),
         SPECIMEN_DROP(0), //650
-        RIGHT_AUTO_SPECIMEN_DROP(0), //650
         SPECIMEN_CLIP(700),
 
         TEST_HEIGHT(1800),
@@ -76,8 +75,14 @@ public class Slides extends LinearOpMode {
         LEFT_AUTO_PICKUP_SECOND(1350),
         LEFT_AUTO_PICKUP_THIRD(1550),
         LEFT_AUTO_BASKET_DROP(2500),
-        LEFT_AUTO_INTERMEDIATE_PICKUP(700)
+        LEFT_AUTO_INTERMEDIATE_PICKUP(700),
 
+        //--------------------------------------------------------------------------------------------------------------------
+
+
+        //--------------------------------------------------------------------------------------------------------------------
+        //RIGHT AUTO!!!
+        RIGHT_AUTO_SPECIMEN_DROP(0) //650
         //--------------------------------------------------------------------------------------------------------------------
 
 

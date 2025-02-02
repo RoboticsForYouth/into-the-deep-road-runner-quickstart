@@ -98,10 +98,10 @@ public class EnhancedClaw extends LinearOpMode {
         AUTO_PICKUP(0.09), //0.2 //0.17
         RIGHT_AUTO_PICKUP(0.2),
         RIGHT_AUTO_MOVE(0.4),
-        SPECIMEN_PICKUP(0.35), //0.25
+        SPECIMEN_PICKUP(0.4), //0.25
         MOVE(0.12), //0.35
         SPECIMEN_DROP(.46), //0.7
-        RIGHT_AUTO_SPECIMEN_DROP(.46), //0.7
+        RIGHT_AUTO_SPECIMEN_DROP(0.47), //0.7
         SPECIMEN_DROP_TEST(0.42), //0.7
         AUTO_PROTECT(0.3),
         SPECIMEN_DROP_EXTRA(1),
@@ -243,9 +243,7 @@ public class EnhancedClaw extends LinearOpMode {
 
 
 
-    public void specimenPickUp() {
-        setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_SPECIMEN, ELBOW_POS.SPECIMEN_PICKUP);
-    }
+
 
     public void specimenRelease() {
         setPos(RollerPower.STOP, WRIST_POS.DROP_OFF_SPECIMEN, ELBOW_POS.SPECIMEN_RELEASE);
@@ -385,6 +383,14 @@ public class EnhancedClaw extends LinearOpMode {
         sleep(500);
         elbow.setPosition(ELBOW_POS.RIGHT_AUTO_SPECIMEN_DROP.getPos());
     }
+
+    public void rightAutoSpecimenPickUp() {
+        setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_SPECIMEN, ELBOW_POS.SPECIMEN_PICKUP);
+    }
+
+    public void specimenPickUp() {
+        setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_SPECIMEN, ELBOW_POS.SPECIMEN_PICKUP);
+    }
     //--------------------------------------------------------------------------------------------------------------------
 
 
@@ -459,6 +465,7 @@ public class EnhancedClaw extends LinearOpMode {
 
             if( gamepad1.left_bumper){
                 specimenPickUp();
+
             }
 
             if( gamepad1.dpad_up){

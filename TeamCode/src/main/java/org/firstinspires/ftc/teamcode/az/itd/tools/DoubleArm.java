@@ -64,10 +64,7 @@ public class DoubleArm extends LinearOpMode {
         LEVEL_ONE_ASCENT((int)(80 * ARM_CONVERSION_FACTOR)), //(612), //(440),
 
         SPECIMEN_DROP((int)(92 * ARM_CONVERSION_FACTOR)), //(600),
-        RIGHT_AUTO_SPECIMEN_DROP((int)(92 * ARM_CONVERSION_FACTOR)), //(600),
         SPECIMEN_DROP_INTEMEDIATE((int)(20 * ARM_CONVERSION_FACTOR)), //(600),
-        RIGHT_AUTO_SPECIMEN_DROP_INTEMEDIATE((int)(20 * ARM_CONVERSION_FACTOR)), //(600),
-        RIGHT_AUTO_SPECIMEN_DROP_INTEMEDIATE_WAIT((int)(20 * ARM_CONVERSION_FACTOR)),
         SPECIMEN_PICKUP_UP((int)(0*ARM_CONVERSION_FACTOR)),
         SPECIMEN_PICKUP_INTERMEDIATE_WAIT((int)(80*ARM_CONVERSION_FACTOR)),
         SPECIMEN_ARM_CLIP((int)(90 * ARM_CONVERSION_FACTOR)),
@@ -86,8 +83,17 @@ public class DoubleArm extends LinearOpMode {
         LEFT_AUTO_PICKUP_FIRST((int)(10 * ARM_CONVERSION_FACTOR)),
         LEFT_AUTO_PICKUP_SECOND((int)(11 * ARM_CONVERSION_FACTOR)),
         LEFT_AUTO_PICKUP_THIRD((int)(12 * ARM_CONVERSION_FACTOR)),
-        LEFT_AUTO_BASKET_DROP((int)(95 * ARM_CONVERSION_FACTOR))
+        LEFT_AUTO_BASKET_DROP((int)(95 * ARM_CONVERSION_FACTOR)),
 
+        //--------------------------------------------------------------------------------------------------------------------
+
+        //--------------------------------------------------------------------------------------------------------------------
+        //RIGHT AUTO!!!
+        RIGHT_AUTO_SPECIMEN_DROP_INTEMEDIATE_WAIT((int)(20 * ARM_CONVERSION_FACTOR)),
+        RIGHT_AUTO_SPECIMEN_DROP((int)(92 * ARM_CONVERSION_FACTOR)), //(600)
+        RIGHT_AUTO_SPECIMEN_PICKUP_UP((int)(0*ARM_CONVERSION_FACTOR)),
+        RIGHT_AUTO_SPECIMEN_PICKUP_INTERMEDIATE_WAIT((int)(80*ARM_CONVERSION_FACTOR)),
+        RIGHT_AUTO_SPECIMEN_DROP_INTEMEDIATE((int)(20 * ARM_CONVERSION_FACTOR)) //(600)
         //--------------------------------------------------------------------------------------------------------------------
 
 

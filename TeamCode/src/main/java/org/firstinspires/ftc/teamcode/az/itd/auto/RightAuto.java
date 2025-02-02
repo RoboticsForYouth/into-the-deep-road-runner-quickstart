@@ -47,7 +47,7 @@ public class RightAuto extends LinearOpMode {
     public static final int SPECIMEN_DROP_POS_HEADING = 180;
     public static final int SPIKE_MARK_POS_XXXX = 20;
     public static final int OBS_ZONE_POS_YYYY = -33;
-    public static final double OBS_ZONE_POS_1_XXXX = 5.5;
+    public static final double OBS_ZONE_POS_1_XXXX = 2;
     public static final int OBS_ZONE_DROP_HEADING = -140;
     ElapsedTime runtime = new ElapsedTime();
 
@@ -81,6 +81,7 @@ public class RightAuto extends LinearOpMode {
     private Action specimenToolDropAfterPickupAction;
     private Action afterDropSpecimenCollectAction;
     private Action firstReleaseSpecimenAction;
+    private Action observationZonePos1_1;
 
 
 
@@ -156,15 +157,19 @@ public class RightAuto extends LinearOpMode {
 
 
         TrajectoryActionBuilder observationZoneTraj1 = observationZoneDropTraj3.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(OBS_ZONE_POS_1_XXXX, OBS_ZONE_POS_YYYY), Math.toRadians(SPECIMEN_DROP_POS_HEADING));
+                .strafeToLinearHeading(new Vector2d(OBS_ZONE_POS_1_XXXX+5, OBS_ZONE_POS_YYYY), Math.toRadians(SPECIMEN_DROP_POS_HEADING));
 //                .splineToLinearHeading(new Pose2d(OBS_ZONE_POS_XXXX, OBS_ZONE_POS_YYYY, Math.toRadians(SPECIMEN_DROP_POS_HEADING)), 0);
         observationZonePos1 = observationZoneTraj1.build();
 
+        TrajectoryActionBuilder observationZoneTraj1_1 = observationZoneTraj1.endTrajectory().fresh()
+                .lineToX(2);
+        observationZonePos1_1 = observationZoneTraj1_1.build();
 
 
 
 
-        TrajectoryActionBuilder specimenDropTraj2 = observationZoneTraj1.endTrajectory().fresh()
+
+        TrajectoryActionBuilder specimenDropTraj2 = observationZoneTraj1_1.endTrajectory().fresh()
                 .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.1, SPECIMEN_DROP_POS_YYYY-2));
                 //.splineToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.1, SPECIMEN_DROP_POS_YYYY), Math.toRadians(SPECIMEN_DROP_POS_HEADING));
         specimenDropPos2 = specimenDropTraj2.build();
@@ -358,6 +363,7 @@ public class RightAuto extends LinearOpMode {
                         resetCandyCaneAction,
                         observationZonePos1,
                         specimenCollectAction,
+                        observationZonePos1_1,
                         specimenToolDropAfterPickupAction,
                         specimenDropPos2,
                         releaseSpecimenAction,
