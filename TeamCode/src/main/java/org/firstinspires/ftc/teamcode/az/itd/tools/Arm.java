@@ -187,7 +187,7 @@
 //
 //
 //
-//    public void reset() {
+//    public void resetPos() {
 //
 //        moveToPosition( ArmPos.RESET.value);
 //    }
@@ -339,7 +339,7 @@
 //        setArmPos(ArmPos.NEW_SPECIMEN_HANG);
 //        sleep(3000);
 //
-//        reset();
+//        resetPos();
 //        sleep(10000);
 //    }
 //

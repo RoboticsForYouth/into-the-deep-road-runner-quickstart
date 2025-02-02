@@ -43,7 +43,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
 
 //    public void setup() {
-//        specimenTool.reset();
+//        specimenTool.resetPos();
 //    }
 
     @Override
@@ -111,7 +111,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                                 specimenTool.teleOpMove();
                             }
                             else {
-                                //change order of reset to ensure that slides do not hit the basket
+                                //change order of resetPos to ensure that slides do not hit the basket
                                 specimenTool.highReset();
                             }
                             buttonXProcessing = false;
@@ -164,7 +164,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                 }
             }
 
-            //reset to initialize position
+            //resetPos to initialize position
             if(gamepad2.dpad_down){
                 if( !gamepad2dpadDownProcessing){
                     AZUtil.runInParallel(new Runnable() {
@@ -245,7 +245,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             }
 
 
-            //reset the slides
+            //resetPos the slides
             if (gamepad2.a) { //circle
                 if(!gamepad2ButtonAProcessing){
                     gamepad2ButtonAProcessing = true;

@@ -59,10 +59,10 @@
 //    public void setup() {
 //        specimenClaw = opMode.hardwareMap.get(Servo.class, "specimenClaw");
 ////        specimenClaw.setDirection(Servo.Direction.REVERSE);
-//        reset();
+//        resetPos();
 //    }
 //
-//    public void reset() {
+//    public void resetPos() {
 //        SpecimenClawPos specimenClawReset = SpecimenClawPos.SPECIMEN_CLAW_RESET;
 //        specimenClaw.setPosition(specimenClawReset.value);
 //        currentPosValue = specimenClawReset;
@@ -86,7 +86,7 @@
 //            collect();
 //            sleep(3000);
 //
-//            reset();
+//            resetPos();
 //            sleep(3000);
 //
 //        }

@@ -44,7 +44,7 @@
 //
 //
 //    public void setup() {
-//        specimenTool.reset();
+//        specimenTool.resetPos();
 //
 //    }
 //
@@ -94,8 +94,8 @@
 //                                specimenTool.move();
 //                            }
 //                            else {
-//                                //change order of reset to ensure that slides do not hit the basket
-//                                specimenTool.reset();
+//                                //change order of resetPos to ensure that slides do not hit the basket
+//                                specimenTool.resetPos();
 //                            }
 //                            buttonXProcessing = false;
 //                        }

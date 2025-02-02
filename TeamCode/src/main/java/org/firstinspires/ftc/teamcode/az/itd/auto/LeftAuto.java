@@ -40,11 +40,11 @@
 //        arm = new Arm(this);
 //        slides = new Slides(this);
 //        specimenTool = new SpecimenTool(this);
-//        specimenTool.reset();
+//        specimenTool.resetPos();
 //
 //        telemetry.addData("Status", "Initialized");
 //        telemetry.update();
-//        runtime.reset();
+//        runtime.resetPos();
 //        beginPose = new Pose2d(0,0,Math.toRadians(0));
 //        drive = new MecanumDrive(hardwareMap, beginPose);
 //        telemetry.addData("current position", drive.pose);

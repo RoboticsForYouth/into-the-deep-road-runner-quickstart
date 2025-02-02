@@ -31,7 +31,7 @@ public class DropTest extends LinearOpMode{
         gripper.reset();
         sleep(10000);
 
-        slides.reset();
+        slides.resetPos();
         gripper.reset();
         sleep(4000);
 

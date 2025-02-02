@@ -120,7 +120,7 @@
 //    }
 //
 //    /**
-//     *   Setup a drive motor with passed parameters.  Ensure encoder is reset.
+//     *   Setup a drive motor with passed parameters.  Ensure encoder is resetPos.
 //     * @param deviceName  Text name associated with motor in Robot Configuration
 //     * @param direction   Desired direction to make the wheel run FORWARD with positive power input
 //     * @return the DcMotor object
@@ -171,10 +171,10 @@
 //    public void drive(double distanceInches, double power, double holdTime) {
 //        resetOdometry();
 //
-//        driveController.reset(distanceInches, power);   // achieve desired drive distance
-//        strafeController.reset(0);              // Maintain zero strafe drift
-//        yawController.reset();                          // Maintain last turn heading
-//        holdTimer.reset();
+//        driveController.resetPos(distanceInches, power);   // achieve desired drive distance
+//        strafeController.resetPos(0);              // Maintain zero strafe drift
+//        yawController.resetPos();                          // Maintain last turn heading
+//        holdTimer.resetPos();
 //
 //        while (myOpMode.opModeIsActive() && readSensors()){
 //
@@ -187,7 +187,7 @@
 //                    break;   // Exit loop if we are in position, and have been there long enough.
 //                }
 //            } else {
-//                holdTimer.reset();
+//                holdTimer.resetPos();
 //            }
 //            myOpMode.sleep(10);
 //        }
@@ -203,10 +203,10 @@
 //    public void strafe(double distanceInches, double power, double holdTime) {
 //        resetOdometry();
 //
-//        driveController.reset(0.0);             //  Maintain zero drive drift
-//        strafeController.reset(distanceInches, power);  // Achieve desired Strafe distance
-//        yawController.reset();                          // Maintain last turn angle
-//        holdTimer.reset();
+//        driveController.resetPos(0.0);             //  Maintain zero drive drift
+//        strafeController.resetPos(distanceInches, power);  // Achieve desired Strafe distance
+//        yawController.resetPos();                          // Maintain last turn angle
+//        holdTimer.resetPos();
 //
 //        while (myOpMode.opModeIsActive() && readSensors()){
 //
@@ -219,7 +219,7 @@
 //                    break;   // Exit loop if we are in position, and have been there long enough.
 //                }
 //            } else {
-//                holdTimer.reset();
+//                holdTimer.resetPos();
 //            }
 //            myOpMode.sleep(10);
 //        }
@@ -234,7 +234,7 @@
 //     */
 //    public void turnTo(double headingDeg, double power, double holdTime) {
 //
-//        yawController.reset(headingDeg, power);
+//        yawController.resetPos(headingDeg, power);
 //        while (myOpMode.opModeIsActive() && readSensors()) {
 //
 //            // implement desired axis powers
@@ -246,7 +246,7 @@
 //                    break;   // Exit loop if we are in position, and have been there long enough.
 //                }
 //            } else {
-//                holdTimer.reset();
+//                holdTimer.resetPos();
 //            }
 //            myOpMode.sleep(10);
 //        }
@@ -308,11 +308,11 @@
 //        readSensors();
 //        driveOdometerOffset = rawDriveOdometer;
 //        driveDistance = 0.0;
-//        driveController.reset(0);
+//        driveController.resetPos(0);
 //
 //        strafeOdometerOffset = rawStrafeOdometer;
 //        strafeDistance = 0.0;
-//        strafeController.reset(0);
+//        strafeController.resetPos(0);
 //    }
 //
 //    /**
@@ -321,7 +321,7 @@
 //    public void resetHeading() {
 //        readSensors();
 //        headingOffset = rawHeading;
-//        yawController.reset(0);
+//        yawController.resetPos(0);
 //        heading = 0;
 //    }
 //
@@ -365,7 +365,7 @@
 //        this.tolerance = tolerance;
 //        this.deadband = deadband;
 //        this.circular = circular;
-//        reset(0.0);
+//        resetPos(0.0);
 //    }
 //
 //    /**
@@ -404,7 +404,7 @@
 //        }
 //
 //        lastOutput = output;
-//        cycleTime.reset();
+//        cycleTime.resetPos();
 //        return output;
 //    }
 //
@@ -419,27 +419,27 @@
 //     * @param setPoint
 //     * @param powerLimit
 //     */
-//    public void reset(double setPoint, double powerLimit) {
+//    public void resetPos(double setPoint, double powerLimit) {
 //        liveOutputLimit = Math.abs(powerLimit);
 //        this.setPoint = setPoint;
-//        reset();
+//        resetPos();
 //    }
 //
 //    /**
 //     * Saves a new setpoint and resets the output power history.
 //     * @param setPoint
 //     */
-//    public void reset(double setPoint) {
+//    public void resetPos(double setPoint) {
 //        liveOutputLimit = defaultOutputLimit;
 //        this.setPoint = setPoint;
-//        reset();
+//        resetPos();
 //    }
 //
 //    /**
 //     * Leave everything else the same, Just restart the acceleration timer and set output to 0
 //     */
-//    public void reset() {
-//        cycleTime.reset();
+//    public void resetPos() {
+//        cycleTime.resetPos();
 //        inPosition = false;
 //        lastOutput = 0.0;
 //    }

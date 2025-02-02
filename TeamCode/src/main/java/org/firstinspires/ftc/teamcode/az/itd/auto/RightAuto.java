@@ -385,7 +385,7 @@ public class RightAuto extends LinearOpMode {
         slidesReset = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.slides.reset();
+                specimenTool.slides.resetPos();
                 return false;
             }
         };

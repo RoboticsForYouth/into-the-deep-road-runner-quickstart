@@ -16,7 +16,7 @@ public class DoubleArm extends LinearOpMode {
     DcMotorEx doubleArmMotor2;
     LinearOpMode opMode;
     public static final double POWER = 1.0;
-    public static final double LOW_POWER = 0.4;
+    public static final double LOW_POWER = 0.35;
     public static final int INCREMENT = 50;
     private static final int SLOW_INCREMENT = 50;
 //    public static final double ARM_TICKS_PER_DEGREE = 19.7924893140647;
@@ -57,8 +57,9 @@ public class DoubleArm extends LinearOpMode {
         RESET(0),
         COLLECT((int)(18 * ARM_CONVERSION_FACTOR)),  //(-785),
         AUTO_COLLECT((int)(0 * ARM_CONVERSION_FACTOR)),
-        LEFT_AUTO_PICKUP((int)(7 * ARM_CONVERSION_FACTOR)),
-
+        LEFT_AUTO_PICKUP_FIRST((int)(10 * ARM_CONVERSION_FACTOR)),
+        LEFT_AUTO_PICKUP_SECOND((int)(11 * ARM_CONVERSION_FACTOR)),
+        LEFT_AUTO_PICKUP_THIRD((int)(12 * ARM_CONVERSION_FACTOR)),
         RIGHT_AUTO_COLLECT((int)(7 * ARM_CONVERSION_FACTOR)),
         LOW_BASKET_DROP((int)(60 * ARM_CONVERSION_FACTOR)),
         NEW_SPECIMEN_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
@@ -77,7 +78,7 @@ public class DoubleArm extends LinearOpMode {
 
         MOVE((int)(18 * ARM_CONVERSION_FACTOR)), //(-450),
         BASKET_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
-        AUTO_BASKET_DROP((int)(93 * ARM_CONVERSION_FACTOR)),
+        LEFT_AUTO_BASKET_DROP((int)(95 * ARM_CONVERSION_FACTOR)),
 
         VERTICAL_TEST(1300);
 
@@ -136,12 +137,17 @@ public class DoubleArm extends LinearOpMode {
 
     public void setPosAndWait(int pos){
         setPos(pos);
-        AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos);
+        AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos, 5, 3000);
     }
 
     public void setPosAndWaitLowPower(int pos){
         setPosLowPower(pos);
         AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos);
+    }
+
+    public void setPosAndWaitLowPowerLeftAuto(int pos){
+        setPosLowPower(pos);
+        AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos, 10, 2000);
     }
 
     public void moveToPosition(DoubleArmPos DoubleArmPos){
@@ -205,6 +211,10 @@ public class DoubleArm extends LinearOpMode {
         resetDoubleArmPos();
     }
 
+    public void leftAutoReset() {
+        setPosLowPower(DoubleArmPos.RESET.value);
+    }
+
 
 
 
@@ -221,8 +231,8 @@ public class DoubleArm extends LinearOpMode {
     public void autoCollect() {
         moveToPosition(DoubleArmPos.AUTO_COLLECT);
     }
-    public void leftAutoPickup() {
-        setPosLowPower((int) DoubleArmPos.LEFT_AUTO_PICKUP.getValue());
+    public void leftAutoPickup(DoubleArmPos armPos) {
+        setPosLowPower((int) armPos.getValue());
     }
     public void rightAutoCollect() {
         setPosAndWait(DoubleArmPos.RIGHT_AUTO_COLLECT.value);

@@ -65,8 +65,11 @@ public class Slides extends LinearOpMode {
         SPECIMEN_CLIP(700),
 
         TEST_HEIGHT(1800),
-        LEFT_AUTO_PICKUP(800),
-        AUTO_BASKET_DROP(2200);
+        LEFT_AUTO_INTERMEDIATE_PICKUP(700),
+        LEFT_AUTO_PICKUP_FIRST(900),
+        LEFT_AUTO_PICKUP_SECOND(1450),
+        LEFT_AUTO_PICKUP_THIRD(1900),
+        LEFT_AUTO_BASKET_DROP(2500);
 
 
 
@@ -105,10 +108,16 @@ public class Slides extends LinearOpMode {
         AZUtil.waitUntilMotorAtPos(this, slideMotor2, pos);
     }
 
+    public void setPosAndWaitLeftAuto(int pos){
+        setPos(pos);
+        AZUtil.waitUntilMotorAtPos(this, slideMotor1, pos, 10, 2000);
+        AZUtil.waitUntilMotorAtPos(this, slideMotor2, pos, 10, 2000);
+    }
+
     public void setPosAndWaitWithTolerance(int pos, int tolerance){
         setPos(pos);
-        AZUtil.waitUntilMotorAtPos(this, slideMotor1, pos, tolerance, 3000);
-        AZUtil.waitUntilMotorAtPos(this, slideMotor2, pos, tolerance, 3000);
+        AZUtil.waitUntilMotorAtPos(this, slideMotor1, pos, tolerance, 4000);
+        AZUtil.waitUntilMotorAtPos(this, slideMotor2, pos, tolerance, 4000);
     }
 
     public void setCurrentPosValue(SlidesPos pos) {
@@ -161,9 +170,13 @@ public class Slides extends LinearOpMode {
         slideMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public void reset() {
+    public void resetPos() {
         setPos(SlidesPos.RESET.value);
         resetSlidePos();
+    }
+
+    public void reset() {
+        setPos(SlidesPos.RESET.value);
     }
 
 
@@ -199,8 +212,8 @@ public class Slides extends LinearOpMode {
         setPosAndWait(SlidesPos.RIGHT_AUTO_COLLECT.value);
     }
 
-    public void leftAutoPickup() {
-        setPosAndWait(SlidesPos.LEFT_AUTO_PICKUP.value);
+    public void leftAutoPickup(SlidesPos slidesPos) {
+        setPosAndWait(slidesPos.value);
     }
 
     public void specimenCollect() {

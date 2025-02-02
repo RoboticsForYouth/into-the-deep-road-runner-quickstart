@@ -11,10 +11,10 @@
 //    ElapsedTime runtime = new ElapsedTime();
 //    public void initAuto() {
 //
-//        specimenTool.reset();
+//        specimenTool.resetPos();
 //        telemetry.addData("Status", "Initialized");
 //        telemetry.update();
-//        runtime.reset();
+//        runtime.resetPos();
 //    }
 //    @Override
 //    public void runOpMode() throws InterruptedException {

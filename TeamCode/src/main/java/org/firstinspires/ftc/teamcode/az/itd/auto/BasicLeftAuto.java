@@ -64,7 +64,9 @@ public class BasicLeftAuto extends LinearOpMode {
         arm = new DoubleArm(this);
         slides = new Slides(this);
         specimenTool = new SpecimenTool(this);
+
         specimenTool.leftAutoReset();
+
         candyCane = new CandyCane((this));
 
 

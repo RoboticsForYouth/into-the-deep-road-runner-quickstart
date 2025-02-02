@@ -90,7 +90,7 @@
 //    }
 //
 //    public void setupPos() {
-//        reset();
+//        resetPos();
 //    }
 //
 //
@@ -141,7 +141,7 @@
 //        wrist.setPosition(GripperPos.WRISTRESET.value);
 //    }
 //
-//    public void reset() {
+//    public void resetPos() {
 //        wrist.setPosition(GripperPos.WRISTRESET.value);
 //        roller.setPower(0);
 //    }
@@ -164,7 +164,7 @@
 //
 //        while (opModeIsActive()) {
 //
-//            reset();
+//            resetPos();
 //            sleep(2000);
 //
 //            collect();

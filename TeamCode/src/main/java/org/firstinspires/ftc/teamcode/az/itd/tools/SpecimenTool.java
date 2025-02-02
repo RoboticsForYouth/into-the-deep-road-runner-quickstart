@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.az.itd.tools;
 
+import static org.firstinspires.ftc.teamcode.az.itd.auto.AdvanceLeftAuto.HighDropArmSetupActionDone;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -159,10 +161,34 @@ public class SpecimenTool extends LinearOpMode {
             public void run() {
                 //gripper.autoProtect();
                 //sleep(500);
-                arm.setPosAndWait((int) DoubleArm.DoubleArmPos.AUTO_BASKET_DROP.getValue());
-                slides.setPosAndWaitWithTolerance((int) Slides.SlidesPos.AUTO_BASKET_DROP.getValue(), 25);
-                sleep(500);
+                arm.setPosAndWait((int) DoubleArm.DoubleArmPos.LEFT_AUTO_BASKET_DROP.getValue());
+                slides.setPosAndWaitWithTolerance((int) Slides.SlidesPos.LEFT_AUTO_BASKET_DROP.getValue(), 5);
+                sleep(1200);
                 gripper.leftAutoSampleDrop();
+                HighDropArmSetupActionDone = true;
+            }
+        });
+    }
+
+    public void leftAutoLaterDropsHighBasket() {
+
+//        slides.reset();
+//        sleep(500);
+
+        slides.setPosAndWaitWithTolerance((int) Slides.SlidesPos.RESET.getValue(), 5);
+        sleep(400);
+
+        AZUtil.runInParallel(new Runnable() {
+            @Override
+            public void run() {
+                //gripper.autoProtect();
+                //sleep(500);
+                arm.setPosAndWait((int) DoubleArm.DoubleArmPos.LEFT_AUTO_BASKET_DROP.getValue());
+                slides.setPosAndWaitWithTolerance((int) Slides.SlidesPos.LEFT_AUTO_BASKET_DROP.getValue(), 10);
+                sleep(800);
+                gripper.leftAutoSampleDrop();
+
+                HighDropArmSetupActionDone = true;
             }
         });
     }
@@ -198,14 +224,16 @@ public class SpecimenTool extends LinearOpMode {
 //        sleep(1000);
     }
 
-    public void leftAutoCollect()   {
+    public void leftAutoCollect(final Slides.SlidesPos slidesPos, final EnhancedClaw.WRIST_POS wristPos, final DoubleArm.DoubleArmPos armPos)   {
         AZUtil.runInParallel(new Runnable() {
             @Override
             public void run() {
-                gripper.leftAutoPickup();
+                gripper.leftAutoPickup(wristPos);
                 sleep(500);
-                slides.leftAutoPickup();
-                arm.leftAutoPickup();
+                slides.setPosAndWait((int) Slides.SlidesPos.LEFT_AUTO_INTERMEDIATE_PICKUP.getValue());
+                arm.leftAutoPickup(armPos);
+                slides.leftAutoPickup(slidesPos);
+
             }
         });
     }
@@ -321,7 +349,7 @@ public class SpecimenTool extends LinearOpMode {
     }
 
     public void reset() {
-        slides.reset();
+        slides.resetPos();
         sleep(2000);
         arm.reset();
         sleep(2000);
@@ -330,7 +358,7 @@ public class SpecimenTool extends LinearOpMode {
     }
 
     public void specimenAutoReset(){
-        slides.reset();
+        slides.resetPos();
         sleep(2000);
         arm.reset();
         sleep(2000);
@@ -339,7 +367,7 @@ public class SpecimenTool extends LinearOpMode {
     }
 
     public void leftAutoReset(){
-        slides.reset();
+        slides.resetPos();
         sleep(2000);
         arm.reset();
         sleep(2000);
@@ -349,17 +377,33 @@ public class SpecimenTool extends LinearOpMode {
 
 
     public void resetAndWait() {
-        slides.resetAndWait();
         gripper.move();
+        sleep(200);
+        slides.reset();
 //        gripper.drop();
 
         sleep(1000);
-        arm.reset();
+        arm.leftAutoReset();
         gripper.reset();
 
 ////        sleep(1000);
 //        sleep(1000);
-//        gripper.reset();
+//        gripper.resetPos();
+    }
+
+    public void leftAutoResetEnd() {
+        gripper.move();
+        sleep(200);
+        slides.reset();
+//        gripper.drop();
+
+        sleep(1000);
+        arm.leftAutoReset();
+        gripper.reset();
+
+////        sleep(1000);
+//        sleep(1000);
+//        gripper.resetPos();
     }
 
     public void highReset () {
