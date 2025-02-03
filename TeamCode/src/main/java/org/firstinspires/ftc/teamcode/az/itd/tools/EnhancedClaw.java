@@ -54,11 +54,11 @@ public class EnhancedClaw extends LinearOpMode {
     public enum WRIST_POS {
         RESET(0.2), //0.2 0.77 0.2
 
-        PICKUP(0.4), //0.5
+        PICKUP(0.5), //0.5
         AUTO_PICKUP(0.55), //0
         RIGHT_AUTO_PICKUP(0.77),
         DROP_OFF(1), //0.55
-        PICKUP_90(0.7),
+        PICKUP_90(0.75),
         PICKUP_SPECIMEN(0.77), //0.75
         DROP_OFF_SPECIMEN(0.2), //0.2 0.77
         RIGHT_AUTO_DROP_OFF_SPECIMEN(0.2), //0.2 0.77
@@ -93,7 +93,7 @@ public class EnhancedClaw extends LinearOpMode {
     }
 
     public enum ELBOW_POS {
-        PICKUP(0), //0.09
+        PICKUP(0.09), //0.09
         DROP(0.5), //0.2
         AUTO_PICKUP(0.09), //0.2 //0.17
         RIGHT_AUTO_PICKUP(0.2),
