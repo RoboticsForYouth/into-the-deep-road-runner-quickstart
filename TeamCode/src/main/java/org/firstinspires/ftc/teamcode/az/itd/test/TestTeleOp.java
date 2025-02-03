@@ -157,12 +157,6 @@ public class TestTeleOp extends LinearOpMode {
                         specimenTool.reset();
                     }
 
-                    if(gamepad2.y){
-                        specimenTool.move();
-                        sleep(5000);
-                        specimenTool.autoCollect(EnhancedClaw.WRIST_POS.AUTO_PICKUP);
-                    }
-
                     if(gamepad2.right_bumper){
                         specimenTool.gripper.samplePickUp90();
                     }
