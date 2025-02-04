@@ -96,7 +96,6 @@ public class DoubleArm extends LinearOpMode {
         RIGHT_AUTO_SPECIMEN_DROP_INTEMEDIATE((int)(20 * ARM_CONVERSION_FACTOR)) //(600)
         //--------------------------------------------------------------------------------------------------------------------
 
-
         ;
 
         private final int value;

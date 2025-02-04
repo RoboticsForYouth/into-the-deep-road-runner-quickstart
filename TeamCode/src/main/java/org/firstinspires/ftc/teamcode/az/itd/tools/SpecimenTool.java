@@ -52,6 +52,7 @@ public class SpecimenTool extends LinearOpMode {
     public void printPos(Telemetry telemetry){
         telemetry.addData("Slide Pos", slides.printCurrentPos());
         telemetry.addData("Arm Pos:", arm.getCurrentPosition());
+        telemetry.addData("Gripper Pos:", gripper.toString());
         telemetry.update();
     }
 
@@ -383,6 +384,21 @@ public class SpecimenTool extends LinearOpMode {
 //        slides.moveToPosition(Slides.SlidesPos.RESET);
         arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP.getValue());
 
+//        gripper.drop();
+//
+//        AZUtil.runInParallel(new Runnable() {
+//            @Override
+//            public void run() {
+//                sleep(500);
+//                gripper.stopPower();
+//            }
+//        });
+
+    }
+
+    public void firstRightAutoSpecimenDrop() {
+//        slides.moveToPosition(Slides.SlidesPos.RESET);
+        arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP.getValue());
 
         gripper.drop();
 
@@ -412,7 +428,7 @@ public class SpecimenTool extends LinearOpMode {
 
     public void rightAutoSpecimenHangPos() {
 
-        arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP_INTEMEDIATE);
+        arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP);
 
 
         slides.moveToPosition(Slides.SlidesPos.RIGHT_AUTO_SPECIMEN_DROP);
@@ -421,7 +437,15 @@ public class SpecimenTool extends LinearOpMode {
     }
     //--------------------------------------------------------------------------------------------------------------------
 
+    public void rightAutoSpecimenHangPosNew() {
 
+        arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP);
+
+
+        slides.moveToPosition(Slides.SlidesPos.RIGHT_AUTO_SPECIMEN_DROP);
+        gripper.rightAutoSpecimenDropPos();
+//        gripper.specimenDrop();
+    }
 
 
 

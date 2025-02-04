@@ -14,13 +14,13 @@ public class EnhancedClaw extends LinearOpMode {
     public static final String YELLOW = "Yellow";
     public static final String BLUE = "Blue";
     public static final String RED = "Red";
+    public static final double INCREMENT = .01;
     private ElapsedTime runtime = new ElapsedTime();
     private CRServo roller;
     private Servo wrist;
 //    private ColorSensor sampleSensor;
     private Servo elbow;
     private LinearOpMode linearOpMode;
-    public static final double INCREMENT = 0.1;
 
 
     public EnhancedClaw() {
@@ -33,6 +33,38 @@ public class EnhancedClaw extends LinearOpMode {
 
     public void specimenExtradrop() {
         elbow.setPosition(ELBOW_POS.SPECIMEN_DROP_EXTRA.pos);
+    }
+
+
+    /**
+     * Testing related methods
+     * =================================================
+     */
+    /**
+     * turnWristLeft
+     */
+    public void turnWristRight() {
+        wrist.setPosition(wrist.getPosition() + INCREMENT);
+    }
+
+    public void raiseElbow() {
+        elbow.setPosition(elbow.getPosition() + INCREMENT);
+    }
+
+    public void lowerElbow() {
+        elbow.setPosition(elbow.getPosition() - INCREMENT);
+    }
+
+    public void turnWristLeft() {
+        wrist.setPosition(wrist.getPosition() - INCREMENT);
+    }
+
+    public void rollerCollect() {
+        roller.setPower(RollerPower.PICKUP.getPower());
+    }
+
+    public void rollerDrop() {
+        roller.setPower(RollerPower.EJECT.getPower());
     }
 
     public enum RollerPower {
@@ -59,13 +91,12 @@ public class EnhancedClaw extends LinearOpMode {
         RIGHT_AUTO_PICKUP(0.77),
         DROP_OFF(1), //0.55
         PICKUP_90(0.75),
-        PICKUP_SPECIMEN(0.77), //0.75
         DROP_OFF_SPECIMEN(0.2), //0.2 0.77
-        RIGHT_AUTO_DROP_OFF_SPECIMEN(0.2), //0.2 0.77
         AUTO_PICKUP_ANGLED(0.84),
         AUTO_PICKUP_SAMPLE_TWO(0.27),
         AUTO_PICKUP_SAMPLE_THREE(0.27),
         AUTO_PICKUP_SAMPLE_FOUR(0.84),
+        PICKUP_SPECIMEN(0.2), //0.75
 
 
 
@@ -75,7 +106,13 @@ public class EnhancedClaw extends LinearOpMode {
         LEFT_AUTO_PICKUP_SECOND(0.8), //0.2
         LEFT_AUTO_PICKUP_THIRD(0.85),
         LEFT_AUTO_RESET(0.5),
-        LEFT_AUTO_DROP_OFF(0) //0.5
+        LEFT_AUTO_DROP_OFF(0), //0.5
+        //--------------------------------------------------------------------------------------------------------------------
+
+        //--------------------------------------------------------------------------------------------------------------------
+        //RIGHT AUTO!!!
+        RIGHT_AUTO_PICKUP_SPECIMEN(0.75), //0.75
+        RIGHT_AUTO_DROP_OFF_SPECIMEN(0.2), //0.2 0.77
         //--------------------------------------------------------------------------------------------------------------------
 
         ;
@@ -101,7 +138,6 @@ public class EnhancedClaw extends LinearOpMode {
         SPECIMEN_PICKUP(0.4), //0.25
         MOVE(0.12), //0.35
         SPECIMEN_DROP(.46), //0.7
-        RIGHT_AUTO_SPECIMEN_DROP(0.47), //0.7
         SPECIMEN_DROP_TEST(0.42), //0.7
         AUTO_PROTECT(0.3),
         SPECIMEN_DROP_EXTRA(1),
@@ -118,9 +154,15 @@ public class EnhancedClaw extends LinearOpMode {
         LEFT_AUTO_RESET(0.6),
         LEFT_AUTO_DROP(0.5), //0.49
         LEFT_AUTO_PICKUP(0.09), //0.2 //0.17
-        LEFT_AUTO_DROP_INTERMEDIATE(0.2)
+        LEFT_AUTO_DROP_INTERMEDIATE(0.2),
         //--------------------------------------------------------------------------------------------------------------------
 
+        //--------------------------------------------------------------------------------------------------------------------
+        //RIGHT AUTO!!!
+        RIGHT_AUTO_SPECIMEN_PICKUP(0.37), //0.25
+        RIGHT_AUTO_SPECIMEN_DROP(0.43), //0.7
+        FIRST_RIGHT_AUTO_SPECIMEN_DROP(0.47) //0.7
+            //--------------------------------------------------------------------------------------------------------------------
 
         ;
 
@@ -345,6 +387,10 @@ public class EnhancedClaw extends LinearOpMode {
         setPos(RollerPower.PICKUP, WRIST_POS.DROP_OFF, ELBOW_POS.AUTO_PROTECT);
     }
 
+    public void specimenPickUp() {
+        setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_SPECIMEN, ELBOW_POS.SPECIMEN_PICKUP);
+    }
+
 
 
 
@@ -380,16 +426,19 @@ public class EnhancedClaw extends LinearOpMode {
     public void rightAutoSpecimenDropPos() {
         roller.setPower(RollerPower.PICKUP.getPower());
         wrist.setPosition(WRIST_POS.RIGHT_AUTO_DROP_OFF_SPECIMEN.getPos());
-        sleep(500);
+//        sleep(500);
         elbow.setPosition(ELBOW_POS.RIGHT_AUTO_SPECIMEN_DROP.getPos());
     }
 
-    public void rightAutoSpecimenPickUp() {
-        setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_SPECIMEN, ELBOW_POS.SPECIMEN_PICKUP);
+    public void firstRightAutoSpecimenDropPos() {
+        roller.setPower(RollerPower.PICKUP.getPower());
+        wrist.setPosition(WRIST_POS.RIGHT_AUTO_DROP_OFF_SPECIMEN.getPos());
+//        sleep(500);
+        elbow.setPosition(ELBOW_POS.FIRST_RIGHT_AUTO_SPECIMEN_DROP.getPos());
     }
 
-    public void specimenPickUp() {
-        setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_SPECIMEN, ELBOW_POS.SPECIMEN_PICKUP);
+    public void rightAutoSpecimenPickUp() {
+        setPos(RollerPower.PICKUP, WRIST_POS.RIGHT_AUTO_PICKUP_SPECIMEN, ELBOW_POS.RIGHT_AUTO_SPECIMEN_PICKUP);
     }
     //--------------------------------------------------------------------------------------------------------------------
 

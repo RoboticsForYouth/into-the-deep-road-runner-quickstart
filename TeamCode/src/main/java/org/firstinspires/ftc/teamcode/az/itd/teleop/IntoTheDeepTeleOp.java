@@ -109,6 +109,8 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
                             if(arm.getCurrentPosition() < 500) {
                                 specimenTool.teleOpMove();
+                                specimenTool.collectVertical();
+
                             }
                             else {
                                 //change order of resetPos to ensure that slides do not hit the basket
@@ -151,18 +153,18 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
             }
 
-            if( gamepad1.dpad_left){
-                if(!dpadLeftProcessing){
-                    AZUtil.runInParallel(new Runnable() {
-                        @Override
-                        public void run() {
-                            dpadLeftProcessing = true;
-                            specimenTool.collectVertical();
-                            dpadLeftProcessing = false;
-                        }
-                    });
-                }
-            }
+//            if( gamepad1.dpad_left){
+//                if(!dpadLeftProcessing){
+//                    AZUtil.runInParallel(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            dpadLeftProcessing = true;
+//                            specimenTool.collectVertical();
+//                            dpadLeftProcessing = false;
+//                        }
+//                    });
+//                }
+//            }
 
             //resetPos to initialize position
             if(gamepad2.dpad_down){
