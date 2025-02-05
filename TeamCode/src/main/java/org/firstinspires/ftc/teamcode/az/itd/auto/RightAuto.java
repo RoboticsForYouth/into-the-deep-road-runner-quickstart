@@ -14,7 +14,6 @@ import com.acmerobotics.roadrunner.TurnConstraints;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.az.itd.tools.CandyCane;
@@ -26,7 +25,7 @@ import org.firstinspires.ftc.teamcode.az.sample.MecanumDrive;
 
 @Config
 @Autonomous
-public class RightAuto extends LinearOpMode {
+public class RightAuto extends RightAutoPosValues {
 
     TurnConstraints turnConstraints = new TurnConstraints(
             (Math.PI)*1.5,
@@ -122,47 +121,47 @@ public class RightAuto extends LinearOpMode {
 
     public void createActions() {
         TrajectoryActionBuilder specimenDropTraj1 = drive.actionBuilder(beginPose)
-                .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX, SPECIMEN_DROP_POS_YYYY));
+                .strafeToConstantHeading(specimenDrop1);
                 //.splineToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX, SPECIMEN_DROP_POS_YYYY), Math.toRadians(SPECIMEN_DROP_POS_HEADING));
         specimenDropPos1 = specimenDropTraj1.build();
 
 
 
         TrajectoryActionBuilder spikeMarkTraj1 = specimenDropTraj1.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(SPIKE_MARK_POS_XXXX-3, -22), Math.toRadians(-30));
+                .strafeToLinearHeading(spikeMark1, Math.toRadians(SPIKE_MARK_HEADING_ONE));
 //                .splineToLinearHeading(new Pose2d(SPIKE_MARK_POS_XXXX-3, -24, Math.toRadians(-30)), 0);
         spikeMarkPos1 = spikeMarkTraj1.build();
 
         TrajectoryActionBuilder observationZoneDropTraj1 = spikeMarkTraj1.endTrajectory().fresh()
-                .turnTo(Math.toRadians(OBS_ZONE_DROP_HEADING+33), fasterTurnConstraints);
+                .turnTo(Math.toRadians(HOCKEY_HEADING_ONE), fasterTurnConstraints);
         observationZoneDropPos1 = observationZoneDropTraj1.build();
 
         TrajectoryActionBuilder spikeMarkTraj2 = observationZoneDropTraj1.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(SPIKE_MARK_POS_XXXX+1, OBS_ZONE_POS_YYYY), Math.toRadians(-37));
+                .strafeToLinearHeading(spikeMark2, Math.toRadians(SPIKE_MARK_HEADING_TWO));
                 //.splineToLinearHeading(new Pose2d(SPIKE_MARK_POS_XXXX+1, OBS_ZONE_POS_YYYY, Math.toRadians(-37)), 0);
         spikeMarkPos2 = spikeMarkTraj2.build();
 
         TrajectoryActionBuilder observationZoneDropTraj2 = spikeMarkTraj2.endTrajectory().fresh()
-                .turnTo(Math.toRadians(OBS_ZONE_DROP_HEADING+33), fasterTurnConstraints);
+                .turnTo(Math.toRadians(HOCKEY_HEADING_TWO), fasterTurnConstraints);
         observationZoneDropPos2 = observationZoneDropTraj2.build();
 
         TrajectoryActionBuilder spikeMarkTraj3 = observationZoneDropTraj2.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(SPIKE_MARK_POS_XXXX+3, -36.7), Math.toRadians(-45));
+                .strafeToLinearHeading(spikeMark3, Math.toRadians(SPIKE_MARK_HEADING_THREE));
 //                .splineToLinearHeading(new Pose2d(SPIKE_MARK_POS_XXXX+3, -37, Math.toRadians(-45)), 0);
         spikeMarkPos3 = spikeMarkTraj3.build();
 
         TrajectoryActionBuilder observationZoneDropTraj3 = spikeMarkTraj3.endTrajectory().fresh()
-                .turnTo(Math.toRadians(OBS_ZONE_DROP_HEADING+8), turnConstraints);
+                .turnTo(Math.toRadians(HOCKEY_HEADING_THREE), turnConstraints);
         observationZoneDropPos3 = observationZoneDropTraj3.build();
 
 
         TrajectoryActionBuilder observationZoneTraj1 = observationZoneDropTraj3.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(OBS_ZONE_POS_1_XXXX+5, OBS_ZONE_POS_YYYY), Math.toRadians(SPECIMEN_DROP_POS_HEADING));
+                .strafeToLinearHeading(obsZone1, Math.toRadians(OBS_ZONE_HEADING_ONE));
 //                .splineToLinearHeading(new Pose2d(OBS_ZONE_POS_XXXX, OBS_ZONE_POS_YYYY, Math.toRadians(SPECIMEN_DROP_POS_HEADING)), 0);
         observationZonePos1 = observationZoneTraj1.build();
 
         TrajectoryActionBuilder observationZoneTraj1_1 = observationZoneTraj1.endTrajectory().fresh()
-                .lineToX(2);
+                .lineToX(OBS_ZONE_ONE_XXXX);
         observationZonePos1_1 = observationZoneTraj1_1.build();
 
 

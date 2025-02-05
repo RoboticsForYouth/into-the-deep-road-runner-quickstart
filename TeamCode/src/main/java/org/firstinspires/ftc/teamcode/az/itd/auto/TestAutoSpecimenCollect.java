@@ -8,7 +8,7 @@ public class TestAutoSpecimenCollect extends BasicLeftAuto {
     public void runOpMode() throws InterruptedException {
         initAuto();
 
-        specimenTool.collect();
+        specimenTool.teleOpCollect();
 
         sleep(5000);
     }

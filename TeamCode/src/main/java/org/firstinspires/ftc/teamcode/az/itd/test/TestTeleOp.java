@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.az.itd.tools.DoubleArm;
-import org.firstinspires.ftc.teamcode.az.itd.tools.EnhancedClaw;
 import org.firstinspires.ftc.teamcode.az.itd.tools.Slides;
 import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
 import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
@@ -144,7 +143,7 @@ public class TestTeleOp extends LinearOpMode {
 
                     // Pickup block on pressing A button
                     if (gamepad2.a) {
-                        specimenTool.collect();
+                        specimenTool.teleOpCollect();
                     }
 
                     // Eject block on pressing B button

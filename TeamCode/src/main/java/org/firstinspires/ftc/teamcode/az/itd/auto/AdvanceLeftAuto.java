@@ -51,7 +51,6 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
     private Action levelOneAscentAction;
 
 
-    int lastActionSeq = 0;
 
    public static boolean LeftAutoHighDropArmSetupActionDone = false;
 
@@ -276,8 +275,4 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 
         sleep(10000);
     }
-}
-
-interface StatusCallback{
-    public void done();
 }

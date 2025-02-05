@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
 
 
 @TeleOp
-public class SpecimenTeleOp extends LinearOpMode {
+public class SpecimenTeleOpCombined extends LinearOpMode {
     static final boolean FIELD_CENTRIC = false;
     Gamepad currentGamepad1 = new Gamepad();
     Gamepad currentGamepad2 = new Gamepad();
@@ -95,21 +95,16 @@ public class SpecimenTeleOp extends LinearOpMode {
         //currentSampleState = SpecimenTool.SampleState.COLLECT;
         specimenTool = new SpecimenTool(this);
 
-        IMU imu = hardwareMap.get(IMU.class, "imu");
-        // Adjust the orientation parameters to match your robot
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
-        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
-        imu.initialize(parameters);
-
         waitForStart();
+
+        specimenTool.teleOpSpecimenToolInit();
+
         currentSampleState.execute(specimenTool);
         currentSpecimenState.execute(specimenTool);
         currentHangState.execute(specimenTool);
 
 
-        while (opModeIsActive()) {
+        while (!isStopRequested()) {
 
             previousGamepad1.copy(currentGamepad1);
             previousGamepad2.copy(currentGamepad2);
@@ -200,26 +195,37 @@ public class SpecimenTeleOp extends LinearOpMode {
 
             }
 
-
-
-
-            /* if(gamepad1.b){
-                specimenTool.setGrabAndLiftSpecimenPos();
-            }
-            if(gamepad1.x){
-                specimenTool.setResetPos();
-            }
-            if( gamepad1.y){
-                specimenTool.setSpecimenDropPos();
-            }
-
-            if( gamepad1.right_bumper){
-                specimenTool.setSpecimenClipPos();
+            if(gamepad1.right_trigger > 0){
+                //if not processing then perform this operation
+                if( !rightTriggerProcessing) {
+                    AZUtil.runInParallel(new Runnable() {
+                        @Override
+                        public void run() {
+                            rightTriggerProcessing = true;
+                            specimenTool.extend(gamepad1.right_trigger);
+                            rightTriggerProcessing = false;
+                        }
+                    });
+                }
             }
 
-            //set specimen tool to current position
-            specimenTool.setCurrentPos();
-            */
+            if(gamepad1.left_bumper){
+                if( !leftBumperProcessing){
+                    AZUtil.runInParallel(new Runnable() {
+                        @Override
+                        public void run() {
+                            leftBumperProcessing = true;
+                            arm.moveDown();
+                            leftBumperProcessing = false;
+                        }
+                    });
+                }
+
+            }
+
+
+
+
 
                 drive.driveRobotCentric(
                         -driverOp.getLeftX(),

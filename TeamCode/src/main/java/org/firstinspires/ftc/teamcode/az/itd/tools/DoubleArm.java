@@ -56,21 +56,14 @@ public class DoubleArm extends LinearOpMode {
         //multiple 1.39 times when we replace 435 motor with 312 motor
         RESET(0),
         COLLECT((int)(17 * ARM_CONVERSION_FACTOR)),  //(-785),
-        AUTO_COLLECT((int)(0 * ARM_CONVERSION_FACTOR)),
-        RIGHT_AUTO_COLLECT((int)(7 * ARM_CONVERSION_FACTOR)),
         LOW_BASKET_DROP((int)(60 * ARM_CONVERSION_FACTOR)),
-        NEW_SPECIMEN_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
-        LEVEL_ONE_ASCENT_PART_ONE((int)(80 * ARM_CONVERSION_FACTOR)), //(520),
-        LEVEL_ONE_ASCENT((int)(80 * ARM_CONVERSION_FACTOR)), //(612), //(440),
 
         SPECIMEN_DROP((int)(92 * ARM_CONVERSION_FACTOR)), //(600),
         SPECIMEN_DROP_INTEMEDIATE((int)(20 * ARM_CONVERSION_FACTOR)), //(600),
         SPECIMEN_PICKUP_UP((int)(0*ARM_CONVERSION_FACTOR)),
-        SPECIMEN_PICKUP_INTERMEDIATE_WAIT((int)(80*ARM_CONVERSION_FACTOR)),
         SPECIMEN_ARM_CLIP((int)(90 * ARM_CONVERSION_FACTOR)),
 
         LEVEL_TWO_HANG((int)(90 * ARM_CONVERSION_FACTOR)),
-        SPECIMEN_DROP_TEST((int)(90 * ARM_CONVERSION_FACTOR)),
 
         MOVE((int)(16 * ARM_CONVERSION_FACTOR)), //(-450),
         BASKET_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
@@ -247,15 +240,6 @@ public class DoubleArm extends LinearOpMode {
         moveToPosition(DoubleArmPos.SPECIMEN_PICKUP_UP);
     }
 
-    public void autoCollect() {
-        moveToPosition(DoubleArmPos.AUTO_COLLECT);
-    }
-
-    public void rightAutoCollect() {
-        setPosAndWait(DoubleArmPos.RIGHT_AUTO_COLLECT.value);
-    }
-
-
     public void setArmPos(DoubleArmPos pos) {
         moveToPosition(pos);
     }
@@ -274,10 +258,6 @@ public class DoubleArm extends LinearOpMode {
 
     public void specimenCollect() {
         setPos(DoubleArmPos.SPECIMEN_PICKUP_UP.value);
-    }
-
-    public void specimenDrop() {
-        setPos(DoubleArmPos.SPECIMEN_DROP.value);
     }
 
 

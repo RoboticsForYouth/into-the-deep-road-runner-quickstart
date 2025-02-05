@@ -31,7 +31,7 @@ import java.util.Arrays;
 
 @Config
 @Autonomous ( preselectTeleOp = "IntoTheDeepTeleOp")
-public class BasicLeftAuto extends LinearOpMode {
+public class BasicLeftAuto extends LeftAutoPosValues {
     ElapsedTime runtime = new ElapsedTime();
 
     VelConstraint baseVelConstraint = new MinVelConstraint(Arrays.asList(
@@ -107,7 +107,7 @@ public class BasicLeftAuto extends LinearOpMode {
         specimenToolWait = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.resetAndWait();
+//                specimenTool.resetAndWait();
 //                sleep(1000);
                 return false;
             }

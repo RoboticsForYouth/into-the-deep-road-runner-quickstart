@@ -140,7 +140,7 @@ public class TestSpecimenHang extends LinearOpMode {
 
                     // Pickup block on pressing A button
                     if (gamepad2.a) {
-                        specimenTool.collect();
+                        specimenTool.teleOpCollect();
                     }
 
                     // Eject block on pressing B button

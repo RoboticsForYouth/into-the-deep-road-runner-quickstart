@@ -41,25 +41,17 @@ public class Slides extends LinearOpMode {
 
     public enum SlidesPos {
 
-        LEVEL_1_HANG(700),
         LEVEL_2_HANG_START(1200),
         LEVEL_2_HANG_END(600),
         COLLECT(500),
         RIGHT_AUTO_COLLECT(1500),
-        AUTO_SAMPLE_TWO_COLLECT(1100),
-        AUTO_SAMPLE_THREE_COLLECT(900),
-        AUTO_SAMPLE_FOUR_COLLECT(1000),
 
         MOVE(400),
         SPECIMEN_COLLECT(100),
-        LEVEL_ONE_ASCENT(1800),
-        LOWER_BASKET_DROP(1500),
         BASKET_DROP(2250),
-        HALFWAYRESET(700),
 
         SPECIMEN_PICKUP(300),
 
-        SPECIMEN_LIFT(1000),
         RESET(0),
         SPECIMEN_DROP(0), //650
         SPECIMEN_CLIP(700),

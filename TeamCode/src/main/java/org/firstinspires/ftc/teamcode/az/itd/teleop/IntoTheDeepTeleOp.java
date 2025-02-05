@@ -72,7 +72,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
         waitForStart();
 
-        specimenTool.specimenToolInit();
+        specimenTool.teleOpSpecimenToolInit();
 
         while (!isStopRequested()) {
 
@@ -87,7 +87,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                            buttonAProcessing = true;
                            if(arm.getCurrentPosition() < 500) {
 
-                               specimenTool.collect();
+                               specimenTool.teleOpCollect();
                            }
 
                            else {
@@ -105,9 +105,15 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             //drop the specimen
             if (gamepad1.b) { //circle
                 if(!buttonBProcessing){
-                    buttonBProcessing = true;
-                    specimenTool.eject();
-                    buttonBProcessing = false;
+                    AZUtil.runInParallel(new Runnable() {
+                        @Override
+                        public void run() {
+                            buttonBProcessing = true;
+                            specimenTool.teleOpEject();
+                            buttonBProcessing = false;
+                        }
+                    });
+
                 }
             }
 
