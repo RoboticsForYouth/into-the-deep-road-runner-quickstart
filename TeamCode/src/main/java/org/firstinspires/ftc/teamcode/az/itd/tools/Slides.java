@@ -65,6 +65,8 @@ public class Slides extends LinearOpMode {
         SPECIMEN_CLIP(700),
 
         TEST_HEIGHT(1800),
+        TELEOP_SPECIMEN_DROP(0), //650
+
 
 
 
@@ -78,6 +80,9 @@ public class Slides extends LinearOpMode {
         LEFT_AUTO_INTERMEDIATE_PICKUP(700),
 
         //--------------------------------------------------------------------------------------------------------------------
+
+        RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN_INITIAL(800), //650
+        RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN(400), //650
 
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -112,6 +117,8 @@ public class Slides extends LinearOpMode {
     }
 
     private void setPos(int pos){
+        pos = Math.max(20,pos);
+
         AZUtil.setBothMotorTargetPosition(slideMotor1, slideMotor2, pos, POWER);
     }
 
@@ -223,6 +230,10 @@ public class Slides extends LinearOpMode {
 
     public void collect() {
         setPos(SlidesPos.COLLECT.value);
+    }
+
+    public void collectLowPower() {
+        setPosLowPower(SlidesPos.COLLECT.value);
     }
 
     public void rightAutoCollect() {

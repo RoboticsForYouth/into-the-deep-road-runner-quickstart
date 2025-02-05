@@ -9,7 +9,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.teamcode.az.itd.tools.CandyCane;
+import org.firstinspires.ftc.teamcode.az.itd.tools.DoubleArm;
 import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
+import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
 
 
 @TeleOp
@@ -22,14 +25,36 @@ public class SpecimenTeleOp extends LinearOpMode {
     Gamepad previousGamepad2 = new Gamepad();
 
 
+    DoubleArm arm = null;
+    CandyCane candyCane = null;
+
+    private boolean gamepad2DpadUpProcessing;
+    private boolean gamepad2dpadDownProcessing;
+    private boolean dpadUpProcessing;
+    private boolean gamepad2DpadDownProcessing;
+    private boolean dpadRightProcessing;
+    private boolean dpadLeftProcessing;
+
+    private boolean buttonAProcessing;
+    private boolean gamepad2ButtonAProcessing;
+
+    private boolean buttonBProcessing;
+    private boolean buttonXProcessing;
+    private boolean buttonYProcessing;
+    private boolean rightTriggerProcessing;
+    private boolean leftTriggerProcessing;
+    private boolean rightBumperProcessing;
+    private boolean leftBumperProcessing;
+    private boolean dpadDownProcessing;
 
 
     private MecanumDrive drive;
     private SpecimenTool specimenTool;
 
-    private SpecimenTool.SpecimenState currentState;
-
+    private SpecimenTool.SpecimenState currentSpecimenState;
     private SpecimenTool.SampleState currentSampleState;
+
+    private SpecimenTool.HangState currentHangState;
     private boolean previousButtonState = false;
 
     //I want to be able to execute commands after a specified delay. the commands
@@ -52,6 +77,7 @@ public class SpecimenTeleOp extends LinearOpMode {
 
         GamepadEx driverOp = new GamepadEx(gamepad1);
 
+
         MecanumDrive drive = new MecanumDrive(
                 new Motor(hardwareMap, "frontLeft", Motor.GoBILDA.RPM_435),
                 new Motor(hardwareMap, "frontRight", Motor.GoBILDA.RPM_435),
@@ -59,7 +85,14 @@ public class SpecimenTeleOp extends LinearOpMode {
                 new Motor(hardwareMap, "backRight", Motor.GoBILDA.RPM_435)
         );
 
-        currentState = SpecimenTool.SpecimenState.MOVE;
+        arm = new DoubleArm(this);
+        specimenTool = new SpecimenTool(this);
+        candyCane = new CandyCane(this);
+
+        currentSampleState = SpecimenTool.SampleState.BASE;
+        currentSpecimenState = SpecimenTool.SpecimenState.BASE;
+        currentHangState = SpecimenTool.HangState.BASE;
+        //currentSampleState = SpecimenTool.SampleState.COLLECT;
         specimenTool = new SpecimenTool(this);
 
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -71,7 +104,9 @@ public class SpecimenTeleOp extends LinearOpMode {
         imu.initialize(parameters);
 
         waitForStart();
-        currentState.execute(specimenTool);
+        currentSampleState.execute(specimenTool);
+        currentSpecimenState.execute(specimenTool);
+        currentHangState.execute(specimenTool);
 
 
         while (opModeIsActive()) {
@@ -82,78 +117,90 @@ public class SpecimenTeleOp extends LinearOpMode {
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
 
+            if (currentGamepad1.a) { //x
+                if(!buttonAProcessing ){
+                    AZUtil.runInParallel(new Runnable() {
+                        @Override
+                        public void run() {
+                            buttonAProcessing = true;
+                            if(arm.getCurrentPosition() < 500) {
 
+                                specimenTool.collect();
+                            }
 
-           /* if (!FIELD_CENTRIC) {
-                double turnSpeed = -rightX;
-                drive.driveRobotCentric(
-                        -leftX,
-                        -leftY,
-                        turnSpeed,
-                        false
-                );
-            } else {
-                double degrees = imu.getRotation2d().getDegrees();
-                drive.driveFieldCentric(
-                        leftX,
-                        leftY,
-                        rightX,
-                        degrees,   // gyro value passed in here must be in degrees
-                        false
-                );
-            }
-*/
-            /*if (gamepad1.options) {
-                imu.resetYaw();
-            }
+                            else {
+                                specimenTool.teleOpHighReset();
+                            }
 
-            double botHeading = imu.getRobotYawPitchRollAngles().getYaw();
-
-            // Rotate the movement direction counter to the bot's rotation
-            double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
-            double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
-
-            rotX = rotX * 1.1;  // Counteract imperfect strafing
-
-            // Denominator is the largest motor power (absolute value) or 1
-            // This ensures all the powers maintain the same ratio,
-            // but only if at least one is out of the range [-1, 1]
-            double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
-            double frontLeftPower = (rotY + rotX + rx) / denominator;
-            double backLeftPower = (rotY - rotX + rx) / denominator;
-            double frontRightPower = (rotY - rotX - rx) / denominator;
-            double backRightPower = (rotY + rotX - rx) / denominator;
-
-            frontLeftMotor.setPower(frontLeftPower);
-            backLeftMotor.setPower(backLeftPower);
-            frontRightMotor.setPower(frontRightPower);
-            backRightMotor.setPower(backRightPower);
-            */
-
-            //if game pad a is pressed then get ready to grab the specimen
-            if (currentGamepad1.y && !previousGamepad1.y) {
-                cycleToNextStateSpecimen();
-                currentState.execute(specimenTool);
-
-            }
-
-            if (currentGamepad1.x && !previousGamepad1.x) {
-                if(currentState != SpecimenTool.SpecimenState.MOVE) {
-                    exitStateSpecimen();
-                    currentState.execute(specimenTool);
+                            currentSampleState = SpecimenTool.SampleState.BASE;
+                            currentSpecimenState = SpecimenTool.SpecimenState.BASE;
+                            currentHangState = SpecimenTool.HangState.BASE;
+                            buttonAProcessing = false;
+                        }
+                    });
                 }
-                if(currentSampleState != SpecimenTool.SampleState.MOVE){
-                    exitSampleState();
-                    currentSampleState.execute(specimenTool);
+            }
+
+
+            //drop the specimen
+            if (currentGamepad1.b && !previousGamepad1.b) { //circle
+                if(!buttonBProcessing){
+
+                    AZUtil.runInParallel(new Runnable() {
+                        @Override
+                        public void run() {
+                            buttonBProcessing = true;
+                            specimenTool.eject();
+                            buttonBProcessing = false;
+                        }
+                    });
+
+
                 }
+            }
+
+            if(currentGamepad1.dpad_down & !previousGamepad1.dpad_down){
+                AZUtil.runInParallel(new Runnable() {
+                    @Override
+                    public void run() {
+                        cycleToNextHangState();
+                        currentHangState.execute(specimenTool);
+                    }
+                });
 
             }
 
-            if(currentGamepad1.a && !previousGamepad1.a){
+            //Sample
+
+            if(currentGamepad1.right_bumper && !previousGamepad1.right_bumper){
+                AZUtil.runInParallel(new Runnable() {
+                    @Override
+                    public void run() {
+                        cycleToNextStateSample();
+                        currentSampleState.execute(specimenTool);
+                    }
+                });
                 //specimenTool.collect();
-                cycleToNextStateSample();
-                currentSampleState.execute(specimenTool);
+
             }
+
+            //Specimen
+
+            if(currentGamepad1.y && !previousGamepad1.y){
+
+                AZUtil.runInParallel(new Runnable() {
+                    @Override
+                    public void run() {
+                        //specimenTool.collect();
+                        cycleToNextSpecimenState();
+                        currentSpecimenState.execute(specimenTool);
+                    }
+                });
+
+
+            }
+
+
 
 
             /* if(gamepad1.b){
@@ -180,23 +227,9 @@ public class SpecimenTeleOp extends LinearOpMode {
                         -driverOp.getRightX(),
                         false
                 );
-                specimenTool.printPos(telemetry);
-                telemetry.addLine("State:" + currentState);
-                telemetry.update();
             }
 
         }
-    private void cycleToNextStateSpecimen(){
-        // Cycle to the next state in the SpecimenState enum
-        SpecimenTool.SpecimenState[] states = SpecimenTool.SpecimenState.values();
-        int nextStateOrdinal = (currentState.ordinal() + 1) % states.length;  // Loop back to the first state
-        currentState = states[nextStateOrdinal];
-    }
-
-    private void exitStateSpecimen(){
-        // Exit the current state in the SpecimenState enum
-        currentState = SpecimenTool.SpecimenState.MOVE;
-    }
 
     private void cycleToNextStateSample(){
         // Cycle to the next state in the SampleState enum
@@ -205,8 +238,19 @@ public class SpecimenTeleOp extends LinearOpMode {
         currentSampleState = states[nextStateOrdinal];
     }
 
-    private void exitSampleState(){
-        // Exit the current state in the SampleState enum
-        currentSampleState = SpecimenTool.SampleState.MOVE;
+    private void cycleToNextSpecimenState(){
+        SpecimenTool.SpecimenState[] states = SpecimenTool.SpecimenState.values();
+        int nextStateOrdinal = (currentSpecimenState.ordinal() + 1) % states.length;  // Loop back to the first state
+        currentSpecimenState = states[nextStateOrdinal];
+
     }
+
+    private void cycleToNextHangState(){
+        SpecimenTool.HangState[] states = SpecimenTool.HangState.values();
+        int nextStateOrdinal = (currentHangState.ordinal() + 1) % states.length;  // Loop back to the first state
+        currentHangState = states[nextStateOrdinal];
+
+    }
+
+
 }

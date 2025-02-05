@@ -164,12 +164,13 @@ public class SpecimenTool extends LinearOpMode {
     }
 
     public void specimenCollect() {
+        gripper.specimenPickUp();
+        sleep(500);
+
         arm.specimenCollect();
         sleep(1000);
         slides.specimenCollect();
         sleep(1000);
-        gripper.specimenPickUp();
-        sleep(500);
     }
 
 
@@ -238,6 +239,24 @@ public class SpecimenTool extends LinearOpMode {
 
     }
 
+    public void teleOpHighResetVertical () {
+        slides.collect();
+        gripper.samplePickUp90();
+        sleep(1000);
+        arm.collect();
+        sleep(1000);
+
+    }
+
+    public void teleOpHighReset () {
+        slides.collect();
+        gripper.samplePickup();
+        sleep(1000);
+        arm.collect();
+        sleep(1000);
+
+    }
+
     public void level2Hang() {
         arm.moveToPosition(DoubleArm.DoubleArmPos.LEVEL_TWO_HANG);
         sleep(500);
@@ -248,6 +267,18 @@ public class SpecimenTool extends LinearOpMode {
         sleep(1000);
         arm.moveToPosition(DoubleArm.DoubleArmPos.RESET);
         sleep(1000);
+    }
+
+    public void level2HangPart1(){
+        arm.moveToPosition(DoubleArm.DoubleArmPos.LEVEL_TWO_HANG);
+        sleep(500);
+        slides.moveToPositionLowPower(Slides.SlidesPos.LEVEL_2_HANG_START);
+    }
+
+    public void level2HangPart2(){
+        slides.moveToPosition(Slides.SlidesPos.LEVEL_2_HANG_END);
+        sleep(1000);
+        arm.moveToPosition(DoubleArm.DoubleArmPos.RESET);
     }
 
     public void setGrabSpecimenPos() {
@@ -284,6 +315,16 @@ public class SpecimenTool extends LinearOpMode {
         sleep(500);
         slides.setCurrentPosValue(Slides.SlidesPos.SPECIMEN_LIFT);
         arm.setCurrentPosValue(DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP);
+    }
+
+    public void teleOpSpecimenHangPos() {
+
+        arm.setArmPos(DoubleArm.DoubleArmPos.TELEOP_SPECIMEN_DROP);
+
+
+        slides.moveToPosition(Slides.SlidesPos.TELEOP_SPECIMEN_DROP);
+        gripper.teleOpSpecimenDropPos();
+//        gripper.specimenDrop();
     }
 
 
@@ -414,6 +455,7 @@ public class SpecimenTool extends LinearOpMode {
 
     public void rightAutoSpecimenCollect() {
         gripper.rightAutoSpecimenPickUp();
+        slides.reset();
         arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_PICKUP_UP.getValue());
         sleep(500);
     }
@@ -421,6 +463,7 @@ public class SpecimenTool extends LinearOpMode {
     public void afterDropRightAutoSpecimenCollect() {
 
         arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_PICKUP_INTERMEDIATE_WAIT.getValue());
+        slides.reset();
         arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_PICKUP_UP);
         gripper.rightAutoSpecimenPickUp();
         sleep(500);
@@ -447,57 +490,80 @@ public class SpecimenTool extends LinearOpMode {
 //        gripper.specimenDrop();
     }
 
+    public void rightAutoSpecimenHangPosSlidesDown() {
+
+        arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN);
+
+
+        slides.moveToPosition(Slides.SlidesPos.RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN_INITIAL);
+        gripper.rightAutoSpecimenDropPosSlidesDown();
+//        gripper.specimenDrop();
+    }
+
+    public void rightAutoSpecimenDropSlidesDown() {
+
+
+        slides.moveToPosition(Slides.SlidesPos.RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN);
+
+        sleep(700);
+
+        AZUtil.runInParallel(new Runnable() {
+            @Override
+            public void run() {
+                gripper.drop();
+                sleep(100);
+                gripper.rollerCollect();
+
+                arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_PICKUP_INTERMEDIATE_WAIT.getValue());
+                slides.reset();
+                arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_PICKUP_UP);
+                gripper.rightAutoSpecimenPickUp();
+                sleep(500);
+
+
+            }
+        });
+//        gripper.specimenDrop();
+    }
+
+    public void firstRightAutoSlidesDownSpecimenDrop() {
+//        slides.moveToPosition(Slides.SlidesPos.RESET);
+        arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP.getValue());
+
+        gripper.drop();
 
 
 
-
-
+    }
 
     public enum SpecimenState {
+        BASE(DoubleArm.DoubleArmPos.COLLECT, Slides.SlidesPos.COLLECT) {
+            @Override
+            public void execute(SpecimenTool tool) {
 
-        MOVE(DoubleArm.DoubleArmPos.MOVE, Slides.SlidesPos.MOVE){
-            @Override
-            public void execute(SpecimenTool tool) {
-                tool.slides.setCurrentPosValue(slidePos);
-                tool.arm.setArmPos(doubleArmPos);
-                tool.gripper.move();
             }
         },
-        GRAB_SPECIMEN(DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP, Slides.SlidesPos.SPECIMEN_PICKUP) {
+        COLLECT_SPECIMEN(DoubleArm.DoubleArmPos.SPECIMEN_DROP, Slides.SlidesPos.SPECIMEN_DROP) {
             @Override
             public void execute(SpecimenTool tool) {
-                tool.setGrabSpecimenPos();
-                tool.slides.setCurrentPosValue(slidePos);
-                tool.arm.setArmPos(doubleArmPos);
+                tool.specimenCollect();
             }
         },
-        LIFT_SPECIMEN(DoubleArm.DoubleArmPos.SPECIMEN_PICKUP_UP, Slides.SlidesPos.SPECIMEN_LIFT){
+        DROP(DoubleArm.DoubleArmPos.SPECIMEN_ARM_CLIP, Slides.SlidesPos.SPECIMEN_CLIP) {
             @Override
             public void execute(SpecimenTool tool) {
-                tool.setGrabAndLiftSpecimenPos();
-                tool.slides.setCurrentPosValue(slidePos);
-                tool.arm.setArmPos(doubleArmPos);
+                tool.teleOpSpecimenHangPos();
             }
         },
-        DROP_SPECIMEN(DoubleArm.DoubleArmPos.SPECIMEN_DROP, Slides.SlidesPos.SPECIMEN_DROP) {
+        EJECT(DoubleArm.DoubleArmPos.SPECIMEN_ARM_CLIP, Slides.SlidesPos.SPECIMEN_CLIP) {
             @Override
             public void execute(SpecimenTool tool) {
-                tool.setSpecimenDropPos();
-                tool.slides.setCurrentPosValue(slidePos);
-                tool.arm.setArmPos(doubleArmPos);
-            }
-        },
-        CLIP_SPECIMEN(DoubleArm.DoubleArmPos.SPECIMEN_ARM_CLIP, Slides.SlidesPos.SPECIMEN_CLIP){
-            @Override
-            public void execute(SpecimenTool tool) {
-                tool.setSpecimenClipPos();
-                tool.slides.setCurrentPosValue(slidePos);
-                tool.arm.setArmPos(doubleArmPos);
+                tool.eject();
             }
         };
+
+
         public abstract void execute(SpecimenTool tool);
-
-
 
         SpecimenState(DoubleArm.DoubleArmPos amrPos, Slides.SlidesPos slidesPos){
             this.doubleArmPos = amrPos;
@@ -515,30 +581,50 @@ public class SpecimenTool extends LinearOpMode {
 
     }
 
-    public enum SampleState{
+    public enum HangState{
+        BASE(DoubleArm.DoubleArmPos.COLLECT, Slides.SlidesPos.COLLECT) {
+            @Override
+            public void execute(SpecimenTool tool){
 
-        MOVE(DoubleArm.DoubleArmPos.MOVE, Slides.SlidesPos.MOVE){
-            @Override
-            public void execute(SpecimenTool tool) {
-                tool.gripper.move();
-                tool.slides.setCurrentPosValue(slidePos);
-                tool.arm.setArmPos(doubleArmPos);
             }
         },
-        COLLECT(DoubleArm.DoubleArmPos.COLLECT, Slides.SlidesPos.COLLECT) {
+        Part1(DoubleArm.DoubleArmPos.SPECIMEN_DROP, Slides.SlidesPos.SPECIMEN_DROP) {
             @Override
             public void execute(SpecimenTool tool) {
-                tool.collect();
-                tool.slides.setCurrentPosValue(slidePos);
-                tool.arm.setArmPos(doubleArmPos);
+                tool.level2HangPart1();
             }
         },
-        MOVEBACK(DoubleArm.DoubleArmPos.MOVE, Slides.SlidesPos.MOVE){
+        Part2(DoubleArm.DoubleArmPos.SPECIMEN_ARM_CLIP, Slides.SlidesPos.SPECIMEN_CLIP){
             @Override
             public void execute(SpecimenTool tool) {
-                tool.gripper.move();
-                tool.slides.setCurrentPosValue(slidePos);
-                tool.arm.setArmPos(doubleArmPos);
+                tool.level2HangPart2();
+            }
+        };
+
+        public abstract void execute(SpecimenTool tool);
+
+        HangState(DoubleArm.DoubleArmPos amrPos, Slides.SlidesPos slidesPos){
+            this.doubleArmPos = amrPos;
+            this.slidePos = slidesPos;
+        }
+
+        Slides.SlidesPos  slidePos ;
+        DoubleArm.DoubleArmPos doubleArmPos ;
+        public String toString(){
+            return new StringBuffer("CurrentState:")
+                    .append(", SlidePos").append(slidePos)
+                    .append(", ArmPos").append(doubleArmPos).toString();
+
+        }
+
+    }
+
+
+    public enum SampleState{
+        BASE(DoubleArm.DoubleArmPos.COLLECT, Slides.SlidesPos.COLLECT) {
+            @Override
+            public void execute(SpecimenTool tool){
+
             }
         },
         HIGHBASKET(DoubleArm.DoubleArmPos.SPECIMEN_DROP, Slides.SlidesPos.SPECIMEN_DROP) {

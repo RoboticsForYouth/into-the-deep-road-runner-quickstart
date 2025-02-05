@@ -5,6 +5,7 @@ import android.graphics.Color;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -96,7 +97,9 @@ public class EnhancedClaw extends LinearOpMode {
         AUTO_PICKUP_SAMPLE_TWO(0.27),
         AUTO_PICKUP_SAMPLE_THREE(0.27),
         AUTO_PICKUP_SAMPLE_FOUR(0.84),
-        PICKUP_SPECIMEN(0.2), //0.75
+        PICKUP_SPECIMEN(0.75), //0.75
+        TELEOP_DROP_OFF_SPECIMEN(0.2), //0.2 0.77
+
 
 
 
@@ -135,13 +138,13 @@ public class EnhancedClaw extends LinearOpMode {
         AUTO_PICKUP(0.09), //0.2 //0.17
         RIGHT_AUTO_PICKUP(0.2),
         RIGHT_AUTO_MOVE(0.4),
-        SPECIMEN_PICKUP(0.4), //0.25
+        SPECIMEN_PICKUP(0.37), //0.25
         MOVE(0.12), //0.35
         SPECIMEN_DROP(.46), //0.7
         SPECIMEN_DROP_TEST(0.42), //0.7
         AUTO_PROTECT(0.3),
         SPECIMEN_DROP_EXTRA(1),
-        TELEOP_SPECIMEN_DROP(.36),
+        TELEOP_SPECIMEN_DROP(.43),
 
         RESET(0.75),
         SPECIMEN_RELEASE(0.12),
@@ -157,6 +160,8 @@ public class EnhancedClaw extends LinearOpMode {
         LEFT_AUTO_DROP_INTERMEDIATE(0.2),
         //--------------------------------------------------------------------------------------------------------------------
 
+        RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN(0.75), //0.7
+
         //--------------------------------------------------------------------------------------------------------------------
         //RIGHT AUTO!!!
         RIGHT_AUTO_SPECIMEN_PICKUP(0.37), //0.25
@@ -164,6 +169,7 @@ public class EnhancedClaw extends LinearOpMode {
         FIRST_RIGHT_AUTO_SPECIMEN_DROP(0.47) //0.7
             //--------------------------------------------------------------------------------------------------------------------
 
+        //wrist 0.2, elbow 0.65
         ;
 
         public double getPos() {
@@ -202,7 +208,7 @@ public class EnhancedClaw extends LinearOpMode {
 
     private void setup() {
         roller = linearOpMode.hardwareMap.get(CRServo.class, "roller");
-        roller.setDirection(CRServo.Direction.REVERSE);
+        roller.setDirection(CRServo.Direction.FORWARD);
 
         wrist = linearOpMode.hardwareMap.get(Servo.class, "wrist");
 //        sampleSensor = linearOpMode.hardwareMap.get(ColorSensor.class, "sampleSensor");
@@ -391,6 +397,14 @@ public class EnhancedClaw extends LinearOpMode {
         setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_SPECIMEN, ELBOW_POS.SPECIMEN_PICKUP);
     }
 
+    public void teleOpSpecimenDropPos() {
+        roller.setPower(RollerPower.PICKUP.getPower());
+        wrist.setPosition(WRIST_POS.TELEOP_DROP_OFF_SPECIMEN.getPos());
+//        sleep(500);
+        elbow.setPosition(ELBOW_POS.TELEOP_SPECIMEN_DROP.getPos());
+    }
+
+
 
 
 
@@ -421,6 +435,12 @@ public class EnhancedClaw extends LinearOpMode {
     //--------------------------------------------------------------------------------------------------------------------
 
 
+    public void rightAutoSpecimenDropPosSlidesDown() {
+        roller.setPower(RollerPower.PICKUP.getPower());
+        wrist.setPosition(WRIST_POS.RIGHT_AUTO_DROP_OFF_SPECIMEN.getPos());
+//        sleep(500);
+        elbow.setPosition(ELBOW_POS.RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN.getPos());
+    }
     //--------------------------------------------------------------------------------------------------------------------
     //RIGHT AUTO!!!
     public void rightAutoSpecimenDropPos() {

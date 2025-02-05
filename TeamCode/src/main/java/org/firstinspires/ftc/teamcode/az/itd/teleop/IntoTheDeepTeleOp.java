@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.az.itd.tools.CandyCane;
 import org.firstinspires.ftc.teamcode.az.itd.tools.DoubleArm;
 import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
 import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
@@ -17,10 +18,11 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
     SpecimenTool specimenTool = null;
 
     DoubleArm arm = null;
+    CandyCane candyCane = null;
 //    Slides slides = null;
-    private boolean dpadUpProcessing;
     private boolean gamepad2DpadUpProcessing;
     private boolean gamepad2dpadDownProcessing;
+    private boolean dpadUpProcessing;
     private boolean gamepad2DpadDownProcessing;
     private boolean dpadRightProcessing;
     private boolean dpadLeftProcessing;
@@ -59,11 +61,12 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
         arm = new DoubleArm(this);
         specimenTool = new SpecimenTool(this);
+        candyCane = new CandyCane(this);
         gamepadEx1 = new GamepadEx(gamepad1);
         gamepadEx2 = new GamepadEx(gamepad2);
+        GamepadEx driverOp = new GamepadEx(gamepad1);
 
         // the extended gamepad object
-        GamepadEx driverOp = new GamepadEx(gamepad1);
 
         //specimenTool.arm.initPos(); //set arm to init position
 
@@ -82,7 +85,16 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                        @Override
                        public void run() {
                            buttonAProcessing = true;
-                           specimenTool.collect();
+                           if(arm.getCurrentPosition() < 500) {
+
+                               specimenTool.collect();
+                           }
+
+                           else {
+                               specimenTool.teleOpHighReset();
+                           }
+
+
                            buttonAProcessing = false;
                        }
                    });
@@ -108,13 +120,12 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                             buttonXProcessing = true;
 
                             if(arm.getCurrentPosition() < 500) {
-                                specimenTool.teleOpMove();
                                 specimenTool.collectVertical();
 
                             }
                             else {
                                 //change order of resetPos to ensure that slides do not hit the basket
-                                specimenTool.highReset();
+                                specimenTool.teleOpHighResetVertical();
                             }
                             buttonXProcessing = false;
                         }
@@ -196,9 +207,9 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
             }
 
-            if( gamepad2.right_bumper){
-                specimenTool.teleOpSpecimenDrop();
-            }
+//            if( gamepad2.right_bumper){
+//                specimenTool.teleOpSpecimenDrop();
+//            }
 
             //extend the slides
             if( gamepad1.right_trigger > 0){
@@ -224,7 +235,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         @Override
                         public void run() {
                             rightBumperProcessing = true;
-                            specimenTool.teleOpspecimenHangPos();
+                            specimenTool.teleOpSpecimenHangPos();
                             rightBumperProcessing = false;
                         }
                     });
