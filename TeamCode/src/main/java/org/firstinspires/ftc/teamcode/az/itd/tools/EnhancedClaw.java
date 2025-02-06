@@ -160,12 +160,12 @@ public class EnhancedClaw extends LinearOpMode {
         LEFT_AUTO_DROP_INTERMEDIATE(0.2),
         //--------------------------------------------------------------------------------------------------------------------
 
-        RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN(0.75), //0.7
+        RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN(0.73), //0.7
 
         //--------------------------------------------------------------------------------------------------------------------
         //RIGHT AUTO!!!
         RIGHT_AUTO_SPECIMEN_PICKUP(0.37), //0.25
-        RIGHT_AUTO_SPECIMEN_DROP(0.43), //0.7
+        RIGHT_AUTO_SPECIMEN_DROP(0.45), //0.7
         FIRST_RIGHT_AUTO_SPECIMEN_DROP(0.47) //0.7
             //--------------------------------------------------------------------------------------------------------------------
 

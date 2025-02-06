@@ -68,13 +68,13 @@ public class Slides extends LinearOpMode {
         LEFT_AUTO_PICKUP_FIRST(1100),
         LEFT_AUTO_PICKUP_SECOND(1350),
         LEFT_AUTO_PICKUP_THIRD(1550),
-        LEFT_AUTO_BASKET_DROP(2500),
+         LEFT_AUTO_BASKET_DROP(2500),
         LEFT_AUTO_INTERMEDIATE_PICKUP(700),
 
         //--------------------------------------------------------------------------------------------------------------------
 
-        RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN_INITIAL(800), //650
-        RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN(400), //650
+        RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN_INITIAL(950), //650
+        RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN(450), //650
 
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -109,13 +109,14 @@ public class Slides extends LinearOpMode {
     }
 
     private void setPos(int pos){
-        pos = Math.max(20,pos);
 
         AZUtil.setBothMotorTargetPosition(slideMotor1, slideMotor2, pos, POWER);
+//        AZUtil.setMotorTargetPosition(slideMotor2, pos, POWER);
     }
 
     private void setPosLowPower(int pos){
         AZUtil.setBothMotorTargetPosition(slideMotor1, slideMotor2, pos, EXTEND_POWER);
+//        AZUtil.setMotorTargetPosition(slideMotor2, pos, EXTEND_POWER);
     }
 
     public void setPosAndWait(int pos){

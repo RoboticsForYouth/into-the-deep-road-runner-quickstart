@@ -3,11 +3,9 @@ package org.firstinspires.ftc.teamcode.az.itd.teleop;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.az.itd.tools.CandyCane;
 import org.firstinspires.ftc.teamcode.az.itd.tools.DoubleArm;
@@ -155,42 +153,54 @@ public class SpecimenTeleOpCombined extends LinearOpMode {
             }
 
             if(currentGamepad1.dpad_down & !previousGamepad1.dpad_down){
-                AZUtil.runInParallel(new Runnable() {
-                    @Override
-                    public void run() {
-                        cycleToNextHangState();
-                        currentHangState.execute(specimenTool);
-                    }
-                });
+                if(!dpadDownProcessing) {
+                    AZUtil.runInParallel(new Runnable() {
+                        @Override
+                        public void run() {
+                            dpadDownProcessing = true;
+                            cycleToNextHangState();
+                            currentHangState.execute(specimenTool);
+                            dpadDownProcessing = false;
+                        }
+                    });
+                }
 
             }
 
             //Sample
 
             if(currentGamepad1.right_bumper && !previousGamepad1.right_bumper){
-                AZUtil.runInParallel(new Runnable() {
-                    @Override
-                    public void run() {
-                        cycleToNextStateSample();
-                        currentSampleState.execute(specimenTool);
-                    }
-                });
-                //specimenTool.collect();
+                if(!rightBumperProcessing) {
+                    AZUtil.runInParallel(new Runnable() {
+                        @Override
+                        public void run() {
+                            rightBumperProcessing = true;
+                            cycleToNextStateSample();
+                            currentSampleState.execute(specimenTool);
+                            rightBumperProcessing = false;
+                        }
+                    });
+                    //specimenTool.collect();
+                }
 
             }
 
             //Specimen
 
             if(currentGamepad1.y && !previousGamepad1.y){
+                if(!buttonYProcessing) {
 
-                AZUtil.runInParallel(new Runnable() {
-                    @Override
-                    public void run() {
-                        //specimenTool.collect();
-                        cycleToNextSpecimenState();
-                        currentSpecimenState.execute(specimenTool);
-                    }
-                });
+                    AZUtil.runInParallel(new Runnable() {
+                        @Override
+                        public void run() {
+                            //specimenTool.collect();
+                            buttonYProcessing = true;
+                            cycleToNextSpecimenState();
+                            currentSpecimenState.execute(specimenTool);
+                            buttonYProcessing = false;
+                        }
+                    });
+                }
 
 
             }

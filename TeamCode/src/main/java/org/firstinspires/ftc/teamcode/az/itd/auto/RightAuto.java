@@ -28,14 +28,14 @@ import org.firstinspires.ftc.teamcode.az.sample.MecanumDrive;
 public class RightAuto extends RightAutoPosValues {
 
     TurnConstraints turnConstraints = new TurnConstraints(
-            (Math.PI)*1.5,
-            -(Math.PI)*1.5,
-            (Math.PI)*1.5);
-
-    TurnConstraints fasterTurnConstraints = new TurnConstraints(
             (Math.PI)*2,
             -(Math.PI)*2,
             (Math.PI)*2);
+
+    TurnConstraints fasterTurnConstraints = new TurnConstraints(
+            (Math.PI)*2.5,
+            -(Math.PI)*2.5,
+            (Math.PI)*2.5);
 
 
 
@@ -81,6 +81,8 @@ public class RightAuto extends RightAutoPosValues {
     private Action afterDropSpecimenCollectAction;
     private Action firstReleaseSpecimenAction;
     private Action observationZonePos1_1;
+    private Action specimenCollectInParallelAction;
+    private Action parkPos;
 
 
 
@@ -169,7 +171,7 @@ public class RightAuto extends RightAutoPosValues {
 
 
         TrajectoryActionBuilder specimenDropTraj2 = observationZoneTraj1_1.endTrajectory().fresh()
-                .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.1, SPECIMEN_DROP_POS_YYYY-2));
+                .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+1, SPECIMEN_DROP_POS_YYYY-2));
                 //.splineToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.1, SPECIMEN_DROP_POS_YYYY), Math.toRadians(SPECIMEN_DROP_POS_HEADING));
         specimenDropPos2 = specimenDropTraj2.build();
 
@@ -184,7 +186,7 @@ public class RightAuto extends RightAutoPosValues {
 
 
         TrajectoryActionBuilder specimenDropTraj3 = observationZoneTraj2.endTrajectory().fresh()
-                .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.2, SPECIMEN_DROP_POS_YYYY-4));
+                .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX-0.3, SPECIMEN_DROP_POS_YYYY-4));
                 //.splineToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.2, SPECIMEN_DROP_POS_YYYY), Math.toRadians(SPECIMEN_DROP_POS_HEADING));
         specimenDropPos3 = specimenDropTraj3.build();
 
@@ -198,7 +200,7 @@ public class RightAuto extends RightAutoPosValues {
 
 
         TrajectoryActionBuilder specimenDropTraj4 = observationZoneTraj3.endTrajectory().fresh()
-                .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.3, SPECIMEN_DROP_POS_YYYY-6));
+                .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX-0.3, SPECIMEN_DROP_POS_YYYY-6));
                 //.splineToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.3, SPECIMEN_DROP_POS_YYYY), Math.toRadians(SPECIMEN_DROP_POS_HEADING));
         specimenDropPos4 = specimenDropTraj4.build();
 
@@ -212,9 +214,15 @@ public class RightAuto extends RightAutoPosValues {
 
 
         TrajectoryActionBuilder specimenDropTraj5 = observationZoneTraj4.endTrajectory().fresh()
-                .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.4, SPECIMEN_DROP_POS_YYYY-8));
+                .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX-0.6, SPECIMEN_DROP_POS_YYYY-8));
                 //.splineToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.4, SPECIMEN_DROP_POS_YYYY), Math.toRadians(SPECIMEN_DROP_POS_HEADING));
         specimenDropPos5 = specimenDropTraj5.build();
+
+
+        TrajectoryActionBuilder parkTraj = observationZoneTraj4.endTrajectory().fresh()
+                .strafeToConstantHeading(new Vector2d(2, -33));
+        //.splineToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.4, SPECIMEN_DROP_POS_YYYY), Math.toRadians(SPECIMEN_DROP_POS_HEADING));
+        parkPos = parkTraj.build();
 
 
 
@@ -265,6 +273,20 @@ public class RightAuto extends RightAutoPosValues {
             }
         };
 
+        specimenCollectInParallelAction = new Action(){
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                AZUtil.runInParallel(new Runnable() {
+                    @Override
+                    public void run() {
+                        specimenTool.rightAutoSpecimenCollect();
+
+                    }
+                });
+                return false;
+            }
+        };
+
         afterDropSpecimenCollectAction = new Action(){
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
@@ -290,7 +312,7 @@ public class RightAuto extends RightAutoPosValues {
                 AZUtil.runInParallel(new Runnable() {
                     @Override
                     public void run() {
-                        sleep(2000);
+                        sleep(1000);
                         specimenTool.rightAutoSpecimenHangPos();
                     }
                 });
@@ -343,6 +365,7 @@ public class RightAuto extends RightAutoPosValues {
 
                         raiseCandyCaneAction,
                         spikeMarkPos1,
+                        specimenCollectInParallelAction,
                         lowerCandyCaneAction,
                         new SleepAction(0.45),
                         observationZoneDropPos1,
@@ -361,7 +384,6 @@ public class RightAuto extends RightAutoPosValues {
 
                         resetCandyCaneAction,
                         observationZonePos1,
-                        specimenCollectAction,
                         observationZonePos1_1,
                         specimenToolDropAfterPickupAction,
                         specimenDropPos2,
@@ -378,11 +400,14 @@ public class RightAuto extends RightAutoPosValues {
                         specimenToolDropAfterPickupAction,
                         specimenDropPos4,
                         releaseSpecimenAction,
+
+
                         afterDropSpecimenCollectAction,
                         observationZonePos4,
                         specimenToolDropAfterPickupAction,
                         specimenDropPos5,
-                        releaseSpecimenAction
+                        releaseSpecimenAction,
+                        parkPos
 
                 )
         );

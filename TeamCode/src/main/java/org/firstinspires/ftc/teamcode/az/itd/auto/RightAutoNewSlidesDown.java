@@ -43,7 +43,7 @@ public class RightAutoNewSlidesDown extends LinearOpMode {
 
 
     public static final double SPECIMEN_DROP_POS_XXXX = 27;
-    public static final int SPECIMEN_DROP_POS_YYYY = 14;
+    public static final int SPECIMEN_DROP_POS_YYYY = 12;
     public static final int SPECIMEN_DROP_POS_HEADING = 180;
     public static final int SPIKE_MARK_POS_XXXX = 20;
     public static final int OBS_ZONE_POS_YYYY = -29;

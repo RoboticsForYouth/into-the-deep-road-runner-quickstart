@@ -310,17 +310,18 @@ public class SpecimenTool extends LinearOpMode {
     //RIGHT AUTO!!!!
     public void rightAutoSpecimenDrop() {
 //        slides.moveToPosition(Slides.SlidesPos.RESET);
-        arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP.getValue());
+        arm.setPosAndWaitThreshold((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP.getValue());
 
-//        gripper.drop();
-//
-//        AZUtil.runInParallel(new Runnable() {
-//            @Override
-//            public void run() {
-//                sleep(500);
-//                gripper.stopPower();
-//            }
-//        });
+        gripper.drop();
+        sleep(100);
+
+        AZUtil.runInParallel(new Runnable() {
+            @Override
+            public void run() {
+                sleep(500);
+                gripper.stopPower();
+            }
+        });
 
     }
 

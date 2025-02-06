@@ -82,7 +82,7 @@ public class DoubleArm extends LinearOpMode {
 
         //--------------------------------------------------------------------------------------------------------------------
 
-        RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN((int)(70 * ARM_CONVERSION_FACTOR)), //(600)
+        RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN((int)(75 * ARM_CONVERSION_FACTOR)), //(600)
 
         //--------------------------------------------------------------------------------------------------------------------
         //RIGHT AUTO!!!
@@ -151,6 +151,11 @@ public class DoubleArm extends LinearOpMode {
     public void setPosAndWait(int pos){
         setPos(pos);
         AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos, 5, 3000);
+    }
+
+    public void setPosAndWaitThreshold(int pos){
+        setPos(pos);
+        AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos, 10, 3000);
     }
 
     public void setPosAndWaitLowPower(int pos){
