@@ -7,29 +7,48 @@ public abstract class RightAutoPosValues extends LinearOpMode {
 
 
 
-    Vector2d specimenDrop1 =   new Vector2d(25.2,13);
+    Vector2d specimenDrop1 = new Vector2d(25.2,13);
 
-    Vector2d spikeMark1 =      new Vector2d(17, -22);
-    public static final int SPIKE_MARK_HEADING_ONE = -30;
-
-
-    public static final int      HOCKEY_HEADING_ONE = -107;
+    Vector2d spikeMark1 =    new Vector2d(17, -22);
+    public static final int   SPIKE_MARK_HEADING_1 = -30;
 
 
-    Vector2d spikeMark2 =      new Vector2d(21, -33);
-    public static final int SPIKE_MARK_HEADING_TWO = -37;
+    public static final int      HOCKEY_HEADING_1 = -107;
 
-    public static final int      HOCKEY_HEADING_TWO = -107;
 
-    Vector2d spikeMark3 =    new Vector2d(23, -35.5);
-    public static final int SPIKE_MARK_HEADING_THREE = -48;
+    Vector2d spikeMark2 = new     Vector2d(21, -33);
+    public static final int    SPIKE_MARK_HEADING_2 = -37;
 
-    public static final int    HOCKEY_HEADING_THREE = -132;
+    public static final int       HOCKEY_HEADING_2 = -107;
 
-    Vector2d obsZone1 = new Vector2d(7, -33);
-    public static final int OBS_ZONE_HEADING_ONE = 180;
+    Vector2d spikeMark3 =   new Vector2d(23, -35.5);
+    public static final int    SPIKE_MARK_HEADING_3 = -48;
 
-    public static final int OBS_ZONE_ONE_XXXX = 2;
+    public static final int       HOCKEY_HEADING_3 = -132;
+
+    Vector2d obsZone1 =        new Vector2d(7, -33);
+    public static final int      OBS_ZONE_HEADING_1 = 180;
+
+    public static final int           OBS_ZONE_1_XXXX = 2;
+
+    Vector2d specimenDrop2 = new Vector2d(26.2, 11);
+
+    Vector2d obsZone2 =        new Vector2d(2, -33);
+
+    Vector2d specimenDrop3 =  new Vector2d(24.9, 9);
+
+    Vector2d obsZone3 =        new Vector2d(2, -33);
+
+    Vector2d specimenDrop4 =  new Vector2d(24.9, 7);
+
+    Vector2d obsZone4 =        new Vector2d(2, -33);
+
+    Vector2d specimenDrop5 =  new Vector2d(24.6, 5);
+
+    Vector2d park =            new Vector2d(2, -33);
+
+
+
 
 
 

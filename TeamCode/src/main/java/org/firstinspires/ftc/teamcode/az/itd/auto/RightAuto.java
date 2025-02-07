@@ -11,7 +11,6 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TurnConstraints;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -40,14 +39,8 @@ public class RightAuto extends RightAutoPosValues {
 
 
 
-
-    public static final double SPECIMEN_DROP_POS_XXXX = 25.2;
-    public static final int SPECIMEN_DROP_POS_YYYY = 13;
     public static final int SPECIMEN_DROP_POS_HEADING = 180;
-    public static final int SPIKE_MARK_POS_XXXX = 20;
-    public static final int OBS_ZONE_POS_YYYY = -33;
-    public static final double OBS_ZONE_POS_1_XXXX = 2;
-    public static final int OBS_ZONE_DROP_HEADING = -140;
+
     ElapsedTime runtime = new ElapsedTime();
 
 
@@ -130,40 +123,40 @@ public class RightAuto extends RightAutoPosValues {
 
 
         TrajectoryActionBuilder spikeMarkTraj1 = specimenDropTraj1.endTrajectory().fresh()
-                .strafeToLinearHeading(spikeMark1, Math.toRadians(SPIKE_MARK_HEADING_ONE));
+                .strafeToLinearHeading(spikeMark1, Math.toRadians(SPIKE_MARK_HEADING_1));
 //                .splineToLinearHeading(new Pose2d(SPIKE_MARK_POS_XXXX-3, -24, Math.toRadians(-30)), 0);
         spikeMarkPos1 = spikeMarkTraj1.build();
 
         TrajectoryActionBuilder observationZoneDropTraj1 = spikeMarkTraj1.endTrajectory().fresh()
-                .turnTo(Math.toRadians(HOCKEY_HEADING_ONE), fasterTurnConstraints);
+                .turnTo(Math.toRadians(HOCKEY_HEADING_1), fasterTurnConstraints);
         observationZoneDropPos1 = observationZoneDropTraj1.build();
 
         TrajectoryActionBuilder spikeMarkTraj2 = observationZoneDropTraj1.endTrajectory().fresh()
-                .strafeToLinearHeading(spikeMark2, Math.toRadians(SPIKE_MARK_HEADING_TWO));
+                .strafeToLinearHeading(spikeMark2, Math.toRadians(SPIKE_MARK_HEADING_2));
                 //.splineToLinearHeading(new Pose2d(SPIKE_MARK_POS_XXXX+1, OBS_ZONE_POS_YYYY, Math.toRadians(-37)), 0);
         spikeMarkPos2 = spikeMarkTraj2.build();
 
         TrajectoryActionBuilder observationZoneDropTraj2 = spikeMarkTraj2.endTrajectory().fresh()
-                .turnTo(Math.toRadians(HOCKEY_HEADING_TWO), fasterTurnConstraints);
+                .turnTo(Math.toRadians(HOCKEY_HEADING_2), fasterTurnConstraints);
         observationZoneDropPos2 = observationZoneDropTraj2.build();
 
         TrajectoryActionBuilder spikeMarkTraj3 = observationZoneDropTraj2.endTrajectory().fresh()
-                .strafeToLinearHeading(spikeMark3, Math.toRadians(SPIKE_MARK_HEADING_THREE));
+                .strafeToLinearHeading(spikeMark3, Math.toRadians(SPIKE_MARK_HEADING_3));
 //                .splineToLinearHeading(new Pose2d(SPIKE_MARK_POS_XXXX+3, -37, Math.toRadians(-45)), 0);
         spikeMarkPos3 = spikeMarkTraj3.build();
 
         TrajectoryActionBuilder observationZoneDropTraj3 = spikeMarkTraj3.endTrajectory().fresh()
-                .turnTo(Math.toRadians(HOCKEY_HEADING_THREE), turnConstraints);
+                .turnTo(Math.toRadians(HOCKEY_HEADING_3), turnConstraints);
         observationZoneDropPos3 = observationZoneDropTraj3.build();
 
 
         TrajectoryActionBuilder observationZoneTraj1 = observationZoneDropTraj3.endTrajectory().fresh()
-                .strafeToLinearHeading(obsZone1, Math.toRadians(OBS_ZONE_HEADING_ONE));
+                .strafeToLinearHeading(obsZone1, Math.toRadians(OBS_ZONE_HEADING_1));
 //                .splineToLinearHeading(new Pose2d(OBS_ZONE_POS_XXXX, OBS_ZONE_POS_YYYY, Math.toRadians(SPECIMEN_DROP_POS_HEADING)), 0);
         observationZonePos1 = observationZoneTraj1.build();
 
         TrajectoryActionBuilder observationZoneTraj1_1 = observationZoneTraj1.endTrajectory().fresh()
-                .lineToX(OBS_ZONE_ONE_XXXX);
+                .lineToX(OBS_ZONE_1_XXXX);
         observationZonePos1_1 = observationZoneTraj1_1.build();
 
 
@@ -171,13 +164,13 @@ public class RightAuto extends RightAutoPosValues {
 
 
         TrajectoryActionBuilder specimenDropTraj2 = observationZoneTraj1_1.endTrajectory().fresh()
-                .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+1, SPECIMEN_DROP_POS_YYYY-2));
+                .strafeToConstantHeading(specimenDrop2);
                 //.splineToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.1, SPECIMEN_DROP_POS_YYYY), Math.toRadians(SPECIMEN_DROP_POS_HEADING));
         specimenDropPos2 = specimenDropTraj2.build();
 
         TrajectoryActionBuilder observationZoneTraj2 = specimenDropTraj2.endTrajectory().fresh()
 //                .splineToLinearHeading(new Pose2d(OBS_ZONE_POS_XXXX, OBS_ZONE_POS_YYYY, Math.toRadians(SPECIMEN_DROP_POS_HEADING)), 0);
-                .strafeToConstantHeading(new Vector2d(OBS_ZONE_POS_1_XXXX, OBS_ZONE_POS_YYYY));
+                .strafeToConstantHeading(obsZone2);
         observationZonePos2 = observationZoneTraj2.build();
 
 
@@ -186,13 +179,13 @@ public class RightAuto extends RightAutoPosValues {
 
 
         TrajectoryActionBuilder specimenDropTraj3 = observationZoneTraj2.endTrajectory().fresh()
-                .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX-0.3, SPECIMEN_DROP_POS_YYYY-4));
+                .strafeToConstantHeading(specimenDrop3);
                 //.splineToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.2, SPECIMEN_DROP_POS_YYYY), Math.toRadians(SPECIMEN_DROP_POS_HEADING));
         specimenDropPos3 = specimenDropTraj3.build();
 
         TrajectoryActionBuilder observationZoneTraj3 = specimenDropTraj3.endTrajectory().fresh()
 //                .splineToLinearHeading(new Pose2d(OBS_ZONE_POS_XXXX, OBS_ZONE_POS_YYYY, Math.toRadians(SPECIMEN_DROP_POS_HEADING)), 0);
-                .strafeToConstantHeading(new Vector2d(OBS_ZONE_POS_1_XXXX, OBS_ZONE_POS_YYYY));
+                .strafeToConstantHeading(obsZone3);
         observationZonePos3 = observationZoneTraj3.build();
 
 
@@ -200,13 +193,13 @@ public class RightAuto extends RightAutoPosValues {
 
 
         TrajectoryActionBuilder specimenDropTraj4 = observationZoneTraj3.endTrajectory().fresh()
-                .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX-0.3, SPECIMEN_DROP_POS_YYYY-6));
+                .strafeToConstantHeading(specimenDrop4);
                 //.splineToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.3, SPECIMEN_DROP_POS_YYYY), Math.toRadians(SPECIMEN_DROP_POS_HEADING));
         specimenDropPos4 = specimenDropTraj4.build();
 
         TrajectoryActionBuilder observationZoneTraj4 = specimenDropTraj4.endTrajectory().fresh()
 //                .splineToLinearHeading(new Pose2d(OBS_ZONE_POS_XXXX, OBS_ZONE_POS_YYYY, Math.toRadians(SPECIMEN_DROP_POS_HEADING)), 0);
-                .strafeToConstantHeading(new Vector2d(OBS_ZONE_POS_1_XXXX, OBS_ZONE_POS_YYYY));
+                .strafeToConstantHeading(obsZone4);
         observationZonePos4 = observationZoneTraj4.build();
 
 
@@ -214,13 +207,13 @@ public class RightAuto extends RightAutoPosValues {
 
 
         TrajectoryActionBuilder specimenDropTraj5 = observationZoneTraj4.endTrajectory().fresh()
-                .strafeToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX-0.6, SPECIMEN_DROP_POS_YYYY-8));
+                .strafeToConstantHeading(specimenDrop5);
                 //.splineToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.4, SPECIMEN_DROP_POS_YYYY), Math.toRadians(SPECIMEN_DROP_POS_HEADING));
         specimenDropPos5 = specimenDropTraj5.build();
 
 
         TrajectoryActionBuilder parkTraj = observationZoneTraj4.endTrajectory().fresh()
-                .strafeToConstantHeading(new Vector2d(2, -33));
+                .strafeToConstantHeading(park);
         //.splineToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.4, SPECIMEN_DROP_POS_YYYY), Math.toRadians(SPECIMEN_DROP_POS_HEADING));
         parkPos = parkTraj.build();
 

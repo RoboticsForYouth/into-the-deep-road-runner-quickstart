@@ -65,9 +65,9 @@ public class Slides extends LinearOpMode {
 
         //--------------------------------------------------------------------------------------------------------------------
         //LEFT AUTO!!!
-        LEFT_AUTO_PICKUP_FIRST(1100),
-        LEFT_AUTO_PICKUP_SECOND(1350),
-        LEFT_AUTO_PICKUP_THIRD(1550),
+        LEFT_AUTO_PICKUP_FIRST(1050),
+        LEFT_AUTO_PICKUP_SECOND(1250),
+        LEFT_AUTO_PICKUP_THIRD(1050),
          LEFT_AUTO_BASKET_DROP(2500),
         LEFT_AUTO_INTERMEDIATE_PICKUP(700),
 

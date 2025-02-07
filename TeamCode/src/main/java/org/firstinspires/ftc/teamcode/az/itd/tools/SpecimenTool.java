@@ -198,10 +198,7 @@ public class SpecimenTool extends LinearOpMode {
     //extend by a factor between 0 and 1
 
     public void teleOpSpecimenHangPos() {
-
         arm.setArmPos(DoubleArm.DoubleArmPos.TELEOP_SPECIMEN_DROP);
-
-
         slides.moveToPosition(Slides.SlidesPos.TELEOP_SPECIMEN_DROP);
         gripper.teleOpSpecimenDropPos();
 //        gripper.specimenDrop();
@@ -460,12 +457,6 @@ public class SpecimenTool extends LinearOpMode {
 
         Slides.SlidesPos  slidePos ;
         DoubleArm.DoubleArmPos doubleArmPos ;
-        public String toString(){
-            return new StringBuffer("CurrentState:")
-                    .append(", SlidePos").append(slidePos)
-                    .append(", ArmPos").append(doubleArmPos).toString();
-
-        }
 
     }
 
@@ -498,13 +489,6 @@ public class SpecimenTool extends LinearOpMode {
 
         Slides.SlidesPos  slidePos ;
         DoubleArm.DoubleArmPos doubleArmPos ;
-        public String toString(){
-            return new StringBuffer("CurrentState:")
-                    .append(", SlidePos").append(slidePos)
-                    .append(", ArmPos").append(doubleArmPos).toString();
-
-        }
-
     }
 
 
@@ -521,12 +505,12 @@ public class SpecimenTool extends LinearOpMode {
                 tool.dropHighBasket();
             }
         },
-        EJECT(DoubleArm.DoubleArmPos.SPECIMEN_ARM_CLIP, Slides.SlidesPos.SPECIMEN_CLIP){
-            @Override
-            public void execute(SpecimenTool tool) {
-                tool.teleOpEject();
-            }
-        },
+        //EJECT(DoubleArm.DoubleArmPos.SPECIMEN_ARM_CLIP, Slides.SlidesPos.SPECIMEN_CLIP){
+            //@Override
+            //public void execute(SpecimenTool tool) {
+                //tool.teleOpEject();
+           // }
+       // },
 
         HIGH_TO_MOVE(DoubleArm.DoubleArmPos.SPECIMEN_ARM_CLIP, Slides.SlidesPos.SPECIMEN_CLIP){
             @Override
@@ -544,13 +528,6 @@ public class SpecimenTool extends LinearOpMode {
 
         Slides.SlidesPos  slidePos ;
         DoubleArm.DoubleArmPos doubleArmPos ;
-        public String toString(){
-            return new StringBuffer("CurrentState:")
-                    .append(", SlidePos").append(slidePos)
-                    .append(", ArmPos").append(doubleArmPos).toString();
-
-        }
-
     }
 
 

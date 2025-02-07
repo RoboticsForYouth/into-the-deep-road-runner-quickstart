@@ -5,7 +5,6 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.az.itd.tools.CandyCane;
 import org.firstinspires.ftc.teamcode.az.itd.tools.DoubleArm;
@@ -16,11 +15,8 @@ import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
 @TeleOp
 public class SpecimenTeleOpCombined extends LinearOpMode {
     static final boolean FIELD_CENTRIC = false;
-    Gamepad currentGamepad1 = new Gamepad();
-    Gamepad currentGamepad2 = new Gamepad();
 
-    Gamepad previousGamepad1 = new Gamepad();
-    Gamepad previousGamepad2 = new Gamepad();
+
 
 
     DoubleArm arm = null;
@@ -58,25 +54,12 @@ public class SpecimenTeleOpCombined extends LinearOpMode {
     //I want to be able to execute commands after a specified delay. the commands
     @Override
     public void runOpMode() throws InterruptedException {
-        // Store the gamepad values from the previous loop iteration in
-        // previousGamepad1/2 to be used in this loop iteration.
-        // This is equivalent to doing this at the end of the previous
-        // loop iteration, as it will run in the same order except for
-        // the first/last iteration of the loop.
-        previousGamepad1.copy(currentGamepad1);
-        previousGamepad2.copy(currentGamepad2);
 
-        // Store the gamepad values from this loop iteration in
-        // currentGamepad1/2 to be used for the entirety of this loop iteration.
-        // This prevents the gamepad values from changing between being
-        // used and stored in previousGamepad1/2.
-        currentGamepad1.copy(gamepad1);
-        currentGamepad2.copy(gamepad2);
 
         GamepadEx driverOp = new GamepadEx(gamepad1);
 
 
-        MecanumDrive drive = new MecanumDrive(
+        drive = new MecanumDrive(
                 new Motor(hardwareMap, "frontLeft", Motor.GoBILDA.RPM_435),
                 new Motor(hardwareMap, "frontRight", Motor.GoBILDA.RPM_435),
                 new Motor(hardwareMap, "backLeft", Motor.GoBILDA.RPM_435),
@@ -104,13 +87,7 @@ public class SpecimenTeleOpCombined extends LinearOpMode {
 
         while (!isStopRequested()) {
 
-            previousGamepad1.copy(currentGamepad1);
-            previousGamepad2.copy(currentGamepad2);
-
-            currentGamepad1.copy(gamepad1);
-            currentGamepad2.copy(gamepad2);
-
-            if (currentGamepad1.a) { //x
+            if (gamepad1.a) { //x
                 if(!buttonAProcessing ){
                     AZUtil.runInParallel(new Runnable() {
                         @Override
@@ -136,9 +113,8 @@ public class SpecimenTeleOpCombined extends LinearOpMode {
 
 
             //drop the specimen
-            if (currentGamepad1.b && !previousGamepad1.b) { //circle
+            if (gamepad1.b) { //circle
                 if(!buttonBProcessing){
-
                     AZUtil.runInParallel(new Runnable() {
                         @Override
                         public void run() {
@@ -152,7 +128,7 @@ public class SpecimenTeleOpCombined extends LinearOpMode {
                 }
             }
 
-            if(currentGamepad1.dpad_down & !previousGamepad1.dpad_down){
+            if(gamepad1.dpad_down){
                 if(!dpadDownProcessing) {
                     AZUtil.runInParallel(new Runnable() {
                         @Override
@@ -169,7 +145,7 @@ public class SpecimenTeleOpCombined extends LinearOpMode {
 
             //Sample
 
-            if(currentGamepad1.right_bumper && !previousGamepad1.right_bumper){
+            if(gamepad1.right_bumper){
                 if(!rightBumperProcessing) {
                     AZUtil.runInParallel(new Runnable() {
                         @Override
@@ -187,7 +163,7 @@ public class SpecimenTeleOpCombined extends LinearOpMode {
 
             //Specimen
 
-            if(currentGamepad1.y && !previousGamepad1.y){
+            if(gamepad1.y){
                 if(!buttonYProcessing) {
 
                     AZUtil.runInParallel(new Runnable() {
@@ -219,6 +195,27 @@ public class SpecimenTeleOpCombined extends LinearOpMode {
                 }
             }
 
+            if(gamepad1.x){ //square
+                if(!buttonXProcessing){
+                    AZUtil.runInParallel(new Runnable() {
+                        @Override
+                        public void run() {
+                            buttonXProcessing = true;
+
+                            if(arm.getCurrentPosition() < 500) {
+                                specimenTool.collectVertical();
+
+                            }
+                            else {
+                                //change order of resetPos to ensure that slides do not hit the basket
+                                specimenTool.teleOpHighResetVertical();
+                            }
+                            buttonXProcessing = false;
+                        }
+                    });
+                }
+            }
+
             if(gamepad1.left_bumper){
                 if( !leftBumperProcessing){
                     AZUtil.runInParallel(new Runnable() {
@@ -233,10 +230,6 @@ public class SpecimenTeleOpCombined extends LinearOpMode {
 
             }
 
-
-
-
-
                 drive.driveRobotCentric(
                         -driverOp.getLeftX(),
                         -driverOp.getLeftY(),
@@ -248,24 +241,23 @@ public class SpecimenTeleOpCombined extends LinearOpMode {
         }
 
     private void cycleToNextStateSample(){
-        // Cycle to the next state in the SampleState enum
+
         SpecimenTool.SampleState[] states = SpecimenTool.SampleState.values();
-        int nextStateOrdinal = (currentSampleState.ordinal() + 1) % states.length;  // Loop back to the first state
+        int nextStateOrdinal = (currentSampleState.ordinal() + 1) % states.length;
         currentSampleState = states[nextStateOrdinal];
     }
 
     private void cycleToNextSpecimenState(){
         SpecimenTool.SpecimenState[] states = SpecimenTool.SpecimenState.values();
-        int nextStateOrdinal = (currentSpecimenState.ordinal() + 1) % states.length;  // Loop back to the first state
+        int nextStateOrdinal = (currentSpecimenState.ordinal() + 1) % states.length;
         currentSpecimenState = states[nextStateOrdinal];
 
     }
 
     private void cycleToNextHangState(){
         SpecimenTool.HangState[] states = SpecimenTool.HangState.values();
-        int nextStateOrdinal = (currentHangState.ordinal() + 1) % states.length;  // Loop back to the first state
+        int nextStateOrdinal = (currentHangState.ordinal() + 1) % states.length;
         currentHangState = states[nextStateOrdinal];
-
     }
 
 
