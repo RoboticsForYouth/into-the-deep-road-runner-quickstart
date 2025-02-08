@@ -15,8 +15,6 @@ import com.acmerobotics.roadrunner.TurnConstraints;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -30,7 +28,6 @@ import java.util.Arrays;
 
 
 @Config
-@Autonomous ( preselectTeleOp = "IntoTheDeepTeleOp")
 public class BasicLeftAuto extends LeftAutoPosValues {
     ElapsedTime runtime = new ElapsedTime();
 

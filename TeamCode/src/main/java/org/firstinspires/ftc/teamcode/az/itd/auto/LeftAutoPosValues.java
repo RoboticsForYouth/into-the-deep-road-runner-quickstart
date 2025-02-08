@@ -56,7 +56,7 @@ public abstract class LeftAutoPosValues extends LinearOpMode {
     Vector2d park1 =            new Vector2d(52, 0);
     public static final int          PARK_HEADING_1 = -90;
 
-    Vector2d park2 =          new Vector2d(52, -12);
+    Vector2d park2 =          new Vector2d(52, -13);
 
 
 

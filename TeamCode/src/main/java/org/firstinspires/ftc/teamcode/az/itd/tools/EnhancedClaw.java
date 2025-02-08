@@ -16,6 +16,7 @@ public class EnhancedClaw extends LinearOpMode {
     public static final String BLUE = "Blue";
     public static final String RED = "Red";
     public static final double INCREMENT = .01;
+    private static final double CORRECTION = .02;
     private ElapsedTime runtime = new ElapsedTime();
     private CRServo roller;
     private Servo wrist;
@@ -133,8 +134,9 @@ public class EnhancedClaw extends LinearOpMode {
     }
 
     public enum ELBOW_POS {
-        PICKUP(0.09), //0.09
-        DROP(0.5), //0.2
+        PICKUP(0.12), //0.09
+        DROP(0.55), //0.2
+        HANG_POS(0.2),
         AUTO_PICKUP(0.09), //0.2 //0.17
         RIGHT_AUTO_PICKUP(0.2),
         RIGHT_AUTO_MOVE(0.4),
@@ -206,6 +208,10 @@ public class EnhancedClaw extends LinearOpMode {
                 '}';
     }
 
+    public void setElbowPos(double pos){
+        elbow.setPosition(pos + CORRECTION);
+    }
+
     private void setup() {
         roller = linearOpMode.hardwareMap.get(CRServo.class, "roller");
         roller.setDirection(CRServo.Direction.FORWARD);
@@ -223,17 +229,17 @@ public class EnhancedClaw extends LinearOpMode {
     private void setPos(RollerPower pickup, WRIST_POS pickup1, ELBOW_POS pickup2) {
         roller.setPower(pickup.getPower());
         wrist.setPosition(pickup1.getPos());
-        elbow.setPosition(pickup2.getPos());
+        setElbowPos(pickup2.pos);
     }
 
     public void moveUp() {
         double newPos = elbow.getPosition() + INCREMENT;
-        elbow.setPosition(newPos);
+        setElbowPos(newPos);
     }
 
     public void moveDown() {
         double newPos = elbow.getPosition() - INCREMENT;
-        elbow.setPosition(newPos);
+        setElbowPos(newPos);
     }
 
 //    public void detectColorAction() {
@@ -305,21 +311,21 @@ public class EnhancedClaw extends LinearOpMode {
         roller.setPower(RollerPower.PICKUP.getPower());
         wrist.setPosition(WRIST_POS.DROP_OFF_SPECIMEN.getPos());
         sleep(500);
-        elbow.setPosition(ELBOW_POS.SPECIMEN_DROP.getPos());
+        setElbowPos(ELBOW_POS.SPECIMEN_DROP.getPos());
     }
 
     public void specimenDropPosTest() {
         roller.setPower(RollerPower.PICKUP.getPower());
         wrist.setPosition(WRIST_POS.DROP_OFF_SPECIMEN.getPos());
         sleep(500);
-        elbow.setPosition(ELBOW_POS.RESET.getPos());
+        setElbowPos(ELBOW_POS.RESET.getPos());
     }
 
     public void teleOpspecimenDropPos() {
         roller.setPower(RollerPower.PICKUP.getPower());
         wrist.setPosition(WRIST_POS.DROP_OFF_SPECIMEN.getPos());
         sleep(500);
-        elbow.setPosition(ELBOW_POS.TELEOP_SPECIMEN_DROP.getPos());
+        setElbowPos(ELBOW_POS.TELEOP_SPECIMEN_DROP.getPos());
     }
 
 
@@ -349,13 +355,13 @@ public class EnhancedClaw extends LinearOpMode {
     }
 
     public void  reset() {
-        elbow.setPosition(ELBOW_POS.RESET.getPos());
+        setElbowPos(ELBOW_POS.RESET.getPos());
         roller.setPower(RollerPower.STOP.getPower());
         wrist.setPosition(WRIST_POS.RESET.getPos());
     }
 
     public void  specimenAutoReset() {
-        elbow.setPosition(ELBOW_POS.RESET.getPos());
+        setElbowPos(ELBOW_POS.RESET.getPos());
         roller.setPower(RollerPower.PICKUP.getPower());
         wrist.setPosition(WRIST_POS.RESET.getPos());
     }
@@ -371,13 +377,19 @@ public class EnhancedClaw extends LinearOpMode {
 
     public void sampleDrop() {
         wrist.setPosition(WRIST_POS.DROP_OFF.getPos());
-        elbow.setPosition(ELBOW_POS.DROP.getPos());
+        setElbowPos(ELBOW_POS.DROP.getPos());
+        roller.setPower(RollerPower.STOP.getPower());
+    }
+
+    public void gripperHang() {
+        wrist.setPosition(WRIST_POS.DROP_OFF.getPos());
+        setElbowPos(ELBOW_POS.HANG_POS.getPos());
         roller.setPower(RollerPower.STOP.getPower());
     }
 
     public void autoSampleDrop() {
         wrist.setPosition(WRIST_POS.DROP_OFF.getPos());
-        elbow.setPosition(ELBOW_POS.AUTO_DROP.getPos());
+        setElbowPos(ELBOW_POS.AUTO_DROP.getPos());
         roller.setPower(RollerPower.STOP.getPower());
     }
 
@@ -401,7 +413,7 @@ public class EnhancedClaw extends LinearOpMode {
         roller.setPower(RollerPower.PICKUP.getPower());
         wrist.setPosition(WRIST_POS.TELEOP_DROP_OFF_SPECIMEN.getPos());
 //        sleep(500);
-        elbow.setPosition(ELBOW_POS.TELEOP_SPECIMEN_DROP.getPos());
+        setElbowPos(ELBOW_POS.TELEOP_SPECIMEN_DROP.getPos());
     }
 
 
@@ -411,13 +423,13 @@ public class EnhancedClaw extends LinearOpMode {
     //--------------------------------------------------------------------------------------------------------------------
     //LEFT AUTO!!!
     public void  leftAutoReset() {
-        elbow.setPosition(ELBOW_POS.LEFT_AUTO_RESET.getPos());
+        setElbowPos(ELBOW_POS.LEFT_AUTO_RESET.getPos());
         roller.setPower(RollerPower.PICKUP.getPower());
         wrist.setPosition(WRIST_POS.LEFT_AUTO_RESET.getPos());
     }
 
     public void leftAutoSampleDrop() {
-        elbow.setPosition(ELBOW_POS.LEFT_AUTO_DROP.getPos());
+        setElbowPos(ELBOW_POS.LEFT_AUTO_DROP.getPos());
         wrist.setPosition(WRIST_POS.LEFT_AUTO_DROP_OFF.getPos());
         sleep(700);
         roller.setPower(RollerPower.EJECT.getPower());
@@ -439,7 +451,7 @@ public class EnhancedClaw extends LinearOpMode {
         roller.setPower(RollerPower.PICKUP.getPower());
         wrist.setPosition(WRIST_POS.RIGHT_AUTO_DROP_OFF_SPECIMEN.getPos());
 //        sleep(500);
-        elbow.setPosition(ELBOW_POS.RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN.getPos());
+        setElbowPos(ELBOW_POS.RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN.getPos());
     }
     //--------------------------------------------------------------------------------------------------------------------
     //RIGHT AUTO!!!
@@ -447,14 +459,14 @@ public class EnhancedClaw extends LinearOpMode {
         roller.setPower(RollerPower.PICKUP.getPower());
         wrist.setPosition(WRIST_POS.RIGHT_AUTO_DROP_OFF_SPECIMEN.getPos());
 //        sleep(500);
-        elbow.setPosition(ELBOW_POS.RIGHT_AUTO_SPECIMEN_DROP.getPos());
+        setElbowPos(ELBOW_POS.RIGHT_AUTO_SPECIMEN_DROP.getPos());
     }
 
     public void firstRightAutoSpecimenDropPos() {
         roller.setPower(RollerPower.PICKUP.getPower());
         wrist.setPosition(WRIST_POS.RIGHT_AUTO_DROP_OFF_SPECIMEN.getPos());
 //        sleep(500);
-        elbow.setPosition(ELBOW_POS.FIRST_RIGHT_AUTO_SPECIMEN_DROP.getPos());
+        setElbowPos(ELBOW_POS.FIRST_RIGHT_AUTO_SPECIMEN_DROP.getPos());
     }
 
     public void rightAutoSpecimenPickUp() {

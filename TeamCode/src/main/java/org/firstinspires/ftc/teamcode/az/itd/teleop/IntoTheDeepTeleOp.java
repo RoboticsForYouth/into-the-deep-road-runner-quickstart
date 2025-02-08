@@ -21,9 +21,10 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
     CandyCane candyCane = null;
 //    Slides slides = null;
     private boolean gamepad2DpadUpProcessing;
+    private boolean gamepad2DpadRightProcessing;
+
     private boolean gamepad2dpadDownProcessing;
     private boolean dpadUpProcessing;
-    private boolean gamepad2DpadDownProcessing;
     private boolean dpadRightProcessing;
     private boolean dpadLeftProcessing;
 
@@ -31,13 +32,21 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
     private boolean gamepad2ButtonAProcessing;
 
     private boolean buttonBProcessing;
+    private boolean gamepad2ButtonBProcessing;
+
     private boolean buttonXProcessing;
+    private boolean gamepad2ButtonXProcessing;
+    private boolean gamepad2ButtonYProcessing;
+
+
     private boolean buttonYProcessing;
     private boolean rightTriggerProcessing;
     private boolean leftTriggerProcessing;
     private boolean rightBumperProcessing;
     private boolean leftBumperProcessing;
     private boolean dpadDownProcessing;
+
+    private SpecimenTool.HangState currentHangState;
 
     GamepadEx gamepadEx1;
     GamepadEx gamepadEx2;
@@ -65,6 +74,11 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         gamepadEx1 = new GamepadEx(gamepad1);
         gamepadEx2 = new GamepadEx(gamepad2);
         GamepadEx driverOp = new GamepadEx(gamepad1);
+        currentHangState = SpecimenTool.HangState.BASE;
+
+        candyCane.reset();
+
+
 
         // the extended gamepad object
 
@@ -74,7 +88,16 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
         specimenTool.teleOpSpecimenToolInit();
 
+        currentHangState.execute(specimenTool);
+
         while (!isStopRequested()) {
+
+            drive.driveRobotCentric(
+                    -driverOp.getLeftX(),
+                    -driverOp.getLeftY(),
+                    -driverOp.getRightX(),
+                    false
+            );
 
 
 //            slides = new Motor(hardwareMap, "slides");
@@ -94,7 +117,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                                specimenTool.teleOpHighReset();
                            }
 
-
+                           currentHangState = SpecimenTool.HangState.BASE;
                            buttonAProcessing = false;
                        }
                    });
@@ -162,7 +185,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         @Override
                         public void run() {
                             dpadDownProcessing = true;
-                            specimenTool.level2Hang();
+                            specimenTool.level2HangPart1();
                             dpadDownProcessing = false;
                         }
                     });
@@ -171,19 +194,66 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             }
 
             //resetPos to initialize position
-            if(gamepad2.dpad_down){
-                if( !gamepad2dpadDownProcessing){
+            if(gamepad2.b){
+                if( !gamepad2ButtonBProcessing){
                     AZUtil.runInParallel(new Runnable() {
                         @Override
                         public void run() {
-                            gamepad2dpadDownProcessing = true;
+                            gamepad2ButtonBProcessing = true;
                             specimenTool.reset();
-                            gamepad2dpadDownProcessing = false;
+                            gamepad2ButtonBProcessing = false;
                         }
                     });
                 }
 
             }
+
+            if(gamepad2.y){
+                if( !gamepad2ButtonYProcessing){
+                    AZUtil.runInParallel(new Runnable() {
+                        @Override
+                        public void run() {
+                            gamepad2ButtonYProcessing = true;
+                            candyCane.reset();
+                            gamepad2ButtonYProcessing = false;
+                        }
+                    });
+                }
+
+            }
+
+            if(gamepad2.x){
+                if( !gamepad2ButtonXProcessing){
+                    AZUtil.runInParallel(new Runnable() {
+                        @Override
+                        public void run() {
+                            gamepad2ButtonXProcessing = true;
+                            candyCane.teleOpRaise();
+                            gamepad2ButtonXProcessing = false;
+                        }
+                    });
+                }
+
+            }
+
+            if(gamepad2.dpad_up){
+                specimenTool.slides.moveUpSlow();
+            }
+
+            if(gamepad2.dpad_down){
+                specimenTool.slides.moveDownSlow();
+            }
+
+            if( gamepad2.dpad_left){
+                specimenTool.arm.moveDownSlow();
+            }
+
+            if( gamepad2.dpad_right){
+                specimenTool.arm.moveUpSlow();
+            }
+
+
+
 
             //set to high basket
             if( gamepad1.dpad_right){
@@ -275,15 +345,13 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             }
 
 
-                drive.driveRobotCentric(
-                        -driverOp.getLeftX(),
-                        -driverOp.getLeftY(),
-                        -driverOp.getRightX(),
-                        false
-                );
-
 //            specimenTool.printPos(telemetry);
         }
+    }
+    private void cycleToNextHangState(){
+        SpecimenTool.HangState[] states = SpecimenTool.HangState.values();
+        int nextStateOrdinal = (currentHangState.ordinal() + 1) % states.length;
+        currentHangState = states[nextStateOrdinal];
     }
 
 }

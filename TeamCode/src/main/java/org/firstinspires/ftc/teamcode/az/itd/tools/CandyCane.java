@@ -18,7 +18,9 @@ public class CandyCane extends LinearOpMode {
         RIGHT_AUTO_RAISE(0.1),
         LEFT_AUTO_LEVEL_ONE_ASCENT(0.25),
         PRE_LEFT_AUTO_LEVEL_ONE_ASCENT(0.4),
-        RESET(0.65);
+        RESET(0.65),
+        TELE_OP_RAISE(0.45);
+
 
         public double getValue() {
             return value;
@@ -50,6 +52,10 @@ public class CandyCane extends LinearOpMode {
 
     public void reset() {
         candyCane.setPosition(CandyCanePos.RESET.getValue());
+    }
+
+    public void teleOpRaise() {
+        candyCane.setPosition(CandyCanePos.TELE_OP_RAISE.getValue());
     }
 
 

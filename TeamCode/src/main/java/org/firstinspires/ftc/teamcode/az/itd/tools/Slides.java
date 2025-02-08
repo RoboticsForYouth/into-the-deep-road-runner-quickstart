@@ -39,16 +39,21 @@ public class Slides extends LinearOpMode {
                 .append(slideMotor2.getCurrentPosition()).toString();
     }
 
+    public void lowBasket() {
+        setPos(SlidesPos.LOW_BASKET_DROP.value);
+    }
+
     public enum SlidesPos {
 
-        LEVEL_2_HANG_START(1200),
-        LEVEL_2_HANG_END(600),
+        LEVEL_2_HANG_START(1400),
+        LEVEL_2_HANG_END(400),
         COLLECT(500),
         RIGHT_AUTO_COLLECT(1500),
 
         MOVE(400),
         SPECIMEN_COLLECT(100),
-        BASKET_DROP(2250),
+        BASKET_DROP(2350),
+        LOW_BASKET_DROP(750),
 
         SPECIMEN_PICKUP(300),
 
@@ -125,6 +130,12 @@ public class Slides extends LinearOpMode {
         AZUtil.waitUntilMotorAtPos(this, slideMotor2, pos);
     }
 
+    public void setPosAndWaitLowPower(int pos){
+        setPosLowPower(pos);
+        AZUtil.waitUntilMotorAtPos(this, slideMotor1, pos);
+        AZUtil.waitUntilMotorAtPos(this, slideMotor2, pos);
+    }
+
     public void setPosAndWaitLeftAuto(int pos){
         setPos(pos);
         AZUtil.waitUntilMotorAtPos(this, slideMotor1, pos, 10, 2000);
@@ -182,7 +193,7 @@ public class Slides extends LinearOpMode {
         setPos(position);
     }
 
-    private void resetSlidePos() {
+    public void resetSlidePos() {
         slideMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
@@ -225,17 +236,10 @@ public class Slides extends LinearOpMode {
         setPos(SlidesPos.COLLECT.value);
     }
 
-    public void collectLowPower() {
-        setPosLowPower(SlidesPos.COLLECT.value);
-    }
-
-    public void rightAutoCollect() {
-        setPosAndWait(SlidesPos.RIGHT_AUTO_COLLECT.value);
-    }
-
     public void specimenCollect() {
         setPos(SlidesPos.SPECIMEN_COLLECT.value);
     }
+
 
 
     //--------------------------------------------------------------------------------------------------------------------

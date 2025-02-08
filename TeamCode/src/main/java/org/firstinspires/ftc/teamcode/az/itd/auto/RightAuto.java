@@ -32,9 +32,9 @@ public class RightAuto extends RightAutoPosValues {
             (Math.PI)*2);
 
     TurnConstraints fasterTurnConstraints = new TurnConstraints(
-            (Math.PI)*2.5,
-            -(Math.PI)*2.5,
-            (Math.PI)*2.5);
+            (Math.PI)*3,
+            -(Math.PI)*3,
+            (Math.PI)*3);
 
 
 
@@ -76,6 +76,7 @@ public class RightAuto extends RightAutoPosValues {
     private Action observationZonePos1_1;
     private Action specimenCollectInParallelAction;
     private Action parkPos;
+    private Action resetSpecimenToolAction;
 
 
 
@@ -341,10 +342,18 @@ public class RightAuto extends RightAutoPosValues {
             }
         };
 
-
+        resetSpecimenToolAction = new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                specimenTool.rightAutoResetEnd();
+                return false;
+            }
+        };
 
 
     }
+
+
 
 
     public void runOpMode() throws InterruptedException {
@@ -360,19 +369,19 @@ public class RightAuto extends RightAutoPosValues {
                         spikeMarkPos1,
                         specimenCollectInParallelAction,
                         lowerCandyCaneAction,
-                        new SleepAction(0.45),
+                        new SleepAction(0.3),
                         observationZoneDropPos1,
 
                         raiseCandyCaneAction,
                         spikeMarkPos2,
                         lowerCandyCaneAction,
-                        new SleepAction(0.45),
+                        new SleepAction(0.3),
                         observationZoneDropPos2,
 
                         raiseCandyCaneAction,
                         spikeMarkPos3,
                         lowerCandyCaneAction,
-                        new SleepAction(0.45),
+                        new SleepAction(0.3),
                         observationZoneDropPos3,
 
                         resetCandyCaneAction,
@@ -400,6 +409,7 @@ public class RightAuto extends RightAutoPosValues {
                         specimenToolDropAfterPickupAction,
                         specimenDropPos5,
                         releaseSpecimenAction,
+                        resetSpecimenToolAction,
                         parkPos
 
                 )

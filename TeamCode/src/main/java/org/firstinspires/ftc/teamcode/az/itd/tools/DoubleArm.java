@@ -31,6 +31,7 @@ public class DoubleArm extends LinearOpMode {
     PIDFCoefficients pidfCoefficients = new PIDFCoefficients(kP, kI, kD, kF);
 
     private int currentPosValue;
+    private Slides slides;
 
 //    public DoubleArm() {
 //        super();
@@ -56,14 +57,17 @@ public class DoubleArm extends LinearOpMode {
         //multiple 1.39 times when we replace 435 motor with 312 motor
         RESET(0),
         COLLECT((int)(18 * ARM_CONVERSION_FACTOR)),  //(-785),
-        LOW_BASKET_DROP((int)(60 * ARM_CONVERSION_FACTOR)),
+        LOW_BASKET_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
 
         SPECIMEN_DROP((int)(92 * ARM_CONVERSION_FACTOR)), //(600),
         SPECIMEN_DROP_INTEMEDIATE((int)(20 * ARM_CONVERSION_FACTOR)), //(600),
         SPECIMEN_PICKUP_UP((int)(0*ARM_CONVERSION_FACTOR)),
         SPECIMEN_ARM_CLIP((int)(90 * ARM_CONVERSION_FACTOR)),
 
+        PRE_LEVEL_TWO_HANG((int)(75*ARM_CONVERSION_FACTOR)),
         LEVEL_TWO_HANG((int)(90 * ARM_CONVERSION_FACTOR)),
+        LEVEL_TWO_HANG_PART_TWO((int)(10 * ARM_CONVERSION_FACTOR)),
+
 
         MOVE((int)(16 * ARM_CONVERSION_FACTOR)), //(-450),
         BASKET_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
@@ -75,9 +79,9 @@ public class DoubleArm extends LinearOpMode {
 
         //--------------------------------------------------------------------------------------------------------------------
         //LEFT AUTO!!!
-        LEFT_AUTO_PICKUP_FIRST((int)(13 * ARM_CONVERSION_FACTOR)),
-        LEFT_AUTO_PICKUP_SECOND((int)(14 * ARM_CONVERSION_FACTOR)),
-        LEFT_AUTO_PICKUP_THIRD((int)(15 * ARM_CONVERSION_FACTOR)),
+        LEFT_AUTO_PICKUP_FIRST((int)(12 * ARM_CONVERSION_FACTOR)),
+        LEFT_AUTO_PICKUP_SECOND((int)(13 * ARM_CONVERSION_FACTOR)),
+        LEFT_AUTO_PICKUP_THIRD((int)(12 * ARM_CONVERSION_FACTOR)),
         LEFT_AUTO_BASKET_DROP((int)(95 * ARM_CONVERSION_FACTOR)),
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -90,10 +94,9 @@ public class DoubleArm extends LinearOpMode {
         RIGHT_AUTO_SPECIMEN_DROP((int)(92 * ARM_CONVERSION_FACTOR)), //(600)
         RIGHT_AUTO_SPECIMEN_PICKUP_UP((int)(0*ARM_CONVERSION_FACTOR)),
         RIGHT_AUTO_SPECIMEN_PICKUP_INTERMEDIATE_WAIT((int)(80*ARM_CONVERSION_FACTOR)),
-        RIGHT_AUTO_SPECIMEN_DROP_INTEMEDIATE((int)(20 * ARM_CONVERSION_FACTOR)) //(600)
+        RIGHT_AUTO_SPECIMEN_DROP_INTEMEDIATE((int)(20 * ARM_CONVERSION_FACTOR)); //(600)
         //--------------------------------------------------------------------------------------------------------------------
 
-        ;
 
         private final int value;
 
@@ -141,6 +144,10 @@ public class DoubleArm extends LinearOpMode {
         doubleArmMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
+    public void setSlides(Slides slides){
+        this.slides = slides;
+    }
+
     private void setPos(int pos){
         double v = pos/ARM_CONVERSION_FACTOR;
         double gravityCompensation = 0.01 * Math.cos(Math.toRadians(v));
@@ -172,7 +179,7 @@ public class DoubleArm extends LinearOpMode {
         setPos(DoubleArmPos.value);
     }
 
-    private void setPosLowPower(int pos){
+    public void setPosLowPower(int pos){
         double v = pos/ARM_CONVERSION_FACTOR;
         double gravityCompensation = 0.01 * Math.cos(Math.toRadians(v));
         double power = 1.0 + gravityCompensation;
@@ -278,7 +285,14 @@ public class DoubleArm extends LinearOpMode {
     }
     //--------------------------------------------------------------------------------------------------------------------
 
+    //--------------------------------------------------------------------------------------------------------------------
+    //RIGHT AUTO!!!
 
+    public void rightAutoReset() {
+        setPos(DoubleArmPos.RESET.value);
+    }
+
+    //--------------------------------------------------------------------------------------------------------------------
 
 
 

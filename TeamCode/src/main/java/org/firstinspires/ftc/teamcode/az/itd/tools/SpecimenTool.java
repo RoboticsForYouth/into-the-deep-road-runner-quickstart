@@ -87,16 +87,22 @@ public class SpecimenTool extends LinearOpMode {
     }
 
     public void level2HangPart1(){
+        arm.moveToPosition(DoubleArm.DoubleArmPos.PRE_LEVEL_TWO_HANG);
+        slides.setPosAndWait((int) Slides.SlidesPos.LEVEL_2_HANG_START.getValue());
+
+        sleep(1000);
         arm.moveToPosition(DoubleArm.DoubleArmPos.LEVEL_TWO_HANG);
         sleep(500);
-        slides.moveToPositionLowPower(Slides.SlidesPos.LEVEL_2_HANG_START);
+
+        slides.setPosAndWait((int) Slides.SlidesPos.LEVEL_2_HANG_END.getValue());
+        sleep(500);
+        gripper.gripperHang();
+        arm.moveToPosition(DoubleArm.DoubleArmPos.LEVEL_TWO_HANG_PART_TWO);
+
+
     }
 
-    public void level2HangPart2(){
-        slides.moveToPosition(Slides.SlidesPos.LEVEL_2_HANG_END);
-        sleep(1000);
-        arm.moveToPosition(DoubleArm.DoubleArmPos.RESET);
-    }
+
     
 
 
@@ -159,7 +165,7 @@ public class SpecimenTool extends LinearOpMode {
     public void specimenLowBasket() {
         arm.lowBasketDrop();
         sleep(1000);
-        slides.specimenCollect();
+        slides.lowBasket();
         sleep(1000);
         gripper.sampleDrop();
         sleep(500);
@@ -363,63 +369,24 @@ public class SpecimenTool extends LinearOpMode {
         gripper.rightAutoSpecimenDropPos();
 //        gripper.specimenDrop();
     }
+
+    public void rightAutoResetEnd() {
+//        gripper.move();
+//        sleep(200);
+        slides.reset();
+//        gripper.drop();
+
+        sleep(200);
+        arm.rightAutoReset();
+        gripper.reset();
+
+////        sleep(1000);
+//        sleep(1000);
+//        gripper.resetPos();
+    }
     //--------------------------------------------------------------------------------------------------------------------
 
-    public void rightAutoSpecimenHangPosNew() {
 
-        arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP);
-
-
-        slides.moveToPosition(Slides.SlidesPos.RIGHT_AUTO_SPECIMEN_DROP);
-        gripper.rightAutoSpecimenDropPos();
-//        gripper.specimenDrop();
-    }
-
-    public void rightAutoSpecimenHangPosSlidesDown() {
-
-        arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN);
-
-
-        slides.moveToPosition(Slides.SlidesPos.RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN_INITIAL);
-        gripper.rightAutoSpecimenDropPosSlidesDown();
-//        gripper.specimenDrop();
-    }
-
-    public void rightAutoSpecimenDropSlidesDown() {
-
-
-        slides.moveToPosition(Slides.SlidesPos.RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN);
-
-        sleep(700);
-
-        AZUtil.runInParallel(new Runnable() {
-            @Override
-            public void run() {
-                gripper.drop();
-                sleep(100);
-                gripper.rollerCollect();
-
-                arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_PICKUP_INTERMEDIATE_WAIT.getValue());
-                slides.reset();
-                arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_PICKUP_UP);
-                gripper.rightAutoSpecimenPickUp();
-                sleep(500);
-
-
-            }
-        });
-//        gripper.specimenDrop();
-    }
-
-    public void firstRightAutoSlidesDownSpecimenDrop() {
-//        slides.moveToPosition(Slides.SlidesPos.RESET);
-        arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP.getValue());
-
-        gripper.drop();
-
-
-
-    }
 
     public enum SpecimenState {
         BASE(DoubleArm.DoubleArmPos.COLLECT, Slides.SlidesPos.COLLECT) {
@@ -470,13 +437,15 @@ public class SpecimenTool extends LinearOpMode {
         Part1(DoubleArm.DoubleArmPos.SPECIMEN_DROP, Slides.SlidesPos.SPECIMEN_DROP) {
             @Override
             public void execute(SpecimenTool tool) {
+
                 tool.level2HangPart1();
             }
         },
         Part2(DoubleArm.DoubleArmPos.SPECIMEN_ARM_CLIP, Slides.SlidesPos.SPECIMEN_CLIP){
             @Override
             public void execute(SpecimenTool tool) {
-                tool.level2HangPart2();
+
+                tool.level2HangPart1();
             }
         };
 
