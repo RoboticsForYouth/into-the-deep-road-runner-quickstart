@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
 
@@ -275,6 +276,8 @@ public class Slides extends LinearOpMode {
 
     private void autoMode() {
 
+        ElapsedTime runtime = new ElapsedTime();
+
         telemetry.addLine("Init");
         telemetry.update();
         setup();
@@ -283,11 +286,21 @@ public class Slides extends LinearOpMode {
 
 //        teleOpTest();
 
-            setPos(SlidesPos.LEFT_AUTO_BASKET_DROP.value);
-            sleep(8000);
-            telemetry.addData("Pos1", slideMotor1.getCurrentPosition());
-            telemetry.addData("Pos2", slideMotor2.getCurrentPosition());
-            telemetry.update();
+
+        double seconds = runtime.seconds();
+
+        telemetry.addData("start time: ", String.valueOf(seconds));
+        telemetry.update();
+
+            setPosAndWaitWithTolerance((int) Slides.SlidesPos.LEFT_AUTO_BASKET_DROP.getValue(), 5);
+
+        double end_seconds = runtime.seconds();
+
+        telemetry.addData("Pos1: ", slideMotor1.getCurrentPosition());
+        telemetry.addData("Pos2: ", slideMotor2.getCurrentPosition());
+        telemetry.addData("difference time: ", String.valueOf(end_seconds - seconds));
+        telemetry.update();
+
             sleep(5000);
             setPos(0);
             sleep(5000);

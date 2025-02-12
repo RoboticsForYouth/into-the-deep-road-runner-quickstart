@@ -278,8 +278,22 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         @Override
                         public void run() {
                             rightTriggerProcessing = true;
-                            specimenTool.extend(gamepad1.right_trigger);
+                            specimenTool.slidesExtend(gamepad1.right_trigger);
                             rightTriggerProcessing = false;
+                        }
+                    });
+                }
+            }
+
+            if( gamepad1.left_trigger > 0){
+                //if not processing then perform this operation
+                if( !leftTriggerProcessing) {
+                    AZUtil.runInParallel(new Runnable() {
+                        @Override
+                        public void run() {
+                            leftTriggerProcessing = true;
+                            specimenTool.armExtend(gamepad1.right_trigger);
+                            leftTriggerProcessing = false;
                         }
                     });
                 }
@@ -300,19 +314,19 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
             }
 
-            if(gamepad1.left_bumper){
-                if( !leftBumperProcessing){
-                    AZUtil.runInParallel(new Runnable() {
-                        @Override
-                        public void run() {
-                            leftBumperProcessing = true;
-                            arm.moveDown();
-                            leftBumperProcessing = false;
-                        }
-                    });
-                }
-
-            }
+//            if(gamepad1.left_bumper){
+//                if( !leftBumperProcessing){
+//                    AZUtil.runInParallel(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            leftBumperProcessing = true;
+//                            arm.moveDown();
+//                            leftBumperProcessing = false;
+//                        }
+//                    });
+//                }
+//
+//            }
 
 
             //resetPos the slides

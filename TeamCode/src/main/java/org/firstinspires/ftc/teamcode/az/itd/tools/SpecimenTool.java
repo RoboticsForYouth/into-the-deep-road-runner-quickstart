@@ -131,11 +131,12 @@ public class SpecimenTool extends LinearOpMode {
     }
 
     public void teleOpHighReset () {
-        slides.collect();
+//        slides.collect();
         gripper.samplePickup();
-        sleep(1000);
+        slides.setPosAndWait((int) Slides.SlidesPos.COLLECT.getValue());
+
+//        sleep(1000);
         arm.collect();
-        sleep(1000);
 
     }
 
@@ -193,15 +194,19 @@ public class SpecimenTool extends LinearOpMode {
     }
 
     public void dropHighBasket() {
-        arm.moveToPosition(DoubleArm.DoubleArmPos.BASKET_DROP);
-        sleep(1000);
+        arm.setPosAndWait((int) DoubleArm.DoubleArmPos.BASKET_DROP.getValue());
+//        arm.moveToPosition(DoubleArm.DoubleArmPos.BASKET_DROP);
+//        sleep(1000);
         slides.moveToPosition(Slides.SlidesPos.BASKET_DROP);
         sleep(700);
         gripper.sampleDrop();
     }
 
-    public void extend(float factor) {slides.extend(factor);}
-    //extend by a factor between 0 and 1
+    public void slidesExtend(float factor) {slides.extend(factor);}
+    //slidesExtend by a factor between 0 and 1
+
+    public void armExtend(float factor) {arm.extend(factor);}
+    //slidesExtend by a factor between 0 and 1
 
     public void teleOpSpecimenHangPos() {
         arm.setArmPos(DoubleArm.DoubleArmPos.TELEOP_SPECIMEN_DROP);

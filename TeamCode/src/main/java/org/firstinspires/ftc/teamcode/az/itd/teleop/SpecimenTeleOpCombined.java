@@ -186,7 +186,7 @@ public class SpecimenTeleOpCombined extends LinearOpMode {
                         @Override
                         public void run() {
                             rightTriggerProcessing = true;
-                            specimenTool.extend(gamepad1.right_trigger);
+                            specimenTool.slidesExtend(gamepad1.right_trigger);
                             rightTriggerProcessing = false;
                         }
                     });

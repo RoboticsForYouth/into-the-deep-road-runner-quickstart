@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.az.sample.MecanumDrive;
 
 
 @Config
-@Autonomous
+@Autonomous (preselectTeleOp = "IntoTheDeepTeleOp")
 public class RightAuto extends RightAutoPosValues {
 
     TurnConstraints turnConstraints = new TurnConstraints(

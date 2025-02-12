@@ -223,7 +223,7 @@ public class DoubleArm extends LinearOpMode {
     }
 
     public void extend(float factor) {
-        int position = Math.round(DoubleArmPos.COLLECT.value + factor*900);
+        int position = Math.round(DoubleArmPos.COLLECT.value - factor*400);
         setPos(position);
     }
 
