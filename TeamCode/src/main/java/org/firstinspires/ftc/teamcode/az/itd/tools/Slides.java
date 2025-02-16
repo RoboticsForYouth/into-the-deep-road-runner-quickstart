@@ -190,7 +190,7 @@ public class Slides extends LinearOpMode {
     }
 
     public void extend(float factor) {
-        int position = Math.round(SlidesPos.COLLECT.value + factor*1200);
+        int position = Math.round(SlidesPos.COLLECT.value + factor*1300);
         setPos(position);
     }
 

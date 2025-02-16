@@ -70,7 +70,7 @@ public class DoubleArm extends LinearOpMode {
 
 
         MOVE((int)(16 * ARM_CONVERSION_FACTOR)), //(-450),
-        BASKET_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
+        BASKET_DROP((int)(94 * ARM_CONVERSION_FACTOR)),
 
         VERTICAL_TEST(1300),
         TELEOP_SPECIMEN_DROP((int)(92 * ARM_CONVERSION_FACTOR)), //(600)
@@ -149,9 +149,13 @@ public class DoubleArm extends LinearOpMode {
     }
 
     private void setPos(int pos){
+        int currentPosition = doubleArmMotor1.getCurrentPosition();
         double v = pos/ARM_CONVERSION_FACTOR;
         double gravityCompensation = 0.01 * Math.cos(Math.toRadians(v));
         double power = 1.0 + gravityCompensation;
+        if( currentPosition - pos > 300){
+            power = 0.4;
+        }
         AZUtil.setBothMotorTargetPosition(doubleArmMotor1, doubleArmMotor2, pos, power);
     }
 

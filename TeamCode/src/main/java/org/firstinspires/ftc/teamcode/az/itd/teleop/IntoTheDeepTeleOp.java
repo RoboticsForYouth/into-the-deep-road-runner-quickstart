@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.az.itd.tools.CandyCane;
 import org.firstinspires.ftc.teamcode.az.itd.tools.DoubleArm;
+import org.firstinspires.ftc.teamcode.az.itd.tools.Slides;
 import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
 import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
 
@@ -108,8 +109,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                        @Override
                        public void run() {
                            buttonAProcessing = true;
-                           if(arm.getCurrentPosition() < 500) {
-
+                           if(specimenTool.slides.getCurrentPos() <= Slides.SlidesPos.COLLECT.getValue() +100) {
                                specimenTool.teleOpCollect();
                            }
 
@@ -148,13 +148,13 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         public void run() {
                             buttonXProcessing = true;
 
-                            if(arm.getCurrentPosition() < 500) {
+                            if(specimenTool.slides.getCurrentPos() <= Slides.SlidesPos.COLLECT.getValue() + 100) {
                                 specimenTool.collectVertical();
 
                             }
                             else {
                                 //change order of resetPos to ensure that slides do not hit the basket
-                                specimenTool.teleOpHighResetVertical();
+                                specimenTool.teleOpHighReset();
                             }
                             buttonXProcessing = false;
                         }
@@ -314,19 +314,19 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
             }
 
-//            if(gamepad1.left_bumper){
-//                if( !leftBumperProcessing){
-//                    AZUtil.runInParallel(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            leftBumperProcessing = true;
-//                            arm.moveDown();
-//                            leftBumperProcessing = false;
-//                        }
-//                    });
-//                }
-//
-//            }
+            if(gamepad1.left_bumper){
+                if( !leftBumperProcessing){
+                    AZUtil.runInParallel(new Runnable() {
+                        @Override
+                        public void run() {
+                            leftBumperProcessing = true;
+                            arm.moveDown();
+                            leftBumperProcessing = false;
+                        }
+                    });
+                }
+
+            }
 
 
             //resetPos the slides

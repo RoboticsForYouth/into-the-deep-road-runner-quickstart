@@ -140,6 +140,15 @@ public class SpecimenTool extends LinearOpMode {
 
     }
 
+    public void teleOpHighResetVertical () {
+        slides.collect();
+        gripper.samplePickUp90();
+        sleep(1000);
+        arm.collect();
+        sleep(1000);
+
+    }
+
     public void teleOpEject() {
         gripper.drop();
         //sleep(500);
@@ -154,14 +163,7 @@ public class SpecimenTool extends LinearOpMode {
 //        sleep(1000);
     }
 
-    public void teleOpHighResetVertical () {
-        slides.collect();
-        gripper.samplePickUp90();
-        sleep(1000);
-        arm.collect();
-        sleep(1000);
 
-    }
 
     public void specimenLowBasket() {
         arm.lowBasketDrop();
