@@ -47,36 +47,36 @@ public class RightAuto extends RightAutoPosValues {
 
     SpecimenTool specimenTool = null;
     CandyCane candyCane = null;
-    private MecanumDrive drive;
-    private Pose2d beginPose;
-    private Action specimenDropPos1;
-    private Action observationZonePos1;
-    private Action specimenDropPos2;
-    private Action releaseSpecimenAction;
-    private Action specimenCollectAction;
-    private Action spikeMarkPos1;
-    private Action lowerCandyCaneAction;
-    private Action raiseCandyCaneAction;
-    private Action spikeMarkPos3;
+     MecanumDrive drive;
+     Pose2d beginPose;
+     Action specimenDropPos1;
+     Action observationZonePos1;
+     Action specimenDropPos2;
+     Action releaseSpecimenAction;
+     Action specimenCollectAction;
+     Action spikeMarkPos1;
+     Action lowerCandyCaneAction;
+     Action raiseCandyCaneAction;
+     Action spikeMarkPos3;
 
-    private Action observationZoneDropPos1;
-    private Action spikeMarkPos2;
-    private Action observationZoneDropPos2;
-    private Action observationZoneDropPos3;
-    private Action resetCandyCaneAction;
-    private Action observationZonePos2;
-    private Action specimenDropPos3;
-    private Action observationZonePos3;
-    private Action specimenDropPos4;
-    private Action observationZonePos4;
-    private Action specimenDropPos5;
-    private Action specimenToolDropAfterPickupAction;
-    private Action afterDropSpecimenCollectAction;
-    private Action firstReleaseSpecimenAction;
-    private Action observationZonePos1_1;
-    private Action specimenCollectInParallelAction;
-    private Action parkPos;
-    private Action resetSpecimenToolAction;
+     Action observationZoneDropPos1;
+     Action spikeMarkPos2;
+     Action observationZoneDropPos2;
+     Action observationZoneDropPos3;
+     Action resetCandyCaneAction;
+     Action observationZonePos2;
+     Action specimenDropPos3;
+     Action observationZonePos3;
+     Action specimenDropPos4;
+     Action observationZonePos4;
+     Action specimenDropPos5;
+     Action specimenToolDropAfterPickupAction;
+     Action afterDropSpecimenCollectAction;
+     Action firstReleaseSpecimenAction;
+     Action observationZonePos1_1;
+     Action specimenCollectInParallelAction;
+     Action parkPos;
+     Action resetSpecimenToolAction;
 
 
 

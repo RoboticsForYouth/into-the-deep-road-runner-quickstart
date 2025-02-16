@@ -155,8 +155,8 @@ public class EnhancedClaw extends LinearOpMode {
 
         //--------------------------------------------------------------------------------------------------------------------
         //LEFT AUTO!!!
-        LEFT_AUTO_RESET(0.6),
-        LEFT_AUTO_DROP(0.5), //0.49
+        LEFT_AUTO_RESET(0.7),
+        LEFT_AUTO_DROP(0.6), //0.49
         LEFT_AUTO_PICKUP(0.09), //0.2 //0.17
         LEFT_AUTO_DROP_INTERMEDIATE(0.2),
         //--------------------------------------------------------------------------------------------------------------------
@@ -400,7 +400,7 @@ public class EnhancedClaw extends LinearOpMode {
     }
 
     public void autoProtect() {
-        setPos(RollerPower.PICKUP, WRIST_POS.DROP_OFF, ELBOW_POS.AUTO_PROTECT);
+        setPos(RollerPower.PICKUP, WRIST_POS.LEFT_AUTO_DROP_OFF, ELBOW_POS.AUTO_PROTECT);
     }
 
     public void specimenPickUp() {

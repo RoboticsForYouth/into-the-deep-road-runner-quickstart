@@ -248,11 +248,11 @@ public class SpecimenTool extends LinearOpMode {
         AZUtil.runInParallel(new Runnable() {
             @Override
             public void run() {
-                //gripper.autoProtect();
+                gripper.autoProtect();
                 //sleep(500);
                 arm.setPosAndWait((int) DoubleArm.DoubleArmPos.LEFT_AUTO_BASKET_DROP.getValue());
                 slides.setPosAndWaitWithTolerance((int) Slides.SlidesPos.LEFT_AUTO_BASKET_DROP.getValue(), 5);
-                sleep(1200);
+                sleep(1300);
                 gripper.leftAutoSampleDrop();
                 LeftAutoHighDropArmSetupActionDone = true;
             }
@@ -264,7 +264,7 @@ public class SpecimenTool extends LinearOpMode {
             @Override
             public void run() {
                 gripper.leftAutoPickup(wristPos);
-                sleep(500);
+                sleep(800);
                 slides.setPosAndWait((int) Slides.SlidesPos.LEFT_AUTO_INTERMEDIATE_PICKUP.getValue());
                 arm.leftAutoPickup(armPos);
                 slides.leftAutoPickup(slidesPos);
@@ -284,7 +284,7 @@ public class SpecimenTool extends LinearOpMode {
         AZUtil.runInParallel(new Runnable() {
             @Override
             public void run() {
-                //gripper.autoProtect();
+                gripper.autoProtect();
                 //sleep(500);
 
                 gripper.leftAutoIntermediate();

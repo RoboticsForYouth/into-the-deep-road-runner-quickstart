@@ -118,7 +118,6 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
 
 
         highDropArmSetupAction = new Action() {
-
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 LeftAutoHighDropArmSetupActionDone = false;
