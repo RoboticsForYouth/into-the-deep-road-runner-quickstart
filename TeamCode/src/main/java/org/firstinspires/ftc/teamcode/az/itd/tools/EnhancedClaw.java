@@ -5,7 +5,6 @@ import android.graphics.Color;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -168,7 +167,6 @@ public class EnhancedClaw extends LinearOpMode {
         //RIGHT AUTO!!!
         RIGHT_AUTO_SPECIMEN_PICKUP(0.37), //0.25
         RIGHT_AUTO_SPECIMEN_DROP(0.45), //0.7
-        FIRST_RIGHT_AUTO_SPECIMEN_DROP(0.47) //0.7
             //--------------------------------------------------------------------------------------------------------------------
 
         //wrist 0.2, elbow 0.65
@@ -462,12 +460,6 @@ public class EnhancedClaw extends LinearOpMode {
         setElbowPos(ELBOW_POS.RIGHT_AUTO_SPECIMEN_DROP.getPos());
     }
 
-    public void firstRightAutoSpecimenDropPos() {
-        roller.setPower(RollerPower.PICKUP.getPower());
-        wrist.setPosition(WRIST_POS.RIGHT_AUTO_DROP_OFF_SPECIMEN.getPos());
-//        sleep(500);
-        setElbowPos(ELBOW_POS.FIRST_RIGHT_AUTO_SPECIMEN_DROP.getPos());
-    }
 
     public void rightAutoSpecimenPickUp() {
         setPos(RollerPower.PICKUP, WRIST_POS.RIGHT_AUTO_PICKUP_SPECIMEN, ELBOW_POS.RIGHT_AUTO_SPECIMEN_PICKUP);

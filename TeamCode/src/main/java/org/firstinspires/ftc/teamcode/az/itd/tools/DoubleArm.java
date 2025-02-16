@@ -166,7 +166,9 @@ public class DoubleArm extends LinearOpMode {
 
     public void setPosAndWaitThreshold(int pos){
         setPos(pos);
-        AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos, 10, 3000);
+        AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos, 15, 3000);
+        AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor2, pos, 10, 3000);
+
     }
 
     public void setPosAndWaitLowPower(int pos){
@@ -310,31 +312,34 @@ public class DoubleArm extends LinearOpMode {
 
         telemetry.addLine("Init");
         telemetry.update();
-        setup();
 
-        waitForStart();
+        autoMode();
 
-        while (opModeIsActive()){
+//        setup();
+//
+//        waitForStart();
 
-            if (gamepad1.dpad_up) {
-                setArmPos(DoubleArmPos.BASKET_DROP);
-                //sleep(1000);
-            }
-
-            if( gamepad1.dpad_down){
-                setArmPos(DoubleArmPos.RESET);
-            }
-
-            if(gamepad1.dpad_right){
-                setArmPos(DoubleArmPos.COLLECT);
-            }
-
-            if(gamepad1.dpad_left){
-                setArmPos(DoubleArmPos.LOW_BASKET_DROP);
-            }
-            telemetry.addLine(this.toString());
-            telemetry.update();
-        }
+//        while (opModeIsActive()){
+//
+//            if (gamepad1.dpad_up) {
+//                setArmPos(DoubleArmPos.BASKET_DROP);
+//                //sleep(1000);
+//            }
+//
+//            if( gamepad1.dpad_down){
+//                setArmPos(DoubleArmPos.RESET);
+//            }
+//
+//            if(gamepad1.dpad_right){
+//                setArmPos(DoubleArmPos.COLLECT);
+//            }
+//
+//            if(gamepad1.dpad_left){
+//                setArmPos(DoubleArmPos.LOW_BASKET_DROP);
+//            }
+//            telemetry.addLine(this.toString());
+//            telemetry.update();
+//        }
     }
 
     private void teleOpTest() {
@@ -367,7 +372,8 @@ public class DoubleArm extends LinearOpMode {
 
 //        teleOpTest();
 
-        setPos(DoubleArmPos.VERTICAL_TEST.value);
+//        setPos(DoubleArmPos.VERTICAL_TEST.value);
+        setPos(DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP.value);
         sleep(4000);
         telemetry.addData("Pos1", doubleArmMotor1.getCurrentPosition());
         telemetry.addData("Pos2", doubleArmMotor2.getCurrentPosition());

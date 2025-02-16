@@ -8,7 +8,6 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TurnConstraints;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -24,7 +23,7 @@ import org.firstinspires.ftc.teamcode.az.sample.MecanumDrive;
 
 @Config
 @Autonomous (preselectTeleOp = "IntoTheDeepTeleOp")
-public class RightAuto extends RightAutoPosValues {
+public class RightAutoTest extends RightAutoPosValues {
 
     TurnConstraints turnConstraints = new TurnConstraints(
             (Math.PI)*2,
@@ -244,7 +243,7 @@ public class RightAuto extends RightAutoPosValues {
 
                         specimenTool.gripper.rightAutoSpecimenDropPos();
 
-                        specimenTool.firstRightAutoSpecimenDrop();
+                        specimenTool.rightAutoSpecimenDrop();
                     }
                 });
                 return false;
@@ -337,7 +336,7 @@ public class RightAuto extends RightAutoPosValues {
         resetCandyCaneAction = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                        candyCane.reset();
+                candyCane.reset();
                 return false;
             }
         };
@@ -362,55 +361,55 @@ public class RightAuto extends RightAutoPosValues {
 
         Actions.runBlocking(
                 new SequentialAction(
-                        firstReleaseSpecimenAction,
-                        specimenDropPos1,
-
-                        raiseCandyCaneAction,
-                        spikeMarkPos1,
-                        specimenCollectInParallelAction,
-                        lowerCandyCaneAction,
-                        new SleepAction(0.3),
-                        observationZoneDropPos1,
-
-                        raiseCandyCaneAction,
-                        spikeMarkPos2,
-                        lowerCandyCaneAction,
-                        new SleepAction(0.3),
-                        observationZoneDropPos2,
-
-                        raiseCandyCaneAction,
-                        spikeMarkPos3,
-                        lowerCandyCaneAction,
-                        new SleepAction(0.3),
-                        observationZoneDropPos3,
-
-                        resetCandyCaneAction,
-                        observationZonePos1,
-                        observationZonePos1_1,
-                        specimenToolDropAfterPickupAction,
-                        specimenDropPos2,
-                        releaseSpecimenAction,
-
-                        afterDropSpecimenCollectAction,
-                        observationZonePos2,
-                        specimenToolDropAfterPickupAction,
-                        specimenDropPos3,
-                        releaseSpecimenAction,
-
-                        afterDropSpecimenCollectAction,
-                        observationZonePos3,
-                        specimenToolDropAfterPickupAction,
-                        specimenDropPos4,
-                        releaseSpecimenAction,
-
-
-                        afterDropSpecimenCollectAction,
-                        observationZonePos4,
-                        specimenToolDropAfterPickupAction,
-                        specimenDropPos5,
-                        releaseSpecimenAction,
-                        resetSpecimenToolAction,
-                        parkPos
+                        firstReleaseSpecimenAction
+//                        specimenDropPos1,
+//
+//                        raiseCandyCaneAction,
+//                        spikeMarkPos1,
+//                        specimenCollectInParallelAction,
+//                        lowerCandyCaneAction,
+//                        new SleepAction(0.3),
+//                        observationZoneDropPos1,
+//
+//                        raiseCandyCaneAction,
+//                        spikeMarkPos2,
+//                        lowerCandyCaneAction,
+//                        new SleepAction(0.3),
+//                        observationZoneDropPos2,
+//
+//                        raiseCandyCaneAction,
+//                        spikeMarkPos3,
+//                        lowerCandyCaneAction,
+//                        new SleepAction(0.3),
+//                        observationZoneDropPos3,
+//
+//                        resetCandyCaneAction,
+//                        observationZonePos1,
+//                        observationZonePos1_1,
+//                        specimenToolDropAfterPickupAction,
+//                        specimenDropPos2,
+//                        releaseSpecimenAction,
+//
+//                        afterDropSpecimenCollectAction,
+//                        observationZonePos2,
+//                        specimenToolDropAfterPickupAction,
+//                        specimenDropPos3,
+//                        releaseSpecimenAction,
+//
+//                        afterDropSpecimenCollectAction,
+//                        observationZonePos3,
+//                        specimenToolDropAfterPickupAction,
+//                        specimenDropPos4,
+//                        releaseSpecimenAction,
+//
+//
+//                        afterDropSpecimenCollectAction,
+//                        observationZonePos4,
+//                        specimenToolDropAfterPickupAction,
+//                        specimenDropPos5,
+//                        releaseSpecimenAction,
+//                        resetSpecimenToolAction,
+//                        parkPos
 
                 )
         );

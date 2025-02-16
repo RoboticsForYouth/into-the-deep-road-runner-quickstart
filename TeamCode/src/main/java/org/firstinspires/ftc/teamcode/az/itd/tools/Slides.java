@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.az.itd.tools;
 
+import static org.firstinspires.ftc.teamcode.az.itd.teleop.PosStorage.initialSlidesPos;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -98,7 +100,7 @@ public class Slides extends LinearOpMode {
         private int value;
 
         SlidesPos(int val) {
-            this.value = val;
+            this.value = val + initialSlidesPos;
         }
 
         public double getValue() {
