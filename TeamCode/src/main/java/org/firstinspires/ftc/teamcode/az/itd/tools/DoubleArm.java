@@ -56,7 +56,7 @@ public class DoubleArm extends LinearOpMode {
     public enum DoubleArmPos {
         //multiple 1.39 times when we replace 435 motor with 312 motor
         RESET(0),
-        COLLECT((int)(18 * ARM_CONVERSION_FACTOR)),  //(-785),
+        COLLECT((int)(18.5 * ARM_CONVERSION_FACTOR)),  //(-785),
         LOW_BASKET_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
 
         SPECIMEN_DROP((int)(92 * ARM_CONVERSION_FACTOR)), //(600),
@@ -66,22 +66,22 @@ public class DoubleArm extends LinearOpMode {
 
         PRE_LEVEL_TWO_HANG((int)(75*ARM_CONVERSION_FACTOR)),
         LEVEL_TWO_HANG((int)(90 * ARM_CONVERSION_FACTOR)),
-        LEVEL_TWO_HANG_PART_TWO((int)(10 * ARM_CONVERSION_FACTOR)),
+        LEVEL_TWO_HANG_PART_TWO((int)(45 * ARM_CONVERSION_FACTOR)),
 
 
-        MOVE((int)(16 * ARM_CONVERSION_FACTOR)), //(-450),
+        MOVE((int)(14 * ARM_CONVERSION_FACTOR)), //(-450),
         BASKET_DROP((int)(94 * ARM_CONVERSION_FACTOR)),
 
         VERTICAL_TEST(1300),
-        TELEOP_SPECIMEN_DROP((int)(92 * ARM_CONVERSION_FACTOR)), //(600)
+        TELEOP_SPECIMEN_DROP((int)(95 * ARM_CONVERSION_FACTOR)), //(600)
 
 
 
         //--------------------------------------------------------------------------------------------------------------------
         //LEFT AUTO!!!
-        LEFT_AUTO_PICKUP_FIRST((int)(12 * ARM_CONVERSION_FACTOR)),
-        LEFT_AUTO_PICKUP_SECOND((int)(13 * ARM_CONVERSION_FACTOR)),
-        LEFT_AUTO_PICKUP_THIRD((int)(12 * ARM_CONVERSION_FACTOR)),
+        LEFT_AUTO_PICKUP_FIRST((int)(11 * ARM_CONVERSION_FACTOR)),
+        LEFT_AUTO_PICKUP_SECOND((int)(11 * ARM_CONVERSION_FACTOR)),
+        LEFT_AUTO_PICKUP_THIRD((int)(9 * ARM_CONVERSION_FACTOR)),
         LEFT_AUTO_BASKET_DROP((int)(95 * ARM_CONVERSION_FACTOR)),
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -144,41 +144,46 @@ public class DoubleArm extends LinearOpMode {
         doubleArmMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
+
     public void setSlides(Slides slides){
         this.slides = slides;
     }
 
     private void setPos(int pos){
+
+
+//        int newPos = pos - InitialValues.InitArmPos;
+
+
         int currentPosition = doubleArmMotor1.getCurrentPosition();
         double v = pos/ARM_CONVERSION_FACTOR;
         double gravityCompensation = 0.01 * Math.cos(Math.toRadians(v));
         double power = 1.0 + gravityCompensation;
-        if( currentPosition - pos > 300){
+        if( currentPosition - pos > 0){
             power = 0.4;
         }
         AZUtil.setBothMotorTargetPosition(doubleArmMotor1, doubleArmMotor2, pos, power);
+
+//        InitialValues.CurrentArmPos = pos;
+
     }
 
     public void setPosAndWait(int pos){
         setPos(pos);
-        AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos, 5, 3000);
-    }
-
-    public void setPosAndWaitThreshold(int pos){
-        setPos(pos);
         AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos, 15, 3000);
-        AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor2, pos, 10, 3000);
+    }
+
+    public void setPosAndWaitThreshold(int pos, int tolerance){
+        setPos(pos);
+        AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos, tolerance, 3000);
+        AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor2, pos, tolerance, 3000);
 
     }
 
-    public void setPosAndWaitLowPower(int pos){
-        setPosLowPower(pos);
-        AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos);
-    }
 
     public void setPosAndWaitLowPowerLeftAuto(int pos){
         setPosLowPower(pos);
-        AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos, 10, 2000);
+        AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos, 15, 2000);
     }
 
     public void moveToPosition(DoubleArmPos DoubleArmPos){
@@ -186,14 +191,14 @@ public class DoubleArm extends LinearOpMode {
     }
 
     public void setPosLowPower(int pos){
-        double v = pos/ARM_CONVERSION_FACTOR;
-        double gravityCompensation = 0.01 * Math.cos(Math.toRadians(v));
-        double power = 1.0 + gravityCompensation;
-        AZUtil.setBothMotorTargetPosition(doubleArmMotor1, doubleArmMotor2, pos, LOW_POWER);
-    }
 
-    public void setCurrentPosValue(DoubleArmPos pos) {
-        currentPosValue = pos.value;
+//        int newPos = pos - InitialValues.InitArmPos;
+
+
+        AZUtil.setBothMotorTargetPosition(doubleArmMotor1, doubleArmMotor2, pos, LOW_POWER);
+
+//        InitialValues.CurrentArmPos = newPos;
+
     }
 
     public void moveUp(){
@@ -242,6 +247,21 @@ public class DoubleArm extends LinearOpMode {
         resetDoubleArmPos();
     }
 
+    public void emergencyResetPos() {
+        doubleArmMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        doubleArmMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        doubleArmMotor1.setPower(-0.3);
+        doubleArmMotor2.setPower(-0.3);
+
+
+    }
+
+    public void emergencyResetEncoders() {
+        doubleArmMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        doubleArmMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+    }
 
 
 

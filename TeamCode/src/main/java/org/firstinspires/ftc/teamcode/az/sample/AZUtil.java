@@ -36,12 +36,12 @@ public class AZUtil {
     }
 
     public static void waitUntilMotorAtPos(LinearOpMode opMode, DcMotor motor, int pos) {
-        waitUntilMotorAtPos(opMode, motor, pos, 5, 2000);
+        waitUntilMotorAtPos(opMode, motor, pos, 15, 2000);
     }
 
     public static void waitUntilMotorAtPos(LinearOpMode opMode, DcMotor motor, int pos, int tolerance, int wait) {
         long currentTimeMs = System.currentTimeMillis();
-        while (opMode.opModeIsActive() && motor.isBusy()
+        while (opMode.opModeIsActive() /*&& motor.isBusy()*/
                 &&
                 !(motor.getCurrentPosition() > (pos-tolerance) && motor.getCurrentPosition() < (pos+tolerance))
                 && ((System.currentTimeMillis() - currentTimeMs) < wait))
@@ -112,6 +112,10 @@ public class AZUtil {
 //        }
     }
 
+    public static boolean isWithinRange(int pos, int rangeAvg){
+        int tolerance = 5;
+        return pos > (rangeAvg -5) || pos < (rangeAvg + 5);
+    }
     public static boolean isMotorAtPosition(DcMotor motor, int pos){
         int currPos = motor.getCurrentPosition();
         return (currPos > pos - 3 && currPos < pos + 3);

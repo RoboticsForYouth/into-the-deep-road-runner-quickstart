@@ -49,14 +49,15 @@ public class Slides extends LinearOpMode {
     public enum SlidesPos {
 
         LEVEL_2_HANG_START(1400),
+        LEVEL_2_HANG_START_OPTION2_END_POS(2000),
         LEVEL_2_HANG_END(400),
         COLLECT(500),
         RIGHT_AUTO_COLLECT(1500),
 
         MOVE(400),
         SPECIMEN_COLLECT(100),
-        BASKET_DROP(2350),
-        LOW_BASKET_DROP(750),
+        BASKET_DROP(2550),
+        LOW_BASKET_DROP(850),
 
         SPECIMEN_PICKUP(300),
 
@@ -73,10 +74,10 @@ public class Slides extends LinearOpMode {
 
         //--------------------------------------------------------------------------------------------------------------------
         //LEFT AUTO!!!
-        LEFT_AUTO_PICKUP_FIRST(1100),
-        LEFT_AUTO_PICKUP_SECOND(1300),
+        LEFT_AUTO_PICKUP_FIRST(1150),
+        LEFT_AUTO_PICKUP_SECOND(1350),
         LEFT_AUTO_PICKUP_THIRD(1100),
-         LEFT_AUTO_BASKET_DROP(2500),
+         LEFT_AUTO_BASKET_DROP(2550),
         LEFT_AUTO_INTERMEDIATE_PICKUP(700),
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -116,12 +117,27 @@ public class Slides extends LinearOpMode {
         resetSlidePos();
     }
 
+
     private void setPos(int pos){
+//        int newPos = pos - InitialValues.InitSlidePos;
 
         AZUtil.setBothMotorTargetPosition(slideMotor1, slideMotor2, pos, POWER);
+//        if( AZUtil.isWithinRange(getCurrentPos(), pos )){
+//            stopMotor();
+//        }
 //        AZUtil.setMotorTargetPosition(slideMotor2, pos, POWER);
-    }
 
+//        InitialValues.CurrentSlidePos = newPos;
+
+        }
+
+
+
+
+    public void stopMotor(){
+        slideMotor1.setPower(0);
+        slideMotor2.setPower(0);
+    }
     private void setPosLowPower(int pos){
         AZUtil.setBothMotorTargetPosition(slideMotor1, slideMotor2, pos, EXTEND_POWER);
 //        AZUtil.setMotorTargetPosition(slideMotor2, pos, EXTEND_POWER);
@@ -133,26 +149,16 @@ public class Slides extends LinearOpMode {
         AZUtil.waitUntilMotorAtPos(this, slideMotor2, pos);
     }
 
-    public void setPosAndWaitLowPower(int pos){
-        setPosLowPower(pos);
-        AZUtil.waitUntilMotorAtPos(this, slideMotor1, pos);
-        AZUtil.waitUntilMotorAtPos(this, slideMotor2, pos);
-    }
-
     public void setPosAndWaitLeftAuto(int pos){
         setPos(pos);
-        AZUtil.waitUntilMotorAtPos(this, slideMotor1, pos, 10, 2000);
-        AZUtil.waitUntilMotorAtPos(this, slideMotor2, pos, 10, 2000);
+        AZUtil.waitUntilMotorAtPos(this, slideMotor1, pos, 15, 2000);
+        AZUtil.waitUntilMotorAtPos(this, slideMotor2, pos, 15, 2000);
     }
 
     public void setPosAndWaitWithTolerance(int pos, int tolerance){
         setPos(pos);
         AZUtil.waitUntilMotorAtPos(this, slideMotor1, pos, tolerance, 4000);
         AZUtil.waitUntilMotorAtPos(this, slideMotor2, pos, tolerance, 4000);
-    }
-
-    public void setCurrentPosValue(SlidesPos pos) {
-        currentPosValue = pos.value;
     }
 
     public void moveUp(){
@@ -201,9 +207,24 @@ public class Slides extends LinearOpMode {
         slideMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
+
     public void resetPos() {
         setPos(SlidesPos.RESET.value);
         resetSlidePos();
+    }
+
+    public void emergencyResetPos() {
+        slideMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slideMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        slideMotor1.setPower(-0.3);
+        slideMotor2.setPower(-0.3);
+    }
+
+    public void emergencyResetEncoders() {
+        slideMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
     }
 
     public void reset() {
@@ -215,9 +236,6 @@ public class Slides extends LinearOpMode {
 
 
 
-    public void resetAndWait() {
-        setPosAndWait(SlidesPos.RESET.value);
-    }
 
     public void moveToPosition(SlidesPos slidesPos){
         setPos(slidesPos.value);
@@ -294,7 +312,7 @@ public class Slides extends LinearOpMode {
         telemetry.addData("start time: ", String.valueOf(seconds));
         telemetry.update();
 
-            setPosAndWaitWithTolerance((int) Slides.SlidesPos.LEFT_AUTO_BASKET_DROP.getValue(), 5);
+            setPosAndWaitWithTolerance((int) Slides.SlidesPos.LEFT_AUTO_BASKET_DROP.getValue(), 15);
 
         double end_seconds = runtime.seconds();
 

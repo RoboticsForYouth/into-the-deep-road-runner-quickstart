@@ -20,6 +20,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.az.itd.tools.CandyCane;
 import org.firstinspires.ftc.teamcode.az.itd.tools.DoubleArm;
+//import org.firstinspires.ftc.teamcode.az.itd.tools.InitialValues;
 import org.firstinspires.ftc.teamcode.az.itd.tools.Slides;
 import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
 import org.firstinspires.ftc.teamcode.az.sample.MecanumDrive;
@@ -76,6 +77,9 @@ public class BasicLeftAuto extends LeftAutoPosValues {
         telemetry.addData("current position", drive.pose);
         telemetry.update();
         setUpActions();
+
+//        InitialValues.ResetInitPos();
+
         waitForStart();
         runtime.reset();
 

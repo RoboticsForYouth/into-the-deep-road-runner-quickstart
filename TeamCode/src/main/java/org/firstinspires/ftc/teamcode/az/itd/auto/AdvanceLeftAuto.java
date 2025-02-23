@@ -53,6 +53,9 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
     private void updateInit() {
         initAuto();
         addActions();
+
+        telemetry.addLine("Initialized");
+        telemetry.update();
     }
 
     private void addActions() {

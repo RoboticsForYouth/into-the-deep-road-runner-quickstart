@@ -17,6 +17,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.az.itd.tools.CandyCane;
 import org.firstinspires.ftc.teamcode.az.itd.tools.DoubleArm;
+//import org.firstinspires.ftc.teamcode.az.itd.tools.InitialValues;
 import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
 import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
 import org.firstinspires.ftc.teamcode.az.sample.MecanumDrive;
@@ -105,14 +106,20 @@ public class RightAuto extends RightAutoPosValues {
 
         candyCane = new CandyCane((this));
 
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
+        sleep(5000);
+
         runtime.reset();
         beginPose = new Pose2d(0,0,Math.toRadians(SPECIMEN_DROP_POS_HEADING));
         drive = new MecanumDrive(hardwareMap, beginPose);
         telemetry.addData("current position", drive.pose);
         telemetry.update();
         createActions();
+//        InitialValues.ResetInitPos();
+
     }
 
     public void createActions() {
@@ -213,7 +220,7 @@ public class RightAuto extends RightAutoPosValues {
         specimenDropPos5 = specimenDropTraj5.build();
 
 
-        TrajectoryActionBuilder parkTraj = observationZoneTraj4.endTrajectory().fresh()
+        TrajectoryActionBuilder parkTraj = specimenDropTraj5.endTrajectory().fresh()
                 .strafeToConstantHeading(park);
         //.splineToConstantHeading(new Vector2d(SPECIMEN_DROP_POS_XXXX+0.4, SPECIMEN_DROP_POS_YYYY), Math.toRadians(SPECIMEN_DROP_POS_HEADING));
         parkPos = parkTraj.build();
@@ -287,7 +294,7 @@ public class RightAuto extends RightAutoPosValues {
                 AZUtil.runInParallel(new Runnable() {
                     @Override
                     public void run() {
-                        sleep(200);
+//                        sleep(100);
                         specimenTool.afterDropRightAutoSpecimenCollect();
                     }
                 });
@@ -345,7 +352,12 @@ public class RightAuto extends RightAutoPosValues {
         resetSpecimenToolAction = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.rightAutoResetEnd();
+                AZUtil.runInParallel(new Runnable() {
+                    @Override
+                    public void run() {
+                        specimenTool.rightAutoResetEnd();
+                    }
+                });
                 return false;
             }
         };
@@ -369,19 +381,19 @@ public class RightAuto extends RightAutoPosValues {
                         spikeMarkPos1,
                         specimenCollectInParallelAction,
                         lowerCandyCaneAction,
-                        new SleepAction(0.3),
+                        new SleepAction(0.17),
                         observationZoneDropPos1,
 
                         raiseCandyCaneAction,
                         spikeMarkPos2,
                         lowerCandyCaneAction,
-                        new SleepAction(0.3),
+                        new SleepAction(0.17),
                         observationZoneDropPos2,
 
                         raiseCandyCaneAction,
                         spikeMarkPos3,
                         lowerCandyCaneAction,
-                        new SleepAction(0.3),
+                        new SleepAction(0.17),
                         observationZoneDropPos3,
 
                         resetCandyCaneAction,
@@ -409,7 +421,8 @@ public class RightAuto extends RightAutoPosValues {
                         specimenToolDropAfterPickupAction,
                         specimenDropPos5,
                         releaseSpecimenAction,
-                        resetSpecimenToolAction,
+
+                        afterDropSpecimenCollectAction,
                         parkPos
 
                 )
