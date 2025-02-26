@@ -138,7 +138,7 @@ public class TestTeleOp extends LinearOpMode {
                     }
 
                     if(gamepad1.right_bumper) {
-                        specimenTool.gripper.specimenDropPos();
+                        specimenTool.gripper.teleOpSpecimenDropPos();
                     }
 
                     // Pickup block on pressing A button

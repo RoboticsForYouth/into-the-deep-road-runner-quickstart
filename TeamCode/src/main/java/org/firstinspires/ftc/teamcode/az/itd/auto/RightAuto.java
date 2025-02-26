@@ -247,7 +247,8 @@ public class RightAuto extends RightAutoPosValues {
                 AZUtil.runInParallel(new Runnable() {
                     @Override
                     public void run() {
-                        sleep(500);
+
+                        sleep(200);
 
                         specimenTool.gripper.rightAutoSpecimenDropPos();
 
@@ -313,7 +314,7 @@ public class RightAuto extends RightAutoPosValues {
                 AZUtil.runInParallel(new Runnable() {
                     @Override
                     public void run() {
-                        sleep(1000);
+                        sleep(850);
                         specimenTool.rightAutoSpecimenHangPos();
                     }
                 });

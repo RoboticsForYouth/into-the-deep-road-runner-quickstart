@@ -50,8 +50,6 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
     private boolean leftBumperProcessing;
     private boolean dpadDownProcessing;
 
-    private SpecimenTool.HangState currentHangState;
-
     GamepadEx gamepadEx1;
     GamepadEx gamepadEx2;
 
@@ -77,7 +75,6 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         gamepadEx1 = new GamepadEx(gamepad1);
         gamepadEx2 = new GamepadEx(gamepad2);
         GamepadEx driverOp = new GamepadEx(gamepad1);
-        currentHangState = SpecimenTool.HangState.BASE;
 
         candyCane.reset();
 
@@ -94,7 +91,6 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
         specimenTool.teleOpSpecimenToolInit();
 
-        currentHangState.execute(specimenTool);
 
         while (!isStopRequested()) {
 
@@ -120,7 +116,6 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                                 specimenTool.teleOpHighReset();
                             }
 
-                            currentHangState = SpecimenTool.HangState.BASE;
                             buttonAProcessing = false;
                         }
                     });
@@ -390,10 +385,5 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         }
     }
 
-    private void cycleToNextHangState() {
-        SpecimenTool.HangState[] states = SpecimenTool.HangState.values();
-        int nextStateOrdinal = (currentHangState.ordinal() + 1) % states.length;
-        currentHangState = states[nextStateOrdinal];
-    }
 
 }

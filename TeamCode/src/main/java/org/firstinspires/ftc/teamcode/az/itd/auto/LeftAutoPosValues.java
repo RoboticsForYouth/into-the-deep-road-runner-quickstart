@@ -20,7 +20,7 @@ public abstract class LeftAutoPosValues extends LinearOpMode {
 
 
 
-    Vector2d drop1 =         new Vector2d(14, 14);
+    Vector2d drop1 =         new Vector2d(13, 13);
     public static final int        BASKET_HEADING_1 = -45;
 
 
@@ -34,7 +34,7 @@ public abstract class LeftAutoPosValues extends LinearOpMode {
 
 
 
-    Vector2d drop2 =        new Vector2d(13.25, 12.5);
+    Vector2d drop2 =        new Vector2d(12.5, 13.25);
     public static final int        BASKET_HEADING_2 = -45;
 
 
@@ -48,7 +48,7 @@ public abstract class LeftAutoPosValues extends LinearOpMode {
 
 
 
-    Vector2d drop3 =      new Vector2d(12.5, 12.5);
+    Vector2d drop3 =      new Vector2d(12.5 , 12.5);
     public static final int        BASKET_HEADING_3 = -40;
 
 
@@ -56,7 +56,7 @@ public abstract class LeftAutoPosValues extends LinearOpMode {
     Vector2d park1 =            new Vector2d(54, 0);
     public static final int          PARK_HEADING_1 = -90;
 
-    Vector2d park2 =          new Vector2d(54, -10);
+    Vector2d park2 =          new Vector2d(54, -9);
 
 
 

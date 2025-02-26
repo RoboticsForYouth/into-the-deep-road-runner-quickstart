@@ -15,23 +15,6 @@ public class SpecimenTool extends LinearOpMode {
     public EnhancedClaw gripper;
     public Slides slides;
 
-    public enum State {
-        //Specimen State
-        SPECIMEN_READY_TO_PICKUP,
-        SPECIMEN_PICKED_UP,
-        SPECIMEN_READY_TO_HANG,
-        SPECIMEN_COMPLETED_HANGING,
-
-        //Sample State
-        SAMPLE_READY_TO_COLLECT,
-        SAMPLE_COLLECTED,
-        SAMPLE_READY_TO_DROP,
-        SAMPLE_DROPPED;
-
-        //implement methods
-
-
-    }
 
     public SpecimenTool(){
         super();
@@ -150,14 +133,6 @@ public class SpecimenTool extends LinearOpMode {
 
     }
 
-    public void teleOpHighResetVertical () {
-        slides.collect();
-        gripper.samplePickUp90();
-        sleep(1000);
-        arm.collect();
-        sleep(1000);
-
-    }
 
     public void teleOpEject() {
         gripper.drop();
@@ -173,8 +148,6 @@ public class SpecimenTool extends LinearOpMode {
 //        sleep(1000);
     }
 
-
-
     public void specimenLowBasket() {
         arm.lowBasketDrop();
         sleep(1000);
@@ -184,17 +157,6 @@ public class SpecimenTool extends LinearOpMode {
         sleep(500);
     }
 
-    public void level2Hang() {
-        arm.moveToPosition(DoubleArm.DoubleArmPos.LEVEL_TWO_HANG);
-        sleep(500);
-        slides.moveToPositionLowPower(Slides.SlidesPos.LEVEL_2_HANG_START);
-        sleep(3500);
-
-        slides.moveToPosition(Slides.SlidesPos.LEVEL_2_HANG_END);
-        sleep(1000);
-        arm.moveToPosition(DoubleArm.DoubleArmPos.RESET);
-        sleep(1000);
-    }
 
     public void reset() {
         slides.resetPos();
@@ -250,9 +212,9 @@ public class SpecimenTool extends LinearOpMode {
         sleep(500);
 
         arm.specimenCollect();
-        sleep(1000);
+        sleep(500);
         slides.specimenCollect();
-        sleep(1000);
+//        sleep(1000);
     }
 
     //--------------------------------------------------------------------------------------------------------------------
@@ -320,7 +282,7 @@ public class SpecimenTool extends LinearOpMode {
 
                 arm.setPosAndWait((int) DoubleArm.DoubleArmPos.LEFT_AUTO_BASKET_DROP.getValue());
                 slides.setPosAndWaitWithTolerance((int) Slides.SlidesPos.LEFT_AUTO_BASKET_DROP.getValue(), 15);
-                sleep(750);
+                sleep(800);
                 gripper.leftAutoSampleDrop();
 
                 LeftAutoHighDropArmSetupActionDone = true;
@@ -373,7 +335,7 @@ public class SpecimenTool extends LinearOpMode {
 
 
         arm.setPosAndWaitThreshold((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP.getValue(), 45);
-        //sleep(900);
+        sleep(150);
 
         gripper.drop();
         sleep(220);
@@ -397,9 +359,9 @@ public class SpecimenTool extends LinearOpMode {
 
     public void afterDropRightAutoSpecimenCollect() {
 
-        arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_PICKUP_INTERMEDIATE_WAIT.getValue());
+        arm.setPosAndWaitPower((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_PICKUP_INTERMEDIATE_WAIT.getValue());
         slides.reset();
-        arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_PICKUP_UP);
+        arm.setPosPower((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_PICKUP_UP.getValue());
         gripper.rightAutoSpecimenPickUp();
 //        sleep(500);
     }
@@ -432,116 +394,6 @@ public class SpecimenTool extends LinearOpMode {
 
 
 
-    public enum SpecimenState {
-        BASE(DoubleArm.DoubleArmPos.COLLECT, Slides.SlidesPos.COLLECT) {
-            @Override
-            public void execute(SpecimenTool tool) {
-
-            }
-        },
-        COLLECT_SPECIMEN(DoubleArm.DoubleArmPos.SPECIMEN_DROP, Slides.SlidesPos.SPECIMEN_DROP) {
-            @Override
-            public void execute(SpecimenTool tool) {
-                tool.specimenCollect();
-            }
-        },
-        DROP(DoubleArm.DoubleArmPos.SPECIMEN_ARM_CLIP, Slides.SlidesPos.SPECIMEN_CLIP) {
-            @Override
-            public void execute(SpecimenTool tool) {
-                tool.teleOpSpecimenHangPos();
-            }
-        },
-        EJECT(DoubleArm.DoubleArmPos.SPECIMEN_ARM_CLIP, Slides.SlidesPos.SPECIMEN_CLIP) {
-            @Override
-            public void execute(SpecimenTool tool) {
-                tool.teleOpEject();
-            }
-        };
-
-
-        public abstract void execute(SpecimenTool tool);
-
-        SpecimenState(DoubleArm.DoubleArmPos amrPos, Slides.SlidesPos slidesPos){
-            this.doubleArmPos = amrPos;
-            this.slidePos = slidesPos;
-        }
-
-        Slides.SlidesPos  slidePos ;
-        DoubleArm.DoubleArmPos doubleArmPos ;
-
-    }
-
-    public enum HangState{
-        BASE(DoubleArm.DoubleArmPos.COLLECT, Slides.SlidesPos.COLLECT) {
-            @Override
-            public void execute(SpecimenTool tool){
-
-            }
-        },
-        Part1(DoubleArm.DoubleArmPos.SPECIMEN_DROP, Slides.SlidesPos.SPECIMEN_DROP) {
-            @Override
-            public void execute(SpecimenTool tool) {
-
-                tool.level2HangPart1();
-            }
-        },
-        Part2(DoubleArm.DoubleArmPos.SPECIMEN_ARM_CLIP, Slides.SlidesPos.SPECIMEN_CLIP){
-            @Override
-            public void execute(SpecimenTool tool) {
-
-                tool.level2HangPart1();
-            }
-        };
-
-        public abstract void execute(SpecimenTool tool);
-
-        HangState(DoubleArm.DoubleArmPos amrPos, Slides.SlidesPos slidesPos){
-            this.doubleArmPos = amrPos;
-            this.slidePos = slidesPos;
-        }
-
-        Slides.SlidesPos  slidePos ;
-        DoubleArm.DoubleArmPos doubleArmPos ;
-    }
-
-
-    public enum SampleState{
-        BASE(DoubleArm.DoubleArmPos.COLLECT, Slides.SlidesPos.COLLECT) {
-            @Override
-            public void execute(SpecimenTool tool){
-
-            }
-        },
-        HIGHBASKET(DoubleArm.DoubleArmPos.SPECIMEN_DROP, Slides.SlidesPos.SPECIMEN_DROP) {
-            @Override
-            public void execute(SpecimenTool tool) {
-                tool.dropHighBasket();
-            }
-        },
-        //EJECT(DoubleArm.DoubleArmPos.SPECIMEN_ARM_CLIP, Slides.SlidesPos.SPECIMEN_CLIP){
-            //@Override
-            //public void execute(SpecimenTool tool) {
-                //tool.teleOpEject();
-           // }
-       // },
-
-        HIGH_TO_MOVE(DoubleArm.DoubleArmPos.SPECIMEN_ARM_CLIP, Slides.SlidesPos.SPECIMEN_CLIP){
-            @Override
-            public void execute(SpecimenTool tool) {
-                tool.highReset();
-            }
-        };
-
-        public abstract void execute(SpecimenTool tool);
-
-        SampleState(DoubleArm.DoubleArmPos amrPos, Slides.SlidesPos slidesPos){
-            this.doubleArmPos = amrPos;
-            this.slidePos = slidesPos;
-        }
-
-        Slides.SlidesPos  slidePos ;
-        DoubleArm.DoubleArmPos doubleArmPos ;
-    }
 
 
 

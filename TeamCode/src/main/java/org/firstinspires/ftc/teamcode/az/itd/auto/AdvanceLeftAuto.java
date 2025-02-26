@@ -40,7 +40,8 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
     private Action collectPos2_1;
     private Action collectPos3_1;
     private Action waitForArmAction1;
-    private Action highLaterDropsArmSetupAction;
+    private Action
+            highLaterDropsArmSetupAction;
     private Action waitForArmAction2;
     private Action waitForArmAction3;
     private Action parkPos;

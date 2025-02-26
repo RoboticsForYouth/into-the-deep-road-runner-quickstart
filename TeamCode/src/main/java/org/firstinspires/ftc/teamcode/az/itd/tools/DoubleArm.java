@@ -16,6 +16,8 @@ public class DoubleArm extends LinearOpMode {
     DcMotorEx doubleArmMotor2;
     LinearOpMode opMode;
     public static final double POWER = 1.0;
+    public static final double SPECIMEN_POWER = 0.85;
+
     public static final double LOW_POWER = 0.35;
     public static final int INCREMENT = 50;
     private static final int SLOW_INCREMENT = 50;
@@ -64,7 +66,7 @@ public class DoubleArm extends LinearOpMode {
         SPECIMEN_PICKUP_UP((int)(0*ARM_CONVERSION_FACTOR)),
         SPECIMEN_ARM_CLIP((int)(90 * ARM_CONVERSION_FACTOR)),
 
-        PRE_LEVEL_TWO_HANG((int)(75*ARM_CONVERSION_FACTOR)),
+        PRE_LEVEL_TWO_HANG((int)(50*ARM_CONVERSION_FACTOR)),
         LEVEL_TWO_HANG((int)(90 * ARM_CONVERSION_FACTOR)),
         LEVEL_TWO_HANG_PART_TWO((int)(45 * ARM_CONVERSION_FACTOR)),
 
@@ -160,7 +162,7 @@ public class DoubleArm extends LinearOpMode {
         double gravityCompensation = 0.01 * Math.cos(Math.toRadians(v));
         double power = 1.0 + gravityCompensation;
         if( currentPosition - pos > 0){
-            power = 0.4;
+            power = 0.25;
         }
         AZUtil.setBothMotorTargetPosition(doubleArmMotor1, doubleArmMotor2, pos, power);
 
@@ -168,8 +170,21 @@ public class DoubleArm extends LinearOpMode {
 
     }
 
+    public void setPosPower(int pos){
+
+        AZUtil.setBothMotorTargetPosition(doubleArmMotor1, doubleArmMotor2, pos, SPECIMEN_POWER);
+
+//        InitialValues.CurrentArmPos = pos;
+
+    }
+
     public void setPosAndWait(int pos){
         setPos(pos);
+        AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos, 15, 3000);
+    }
+
+    public void setPosAndWaitPower(int pos){
+        setPosPower(pos);
         AZUtil.waitUntilMotorAtPos(this.opMode, doubleArmMotor1, pos, 15, 3000);
     }
 
@@ -295,7 +310,7 @@ public class DoubleArm extends LinearOpMode {
     }
 
     public void specimenCollect() {
-        setPos(DoubleArmPos.SPECIMEN_PICKUP_UP.value);
+        setPosPower(DoubleArmPos.SPECIMEN_PICKUP_UP.value);
     }
 
 

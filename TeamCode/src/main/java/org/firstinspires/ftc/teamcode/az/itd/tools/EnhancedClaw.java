@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.az.itd.tools;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -19,21 +17,13 @@ public class EnhancedClaw extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private CRServo roller;
     private Servo wrist;
-//    private ColorSensor sampleSensor;
+    //    private ColorSensor sampleSensor;
     private Servo elbow;
     private LinearOpMode linearOpMode;
 
 
     public EnhancedClaw() {
         super();
-    }
-
-    public void stopPower() {
-        roller.setPower(RollerPower.STOP.getPower());
-    }
-
-    public void specimenExtradrop() {
-        elbow.setPosition(ELBOW_POS.SPECIMEN_DROP_EXTRA.pos);
     }
 
 
@@ -88,19 +78,10 @@ public class EnhancedClaw extends LinearOpMode {
         RESET(0.2), //0.2 0.77 0.2
 
         PICKUP(0.5), //0.5
-        AUTO_PICKUP(0.55), //0
-        RIGHT_AUTO_PICKUP(0.77),
         DROP_OFF(1), //0.55
         PICKUP_90(0.75),
-        DROP_OFF_SPECIMEN(0.2), //0.2 0.77
-        AUTO_PICKUP_ANGLED(0.84),
-        AUTO_PICKUP_SAMPLE_TWO(0.27),
-        AUTO_PICKUP_SAMPLE_THREE(0.27),
-        AUTO_PICKUP_SAMPLE_FOUR(0.84),
         PICKUP_SPECIMEN(0.75), //0.75
         TELEOP_DROP_OFF_SPECIMEN(0.2), //0.2 0.77
-
-
 
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -134,23 +115,13 @@ public class EnhancedClaw extends LinearOpMode {
 
     public enum ELBOW_POS {
         PICKUP(0.12), //0.09
-        DROP(0.65), //0.2
-        HANG_POS(0.2),
-        AUTO_PICKUP(0.09), //0.2 //0.17
-        RIGHT_AUTO_PICKUP(0.2),
-        RIGHT_AUTO_MOVE(0.4),
-        SPECIMEN_PICKUP(0.39), //0.25
+        DROP(0.66), //0.2
+        HANG_POS(0.5), ///0.2
+        SPECIMEN_PICKUP(0.4), //0.25
         MOVE(0.12), //0.35
-        SPECIMEN_DROP(.46), //0.7
-        SPECIMEN_DROP_TEST(0.42), //0.7
-        AUTO_PROTECT(0.3),
-        SPECIMEN_DROP_EXTRA(1),
-        TELEOP_SPECIMEN_DROP(.43),
+        TELEOP_SPECIMEN_DROP(.42),
 
         RESET(0.75),
-        SPECIMEN_RELEASE(0.12),
-        AUTO_DROP(0.5), //0
-
 
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -161,13 +132,11 @@ public class EnhancedClaw extends LinearOpMode {
         LEFT_AUTO_DROP_INTERMEDIATE(0.3),
         //--------------------------------------------------------------------------------------------------------------------
 
-        RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN(0.73), //0.7
-
         //--------------------------------------------------------------------------------------------------------------------
         //RIGHT AUTO!!!
-        RIGHT_AUTO_SPECIMEN_PICKUP(0.39), //0.25
+        RIGHT_AUTO_SPECIMEN_PICKUP(0.4), //0.25
         RIGHT_AUTO_SPECIMEN_DROP(0.45), //0.7
-            //--------------------------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------------------------
 
         //wrist 0.2, elbow 0.65
         ;
@@ -183,14 +152,6 @@ public class EnhancedClaw extends LinearOpMode {
         }
     }
 
-//    public EnhancedClaw() {
-//        super();
-//        opMode = this;
-//    }
-
-    String detectedColor = "unknown"; // Fixed 'string' to 'String'
-
-    private TimedRunnable currentRunnable = null; // To track scheduled tasks
 
     public EnhancedClaw(LinearOpMode linearOpMode) {
         this.linearOpMode = linearOpMode;
@@ -206,7 +167,7 @@ public class EnhancedClaw extends LinearOpMode {
                 '}';
     }
 
-    public void setElbowPos(double pos){
+    public void setElbowPos(double pos) {
         elbow.setPosition(pos + CORRECTION);
     }
 
@@ -240,84 +201,17 @@ public class EnhancedClaw extends LinearOpMode {
         setElbowPos(newPos);
     }
 
-//    public void detectColorAction() {
-//        // Continuously detect color
-//        detectedColor = detectColor();
-//
-//        // If the color detected is red, eject and schedule task
-//        if (detectedColor.equals(RED)) {
-//            roller.setPower(RollerPower.EJECT.getPower());
-//
-//            // Schedule a task to reverse the roller after 1 second
-//            AZUtil.runInParallel(new Runnable() {
-//                @Override
-//                public void run() {
-//                    sleep(1000);
-//                    roller.setPower(RollerPower.PICKUP.getPower());// Reverse roller after 1 second
-//                }
-//            });
-//        }
-//
-//        // Rumble if Blue or Yellow detected
-//        else if(detectedColor.equals(BLUE) || detectedColor.equals(YELLOW)) {
-//            //gamepad1.rumble(15);
-//            AZUtil.runInParallel( new Runnable() {
-//                @Override
-//                public void run() {
-//                    sleep(750);
-//                }
-//            });
-//        }
-//    }
-
-//    public void detectColorActionEjectAuto() {
-//        drop();
-//        // Continuously detect color
-//        detectedColor = detectColor();
-//
-//        // If the color detected is red, eject and schedule task
-//        while (!detectedColor.equals(UNKNOWN)) {
-//            Thread.yield();
-//            detectedColor = detectColor();
-//            };
-//
-//        sleep(2000);
-//
-//        roller.setPower(RollerPower.STOP.getPower());
-//        setPos(RollerPower.STOP, WRIST_POS.PICKUP, ELBOW_POS.PICKUP);
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public void specimenDropPos() {
-        roller.setPower(RollerPower.PICKUP.getPower());
-        wrist.setPosition(WRIST_POS.DROP_OFF_SPECIMEN.getPos());
-        sleep(500);
-        setElbowPos(ELBOW_POS.SPECIMEN_DROP.getPos());
-    }
-
     public void samplePickUp90() {
         setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_90, ELBOW_POS.PICKUP);
     }
 
-    public void  reset() {
+    public void reset() {
         setElbowPos(ELBOW_POS.RESET.getPos());
         roller.setPower(RollerPower.STOP.getPower());
         wrist.setPosition(WRIST_POS.RESET.getPos());
     }
 
-    public void  specimenAutoReset() {
+    public void specimenAutoReset() {
         setElbowPos(ELBOW_POS.RESET.getPos());
         roller.setPower(RollerPower.PICKUP.getPower());
         wrist.setPosition(WRIST_POS.RESET.getPos());
@@ -328,7 +222,7 @@ public class EnhancedClaw extends LinearOpMode {
         setPos(RollerPower.PICKUP, WRIST_POS.PICKUP, ELBOW_POS.PICKUP);
     }
 
-    public void move(){
+    public void move() {
         setPos(RollerPower.STOP, WRIST_POS.PICKUP, ELBOW_POS.MOVE);
     }
 
@@ -344,13 +238,10 @@ public class EnhancedClaw extends LinearOpMode {
         roller.setPower(RollerPower.STOP.getPower());
     }
 
-    public void drop(){
+    public void drop() {
         roller.setPower(RollerPower.EJECT.getPower());
     }
 
-    public void autoProtect() {
-        setPos(RollerPower.PICKUP, WRIST_POS.LEFT_AUTO_DROP_OFF, ELBOW_POS.AUTO_PROTECT);
-    }
 
     public void specimenPickUp() {
         setPos(RollerPower.PICKUP, WRIST_POS.PICKUP_SPECIMEN, ELBOW_POS.SPECIMEN_PICKUP);
@@ -364,12 +255,9 @@ public class EnhancedClaw extends LinearOpMode {
     }
 
 
-
-
-
     //--------------------------------------------------------------------------------------------------------------------
     //LEFT AUTO!!!
-    public void  leftAutoReset() {
+    public void leftAutoReset() {
         setElbowPos(ELBOW_POS.LEFT_AUTO_RESET.getPos());
         roller.setPower(RollerPower.PICKUP.getPower());
         wrist.setPosition(WRIST_POS.LEFT_AUTO_RESET.getPos());
@@ -413,30 +301,26 @@ public class EnhancedClaw extends LinearOpMode {
 
 
 
-//    public String detectColor() {
-////        int red = sampleSensor.red();
-////        int green = sampleSensor.green();
-////        int blue = sampleSensor.blue();
-//
-//        String val;
-//        int minPowerVal = 500;
-//        // Logic to detect Red, Blue, and Yellow based on RGB values
-//        if (red > blue  && red > green && red > minPowerVal) {
-//            val = RED;
-//        } else if (blue > red && blue > green && blue > minPowerVal) {
-//            val = BLUE;
-//        } else if ( green > red && green > blue && green > minPowerVal) { // Yellow detection threshold
-//            val = YELLOW;
-//        } else {
-//            val = UNKNOWN;
-//        }
-//
-//        ColorVal.red = red;
-//        ColorVal.green = green;
-//        ColorVal.blue = blue;
-//        ColorVal.val = val;
-//        return val;
-//    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // Abstract class for timed runnable tasks
     abstract class TimedRunnable implements Runnable {
@@ -471,57 +355,21 @@ public class EnhancedClaw extends LinearOpMode {
             }
 
 
-            if( gamepad1.right_bumper){
+            if (gamepad1.right_bumper) {
                 samplePickUp90();
             }
 
-            if( gamepad1.left_bumper){
+            if (gamepad1.left_bumper) {
                 specimenPickUp();
 
             }
 
-            if(gamepad1.dpad_down) {
+            if (gamepad1.dpad_down) {
                 roller.setPower(RollerPower.PICKUP.getPower());
             }
 
-//            detectColorAction();
-
-            // Display the color sensor readings and detected color
-//            telemetry.addData("Detected Color", ColorVal.getValues());
-//            telemetry.addLine(String.valueOf(this));
-//            telemetry.update();
-
 
         }
     }
 }
 
-class ColorVal{
-    public static int red, green, blue;
-    public static String val;
-
-    public static String getValues(){
-        return new StringBuffer("Red: ")
-                .append(red)
-                .append(", green: ")
-                .append(green)
-                .append(", blue: ")
-                .append(blue)
-                .append("; ")
-                .append(val).toString();
-    }
-}
-
-class ColorMode {
-
-    Color collectColor;
-    Color excludeColor;
-
-    public void setCollectColor(Color color){
-        if (Color.valueOf(Color.RED) == color){
-            collectColor = color;
-            excludeColor = Color.valueOf(Color.BLUE);
-        }
-    }
-
-}
