@@ -136,7 +136,7 @@
 //        setWristCurrentPosValue(wristPos);
 //    }
 //
-//    public void collectVertical() {
+//    public void teleOpCollectVertical() {
 //        roller.setPower(RollerPower.COLLECT.value);
 //        wrist.setPosition(GripperPos.WRISTRESET.value);
 //    }

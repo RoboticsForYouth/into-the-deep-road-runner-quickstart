@@ -81,28 +81,10 @@ public class RightAuto extends RightAutoPosValues {
 
 
 
-    public class specimenHang implements Action {
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-
-
-            specimenTool.specimenCollect();
-            sleep(1000);
-
-
-
-            return false;
-        }
-    }
-
-    public Action specimenHang() {
-        return new specimenHang();
-    }
 
     public void initAuto() {
         specimenTool = new SpecimenTool(this);
-        specimenTool.specimenAutoReset();
+        specimenTool.rightAutoReset();
 
         candyCane = new CandyCane((this));
 

@@ -21,7 +21,6 @@ public class DoubleArm extends LinearOpMode {
     public static final double LOW_POWER = 0.35;
     public static final int INCREMENT = 50;
     private static final int SLOW_INCREMENT = 50;
-//    public static final double ARM_TICKS_PER_DEGREE = 19.7924893140647;
     public static final double ARM_CONVERSION_FACTOR = 14.444444444444;
 
     //PID adjustment
@@ -29,15 +28,11 @@ public class DoubleArm extends LinearOpMode {
     private static final double kI = 0.0;
     private static final double kD = 0.0;
     private static final double kF = 0.0; // Feedforward term, usually not needed for position control
-    private static final double GRAVITY_COMPENSATION = 0.2;
     PIDFCoefficients pidfCoefficients = new PIDFCoefficients(kP, kI, kD, kF);
 
-    private int currentPosValue;
     private Slides slides;
 
-//    public DoubleArm() {
-//        super();
-//    }
+
 
     public String printCurrentPos() {
         return  new StringBuffer().append("doubleArm 1: ")
@@ -58,23 +53,17 @@ public class DoubleArm extends LinearOpMode {
     public enum DoubleArmPos {
         //multiple 1.39 times when we replace 435 motor with 312 motor
         RESET(0),
-        COLLECT((int)(18.5 * ARM_CONVERSION_FACTOR)),  //(-785),
+        COLLECT((int)(18.3 * ARM_CONVERSION_FACTOR)),  //(-785),
         LOW_BASKET_DROP((int)(90 * ARM_CONVERSION_FACTOR)),
 
-        SPECIMEN_DROP((int)(92 * ARM_CONVERSION_FACTOR)), //(600),
-        SPECIMEN_DROP_INTEMEDIATE((int)(20 * ARM_CONVERSION_FACTOR)), //(600),
         SPECIMEN_PICKUP_UP((int)(0*ARM_CONVERSION_FACTOR)),
-        SPECIMEN_ARM_CLIP((int)(90 * ARM_CONVERSION_FACTOR)),
 
         PRE_LEVEL_TWO_HANG((int)(50*ARM_CONVERSION_FACTOR)),
-        LEVEL_TWO_HANG((int)(90 * ARM_CONVERSION_FACTOR)),
-        LEVEL_TWO_HANG_PART_TWO((int)(45 * ARM_CONVERSION_FACTOR)),
 
 
         MOVE((int)(14 * ARM_CONVERSION_FACTOR)), //(-450),
         BASKET_DROP((int)(94 * ARM_CONVERSION_FACTOR)),
 
-        VERTICAL_TEST(1300),
         TELEOP_SPECIMEN_DROP((int)(95 * ARM_CONVERSION_FACTOR)), //(600)
 
 
@@ -88,7 +77,6 @@ public class DoubleArm extends LinearOpMode {
 
         //--------------------------------------------------------------------------------------------------------------------
 
-        RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN((int)(75 * ARM_CONVERSION_FACTOR)), //(600)
 
         //--------------------------------------------------------------------------------------------------------------------
         //RIGHT AUTO!!!
@@ -96,9 +84,8 @@ public class DoubleArm extends LinearOpMode {
         RIGHT_AUTO_SPECIMEN_DROP((int)(92 * ARM_CONVERSION_FACTOR)), //(600)
         RIGHT_AUTO_SPECIMEN_PICKUP_UP((int)(0*ARM_CONVERSION_FACTOR)),
         RIGHT_AUTO_SPECIMEN_PICKUP_INTERMEDIATE_WAIT((int)(80*ARM_CONVERSION_FACTOR)),
-        RIGHT_AUTO_SPECIMEN_DROP_INTEMEDIATE((int)(20 * ARM_CONVERSION_FACTOR)); //(600)
         //--------------------------------------------------------------------------------------------------------------------
-
+;
 
         private final int value;
 

@@ -230,7 +230,7 @@
 //        setPower(factor);
 //    }
 //
-//    public void specimenCollect() {
+//    public void teleOpSpecimenCollect() {
 //        moveToPosition(ArmPos.SPECIMEN_COLLECT.value);
 //    }
 //

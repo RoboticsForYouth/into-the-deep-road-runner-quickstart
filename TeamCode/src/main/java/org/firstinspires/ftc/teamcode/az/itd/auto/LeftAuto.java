@@ -87,7 +87,7 @@
 //                        new Action() {
 //                            @Override
 //                            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-//                                specimenTool.specimenCollect();
+//                                specimenTool.teleOpSpecimenCollect();
 //                                sleep(1000);
 //                                return false;
 //                            }

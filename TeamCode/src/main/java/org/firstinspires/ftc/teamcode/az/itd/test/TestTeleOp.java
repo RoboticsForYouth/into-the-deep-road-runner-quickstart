@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.az.itd.tools.DoubleArm;
-import org.firstinspires.ftc.teamcode.az.itd.tools.Slides;
 import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
 import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
 
@@ -119,21 +118,17 @@ public class TestTeleOp extends LinearOpMode {
                         specimenTool.arm.setup();
                         specimenTool.slides.resetPos();
                     }
-                    if(gamepad1.y) {
-                        specimenTool.move();
-                    }
+
                     if(gamepad1.right_trigger > 0) {
                         specimenTool.gripper.moveUp();
                     }
                     if(gamepad1.left_trigger > 0) {
                         specimenTool.gripper.moveDown();
                     }
-                    if(gamepad1.x) {
-                        specimenTool.slides.moveToPosition(Slides.SlidesPos.TEST_HEIGHT);
-                    }
+
                     if(gamepad1.a) {
                         specimenTool.arm.specimenPickUp();
-                        specimenTool.slides.specimenPickUp();
+                        specimenTool.slides.specimenCollect();
                         specimenTool.gripper.specimenPickUp();
                     }
 

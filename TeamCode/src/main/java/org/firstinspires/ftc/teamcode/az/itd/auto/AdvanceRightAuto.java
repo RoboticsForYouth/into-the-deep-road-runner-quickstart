@@ -61,7 +61,7 @@
 //                AZUtil.runInParallel(new Runnable() {
 //                    @Override
 //                    public void run() {
-//                        //specimenTool.specimenCollect();
+//                        //specimenTool.teleOpSpecimenCollect();
 //                        sleep(1000);
 //                    }
 //                });

@@ -48,24 +48,16 @@ public class Slides extends LinearOpMode {
 
     public enum SlidesPos {
 
-        LEVEL_2_HANG_START(1400),
-        LEVEL_2_HANG_START_OPTION2_END_POS(1700),
-        LEVEL_2_HANG_END(400),
+        LEVEL_2_HANG_START_OPTION2_END_POS(2000),
         COLLECT(500),
-        RIGHT_AUTO_COLLECT(1500),
-
         MOVE(400),
         SPECIMEN_COLLECT(100),
-        BASKET_DROP(2650),
+        BASKET_DROP(2750),
         LOW_BASKET_DROP(850),
 
-        SPECIMEN_PICKUP(300),
 
         RESET(0),
-        SPECIMEN_DROP(0), //650
-        SPECIMEN_CLIP(700),
 
-        TEST_HEIGHT(1800),
         TELEOP_SPECIMEN_DROP(0), //650
 
 
@@ -81,10 +73,6 @@ public class Slides extends LinearOpMode {
         LEFT_AUTO_INTERMEDIATE_PICKUP(700),
 
         //--------------------------------------------------------------------------------------------------------------------
-
-        RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN_INITIAL(950), //650
-        RIGHT_AUTO_SPECIMEN_DROP_SLIDES_DOWN(450), //650
-
 
         //--------------------------------------------------------------------------------------------------------------------
         //RIGHT AUTO!!!
@@ -241,13 +229,6 @@ public class Slides extends LinearOpMode {
         setPos(slidesPos.value);
     }
 
-    public void moveToPositionLowPower(SlidesPos slidesPos){
-        setPosLowPower(slidesPos.value);
-    }
-
-    public void specimenPickUp() {
-        moveToPosition(SlidesPos.SPECIMEN_PICKUP);
-    }
 
     public void move() {
         setPos(SlidesPos.MOVE.value);

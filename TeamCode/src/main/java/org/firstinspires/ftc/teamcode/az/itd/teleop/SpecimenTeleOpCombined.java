@@ -186,7 +186,7 @@
 //                        @Override
 //                        public void run() {
 //                            rightTriggerProcessing = true;
-//                            specimenTool.slidesExtend(gamepad1.right_trigger);
+//                            specimenTool.teleOpSlidesExtend(gamepad1.right_trigger);
 //                            rightTriggerProcessing = false;
 //                        }
 //                    });
@@ -201,7 +201,7 @@
 //                            buttonXProcessing = true;
 //
 //                            if(arm.getCurrentPosition() < 500) {
-//                                specimenTool.collectVertical();
+//                                specimenTool.teleOpCollectVertical();
 //
 //                            }
 //                            else {

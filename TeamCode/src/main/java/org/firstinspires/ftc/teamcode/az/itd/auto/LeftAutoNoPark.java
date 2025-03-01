@@ -48,7 +48,7 @@
 //                AZUtil.runInParallel(new Runnable() {
 //                    @Override
 //                    public void run() {
-//                        specimenTool.specimenCollect();
+//                        specimenTool.teleOpSpecimenCollect();
 //                        sleep(1000);
 //                    }
 //                });
@@ -87,7 +87,7 @@
 //
 //            @Override
 //            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-//                specimenTool.dropHighBasket();
+//                specimenTool.teleOpDropHighBasket();
 //                return false;
 //            }
 //        };

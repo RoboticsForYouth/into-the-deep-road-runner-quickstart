@@ -100,7 +100,7 @@
 //        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
 //
 //
-//            specimenTool.specimenCollect();
+//            specimenTool.teleOpSpecimenCollect();
 //            sleep(1000);
 //
 //
@@ -115,7 +115,7 @@
 //
 //    public void initAuto() {
 //        specimenTool = new SpecimenTool(this);
-//        specimenTool.specimenAutoReset();
+//        specimenTool.rightAutoReset();
 //
 //        candyCane = new CandyCane((this));
 //

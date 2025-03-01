@@ -88,7 +88,7 @@ public class BasicLeftAuto extends LeftAutoPosValues {
     private void setUpActions(){
         specimenDropPos = drive.actionBuilder(beginPose)
                 .splineToConstantHeading(new Vector2d(19, 0), Math.toRadians(0))
-//                .afterDisp(1, specimenCollect)
+//                .afterDisp(1, teleOpSpecimenCollect)
                 .build();
 
         prePark = drive.actionBuilder(drive.pose)
@@ -97,14 +97,7 @@ public class BasicLeftAuto extends LeftAutoPosValues {
                 .splineTo(new Vector2d(50, 19), Math.toRadians(-90))
                 .build();
 
-        specimenHang = new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.specimenCollect();
-                sleep(1000);
-                return false;
-            }
-        };
+
         specimenToolWait = new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {

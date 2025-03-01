@@ -89,7 +89,7 @@
 //
 //    public void initAuto() {
 //        specimenTool = new SpecimenTool(this);
-//        specimenTool.specimenAutoReset();
+//        specimenTool.rightAutoReset();
 //
 //        candyCane = new CandyCane((this));
 //
