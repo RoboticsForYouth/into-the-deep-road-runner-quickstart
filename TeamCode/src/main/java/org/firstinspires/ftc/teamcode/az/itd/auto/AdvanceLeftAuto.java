@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TurnConstraints;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -66,9 +67,9 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
         moveToDropPos0 = moveToDropTraj0.build();
 
         TrajectoryActionBuilder collectTraj1 = moveToDropTraj0.endTrajectory().fresh()
-                .strafeToConstantHeading(collect1)
+                .turnTo(Math.toRadians(COLLECT_HEADING_1), turnConstraints) //6
+                .strafeToConstantHeading(collect1);
 //                .strafeToLinearHeading(new Vector2d(14.25, 9.5), Math.toRadians(6));
-                .turnTo(Math.toRadians(COLLECT_HEADING_1), turnConstraints); //6
         collectPos1 = collectTraj1.build();
 
         TrajectoryActionBuilder collectTraj1_1 = collectTraj1.endTrajectory().fresh()
@@ -82,9 +83,10 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
         moveToDropPos1 = moveToDropTraj1.build();
 
         TrajectoryActionBuilder collectTraj2 = moveToDropTraj1.endTrajectory().fresh()
+                .turnTo(Math.toRadians(COLLECT_HEADING_2), turnConstraints)
                 .strafeToConstantHeading(collect2)
 //                .strafeToLinearHeading(new Vector2d(10, 8.5), Math.toRadians(10));
-                .turnTo(Math.toRadians(COLLECT_HEADING_2), turnConstraints); //35
+                ; //35
         collectPos2 = collectTraj2.build();
 
         TrajectoryActionBuilder collectTraj2_1 = collectTraj2.endTrajectory().fresh()
@@ -103,12 +105,12 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                 .turnTo(Math.toRadians(COLLECT_HEADING_3), turnConstraints); //31
         collectPos3 = collectTraj3.build();
 
-        TrajectoryActionBuilder collectTraj3_1 = collectTraj3.endTrajectory().fresh()
-                .strafeToConstantHeading(collect3_1);
-//                .turnTo(Math.toRadians(45), turnConstraints);
-        collectPos3_1 = collectTraj3_1.build();
+//        TrajectoryActionBuilder collectTraj3_1 = collectTraj3.endTrajectory().fresh()
+//                .strafeToConstantHeading(collect3_1);
+////                .turnTo(Math.toRadians(45), turnConstraints);
+//        collectPos3_1 = collectTraj3_1.build();
 
-        TrajectoryActionBuilder moveToDropTraj4 = collectTraj3_1.endTrajectory().fresh()
+        TrajectoryActionBuilder moveToDropTraj4 = collectTraj3.endTrajectory().fresh()
 //                .turnTo(Math.toRadians(HIGH_BASKET_HEADING));
                 .strafeToLinearHeading(drop3, Math.toRadians(BASKET_HEADING_3));
         moveToDropPos3 = moveToDropTraj4.build();
@@ -169,7 +171,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                 while( !LeftAutoHighDropArmSetupActionDone){
                     Thread.yield();
                 }
-                specimenTool.leftAutoCollect(Slides.SlidesPos.LEFT_AUTO_PICKUP_THIRD, EnhancedClaw.WRIST_POS.LEFT_AUTO_PICKUP_THIRD, DoubleArm.DoubleArmPos.LEFT_AUTO_PICKUP_THIRD);
+                specimenTool.thirdLeftAutoCollect(Slides.SlidesPos.LEFT_AUTO_PICKUP_THIRD, EnhancedClaw.WRIST_POS.LEFT_AUTO_PICKUP_THIRD, DoubleArm.DoubleArmPos.LEFT_AUTO_PICKUP_THIRD);
                 return false;
             }
         };
@@ -241,6 +243,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                         moveToDropPos0, //start here!!!
                         collectAction1,
                         collectPos1,
+//                        new SleepAction(0.5),
                         waitForArmAction1,
                         collectPos1_1,
 
@@ -248,6 +251,7 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                         moveToDropPos1,
                         collectAction2,
                         collectPos2,
+//                        new SleepAction(0.5),
                         waitForArmAction2,
                         collectPos2_1,
 
@@ -255,8 +259,9 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                         moveToDropPos2,
                         collectAction3,
                         collectPos3,
+                        new SleepAction(0.5),
                         waitForArmAction3,
-                        collectPos3_1,
+//                        collectPos3_1,
 
                         highLaterDropsArmSetupAction,
                         moveToDropPos3,

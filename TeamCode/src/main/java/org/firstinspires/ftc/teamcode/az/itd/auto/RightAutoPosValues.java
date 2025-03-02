@@ -7,7 +7,7 @@ public abstract class RightAutoPosValues extends LinearOpMode {
 
 
 
-    Vector2d specimenDrop1 = new Vector2d(25.2,13);
+    Vector2d specimenDrop1 = new Vector2d(25.2,17);
 
     Vector2d spikeMark1 =    new Vector2d(17, -22);
     public static final int   SPIKE_MARK_HEADING_1 = -30;
@@ -21,7 +21,7 @@ public abstract class RightAutoPosValues extends LinearOpMode {
 
     public static final int       HOCKEY_HEADING_2 = -87;
 
-    Vector2d spikeMark3 =   new Vector2d(23, -34.8);
+    Vector2d spikeMark3 =   new Vector2d(23, -35);
     public static final int    SPIKE_MARK_HEADING_3 = -48;
 
     public static final int       HOCKEY_HEADING_3 = -132;
@@ -31,19 +31,19 @@ public abstract class RightAutoPosValues extends LinearOpMode {
 
     public static final double       OBS_ZONE_1_XXXX = 3.25;
 
-    Vector2d specimenDrop2 = new Vector2d(26.7, 11);
+    Vector2d specimenDrop2 = new Vector2d(26.7, 14);
 
-    Vector2d obsZone2 =        new Vector2d(3.25, -37);
+    Vector2d obsZone2 =        new Vector2d(3.25, -39);
 
-    Vector2d specimenDrop3 =  new Vector2d(25.4, 9);
+    Vector2d specimenDrop3 =  new Vector2d(25.9, 11);
 
-    Vector2d obsZone3 =        new Vector2d(2.75, -37.5);
+    Vector2d obsZone3 =        new Vector2d(2.75, -39.5);
 
-    Vector2d specimenDrop4 =  new Vector2d(25.4, 7);
+    Vector2d specimenDrop4 =  new Vector2d(26.4, 8);
 
-    Vector2d obsZone4 =        new Vector2d(3.25, -37);
+    Vector2d obsZone4 =        new Vector2d(3.25, -39);
 
-    Vector2d specimenDrop5 =  new Vector2d(25.1, 5);
+    Vector2d specimenDrop5 =  new Vector2d(26, 5);
 
     Vector2d park =            new Vector2d(2, -38);
 

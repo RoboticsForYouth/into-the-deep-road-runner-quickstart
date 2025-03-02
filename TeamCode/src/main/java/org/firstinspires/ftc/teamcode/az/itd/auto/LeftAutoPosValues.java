@@ -6,41 +6,41 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public abstract class LeftAutoPosValues extends LinearOpMode {
 
-    Vector2d drop0 =   new Vector2d(13.5, 12);
+    Vector2d drop0 =   new Vector2d(14.5, 11);
     public static final int      BASKET_HEADING_0 = -45;
 
 
 
-    Vector2d collect1 = new Vector2d(14.25, 14.5);
+    Vector2d collect1 = new Vector2d(14.25, 18.5);
     public static final int     COLLECT_HEADING_1 = -20;
 
 
 
-    Vector2d collect1_1 =  new Vector2d(14, 22.5);
+    Vector2d collect1_1 =  new Vector2d(14.25, 23.5);
 
 
 
-    Vector2d drop1 =         new Vector2d(13, 13);
+    Vector2d drop1 =         new Vector2d(13, 9.5);
     public static final int        BASKET_HEADING_1 = -45;
 
 
 
-    Vector2d collect2 =    new Vector2d(9.75, 15.5);
+    Vector2d collect2 =    new Vector2d(12, 16);
     public static final int        COLLECT_HEADING_2 = 10;
 
 
 
-    Vector2d collect2_1 =      new Vector2d(10, 21);
+    Vector2d collect2_1 =      new Vector2d(12, 14);
 
 
 
-    Vector2d drop2 =        new Vector2d(12.5, 13.25);
+    Vector2d drop2 =        new Vector2d(10.5, 6);
     public static final int        BASKET_HEADING_2 = -45;
 
 
 
-    Vector2d collect3 =     new Vector2d(13.75, 21);
-    public static final int        COLLECT_HEADING_3 = 27;
+    Vector2d collect3 =     new Vector2d(13.75, 22.5);
+    public static final int        COLLECT_HEADING_3 = 40;
 
 
 
@@ -48,7 +48,7 @@ public abstract class LeftAutoPosValues extends LinearOpMode {
 
 
 
-    Vector2d drop3 =      new Vector2d(12.5 , 12.5);
+    Vector2d drop3 =      new Vector2d(14 , 10);
     public static final int        BASKET_HEADING_3 = -40;
 
 
@@ -56,7 +56,7 @@ public abstract class LeftAutoPosValues extends LinearOpMode {
     Vector2d park1 =            new Vector2d(54, 0);
     public static final int          PARK_HEADING_1 = -90;
 
-    Vector2d park2 =          new Vector2d(54, -9);
+    Vector2d park2 =          new Vector2d(54, -7);
 
 
 

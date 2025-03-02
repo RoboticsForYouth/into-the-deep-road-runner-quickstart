@@ -48,11 +48,11 @@ public class Slides extends LinearOpMode {
 
     public enum SlidesPos {
 
-        LEVEL_2_HANG_START_OPTION2_END_POS(2000),
+        LEVEL_2_HANG_START_OPTION2_END_POS(2050),
         COLLECT(500),
         MOVE(400),
         SPECIMEN_COLLECT(100),
-        BASKET_DROP(2750),
+        BASKET_DROP(2550),
         LOW_BASKET_DROP(850),
 
 
@@ -66,10 +66,10 @@ public class Slides extends LinearOpMode {
 
         //--------------------------------------------------------------------------------------------------------------------
         //LEFT AUTO!!!
-        LEFT_AUTO_PICKUP_FIRST(1150),
-        LEFT_AUTO_PICKUP_SECOND(1350),
-        LEFT_AUTO_PICKUP_THIRD(1100),
-         LEFT_AUTO_BASKET_DROP(2550),
+        LEFT_AUTO_PICKUP_FIRST(1250),
+        LEFT_AUTO_PICKUP_SECOND(1250),
+        LEFT_AUTO_PICKUP_THIRD(1200),
+         LEFT_AUTO_BASKET_DROP(2570),
         LEFT_AUTO_INTERMEDIATE_PICKUP(700),
 
         //--------------------------------------------------------------------------------------------------------------------

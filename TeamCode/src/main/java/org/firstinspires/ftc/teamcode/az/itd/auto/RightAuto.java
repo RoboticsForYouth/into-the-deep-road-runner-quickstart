@@ -54,7 +54,6 @@ public class RightAuto extends RightAutoPosValues {
      Action observationZonePos1;
      Action specimenDropPos2;
      Action releaseSpecimenAction;
-     Action specimenCollectAction;
      Action spikeMarkPos1;
      Action lowerCandyCaneAction;
      Action raiseCandyCaneAction;
@@ -230,7 +229,7 @@ public class RightAuto extends RightAutoPosValues {
                     @Override
                     public void run() {
 
-                        sleep(200);
+                        sleep(300);
 
                         specimenTool.gripper.rightAutoSpecimenDropPos();
 
@@ -249,13 +248,6 @@ public class RightAuto extends RightAutoPosValues {
             }
         };
 
-        specimenCollectAction = new Action(){
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.rightAutoSpecimenCollect();
-                return false;
-            }
-        };
 
         specimenCollectInParallelAction = new Action(){
             @Override
@@ -296,7 +288,7 @@ public class RightAuto extends RightAutoPosValues {
                 AZUtil.runInParallel(new Runnable() {
                     @Override
                     public void run() {
-                        sleep(850);
+                        sleep(950);
                         specimenTool.rightAutoSpecimenHangPos();
                     }
                 });

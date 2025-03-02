@@ -95,9 +95,9 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         while (!isStopRequested()) {
 
             drive.driveRobotCentric(
-                    -driverOp.getLeftX(),
-                    -driverOp.getLeftY(),
-                    -driverOp.getRightX(),
+                    -driverOp.getLeftX()*2,
+                    -driverOp.getLeftY()*2,
+                    -driverOp.getRightX()*2,
                     false
             );
 
@@ -182,7 +182,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                         @Override
                         public void run() {
                             dpadDownProcessing = true;
-                            specimenTool.teleOpLevel2HangPart1();
+                            specimenTool.teleOpLevel2Hang();
                             dpadDownProcessing = false;
                         }
                     });
@@ -377,7 +377,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
             }
 //            telemetry.addLine(InitialValues.printCurrentPos());
-            specimenTool.printPos(telemetry);
+//            specimenTool.printPos(telemetry);
         }
     }
 
