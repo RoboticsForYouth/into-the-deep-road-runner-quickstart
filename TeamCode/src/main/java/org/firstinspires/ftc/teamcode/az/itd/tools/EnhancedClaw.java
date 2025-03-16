@@ -121,7 +121,7 @@ public class EnhancedClaw extends LinearOpMode {
         HANG_POS(0.5), ///0.2
         SPECIMEN_PICKUP(0.415), //0.25
         MOVE(0.12), //0.35
-        TELEOP_SPECIMEN_DROP(.42),
+        TELEOP_SPECIMEN_DROP(.46),
 
         RESET(0.75),
 
