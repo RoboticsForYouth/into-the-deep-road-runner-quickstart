@@ -17,7 +17,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.az.itd.tools.CandyCane;
 import org.firstinspires.ftc.teamcode.az.itd.tools.DoubleArm;
-//import org.firstinspires.ftc.teamcode.az.itd.tools.InitialValues;
 import org.firstinspires.ftc.teamcode.az.itd.tools.SpecimenTool;
 import org.firstinspires.ftc.teamcode.az.sample.AZUtil;
 import org.firstinspires.ftc.teamcode.az.sample.MecanumDrive;
@@ -25,7 +24,7 @@ import org.firstinspires.ftc.teamcode.az.sample.MecanumDrive;
 
 @Config
 @Autonomous (preselectTeleOp = "IntoTheDeepTeleOp")
-public class RightAuto extends RightAutoPosValues {
+public class RightAutoNoPenalty extends RightAutoPosValuesNoPenalty {
 
     TurnConstraints turnConstraints = new TurnConstraints(
             (Math.PI)*2,
@@ -33,9 +32,9 @@ public class RightAuto extends RightAutoPosValues {
             (Math.PI)*2);
 
     TurnConstraints fasterTurnConstraints = new TurnConstraints(
-            (Math.PI)*3,
-            -(Math.PI)*3,
-            (Math.PI)*3);
+            (Math.PI)*2,
+            -(Math.PI)*2,
+            (Math.PI)*2);
 
 
 
@@ -117,7 +116,8 @@ public class RightAuto extends RightAutoPosValues {
         spikeMarkPos1 = spikeMarkTraj1.build();
 
         TrajectoryActionBuilder observationZoneDropTraj1 = spikeMarkTraj1.endTrajectory().fresh()
-                .turnTo(Math.toRadians(HOCKEY_HEADING_1), fasterTurnConstraints);
+                .strafeToLinearHeading(spikeMark1Strafe, HOCKEY_HEADING_1);
+//                .turnTo(Math.toRadians(HOCKEY_HEADING_1), fasterTurnConstraints);
         observationZoneDropPos1 = observationZoneDropTraj1.build();
 
         TrajectoryActionBuilder spikeMarkTraj2 = observationZoneDropTraj1.endTrajectory().fresh()
@@ -126,7 +126,8 @@ public class RightAuto extends RightAutoPosValues {
         spikeMarkPos2 = spikeMarkTraj2.build();
 
         TrajectoryActionBuilder observationZoneDropTraj2 = spikeMarkTraj2.endTrajectory().fresh()
-                .turnTo(Math.toRadians(HOCKEY_HEADING_2), turnConstraints);
+                .strafeToLinearHeading(spikeMark2Strafe, HOCKEY_HEADING_2);
+//                .turnTo(Math.toRadians(HOCKEY_HEADING_2), turnConstraints);
         observationZoneDropPos2 = observationZoneDropTraj2.build();
 
         TrajectoryActionBuilder spikeMarkTraj3 = observationZoneDropTraj2.endTrajectory().fresh()

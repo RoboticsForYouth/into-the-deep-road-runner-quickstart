@@ -3,28 +3,33 @@ package org.firstinspires.ftc.teamcode.az.itd.auto;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-public abstract class RightAutoPosValues extends LinearOpMode {
+public abstract class RightAutoPosValuesNoPenalty extends LinearOpMode {
 
 
 
     Vector2d specimenDrop1 = new Vector2d(25.2,19);
 
     Vector2d spikeMark1 =    new Vector2d(17, -22);
-    public static final int   SPIKE_MARK_HEADING_1 = -30;
+    public static final int   SPIKE_MARK_HEADING_1 = -35;
 
 
-    public static final int      HOCKEY_HEADING_1 = -85;
+
+    Vector2d spikeMark1Strafe = new Vector2d(10, -22);
+    public static final int      HOCKEY_HEADING_1 = -65;
 
 
     Vector2d spikeMark2 = new     Vector2d(21, -28);
     public static final int    SPIKE_MARK_HEADING_2 = -40;
 
-    public static final int       HOCKEY_HEADING_2 = -120;
 
-    Vector2d spikeMark3 =   new Vector2d(23, -34.3);
+    Vector2d spikeMark2Strafe = new Vector2d(10, -28);
+    public static final int       HOCKEY_HEADING_2 = -110;
+
+
+    Vector2d spikeMark3 =   new Vector2d(23, -34.8);
     public static final int    SPIKE_MARK_HEADING_3 = -58;
 
-    public static final int       HOCKEY_HEADING_3 = -162;
+    public static final int       HOCKEY_HEADING_3 = -152;
 
     Vector2d obsZone1 =        new Vector2d(7, -32.75);
     public static final int      OBS_ZONE_HEADING_1 = 180;

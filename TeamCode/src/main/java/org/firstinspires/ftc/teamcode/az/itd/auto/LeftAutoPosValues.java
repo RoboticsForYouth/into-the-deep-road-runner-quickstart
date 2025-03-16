@@ -11,12 +11,12 @@ public abstract class LeftAutoPosValues extends LinearOpMode {
 
 
 
-    Vector2d collect1 = new Vector2d(14.25, 18.5);
+    Vector2d collect1 = new Vector2d(14.25, 19.5);
     public static final int     COLLECT_HEADING_1 = -20;
 
 
 
-    Vector2d collect1_1 =  new Vector2d(14.25, 23.5);
+    Vector2d collect1_1 =  new Vector2d(14.25, 24.5);
 
 
 
@@ -40,7 +40,7 @@ public abstract class LeftAutoPosValues extends LinearOpMode {
 
 
     Vector2d collect3 =     new Vector2d(13.75, 22.5);
-    public static final int        COLLECT_HEADING_3 = 40;
+    public static final int        COLLECT_HEADING_3 = 42;
 
 
 
