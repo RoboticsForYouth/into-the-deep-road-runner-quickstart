@@ -120,9 +120,9 @@ public final class TuningOpModes {
                 MecanumDrive md = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
                 LazyImu lazyImu = md.lazyImu;
 
-                List<EncoderGroup> encoderGroups = new ArrayList<>();
-                List<EncoderRef> leftEncs = new ArrayList<>(), rightEncs = new ArrayList<>();
-                List<EncoderRef> parEncs = new ArrayList<>(), perpEncs = new ArrayList<>();
+                List<EncoderGroup> encoderGroups = new ArrayList<EncoderGroup>();
+                List<EncoderRef> leftEncs = new ArrayList<EncoderRef>(), rightEncs = new ArrayList<EncoderRef>();
+                List<EncoderRef> parEncs = new ArrayList<EncoderRef>(), perpEncs = new ArrayList<EncoderRef>();
                 if (md.localizer instanceof MecanumDrive.DriveLocalizer) {
                     MecanumDrive.DriveLocalizer dl = (MecanumDrive.DriveLocalizer) md.localizer;
                     encoderGroups.add(new LynxQuadratureEncoderGroup(
@@ -167,7 +167,7 @@ public final class TuningOpModes {
                 }
 
                 return new DriveView(
-                    DriveType.MECANUM,
+                        DriveType.MECANUM,
                         MecanumDrive.PARAMS.inPerTick,
                         MecanumDrive.PARAMS.maxWheelVel,
                         MecanumDrive.PARAMS.minProfileAccel,
@@ -198,12 +198,12 @@ public final class TuningOpModes {
                 TankDrive td = new TankDrive(hardwareMap, new Pose2d(0, 0, 0));
                 LazyImu lazyImu = td.lazyImu;
 
-                List<EncoderGroup> encoderGroups = new ArrayList<>();
-                List<EncoderRef> leftEncs = new ArrayList<>(), rightEncs = new ArrayList<>();
-                List<EncoderRef> parEncs = new ArrayList<>(), perpEncs = new ArrayList<>();
+                List<EncoderGroup> encoderGroups = new ArrayList<EncoderGroup>();
+                List<EncoderRef> leftEncs = new ArrayList<EncoderRef>(), rightEncs = new ArrayList<EncoderRef>();
+                List<EncoderRef> parEncs = new ArrayList<EncoderRef>(), perpEncs = new ArrayList<EncoderRef>();
                 if (td.localizer instanceof TankDrive.DriveLocalizer) {
                     TankDrive.DriveLocalizer dl = (TankDrive.DriveLocalizer) td.localizer;
-                    List<Encoder> allEncoders = new ArrayList<>();
+                    List<Encoder> allEncoders = new ArrayList<Encoder>();
                     allEncoders.addAll(dl.leftEncs);
                     allEncoders.addAll(dl.rightEncs);
                     encoderGroups.add(new LynxQuadratureEncoderGroup(
@@ -287,10 +287,10 @@ public final class TuningOpModes {
         manager.register(metaForClass(SplineTest.class), SplineTest.class);
         manager.register(metaForClass(LocalizationTest.class), LocalizationTest.class);
 
-        manager.register(metaForClass(OTOSAngularScalarTuner.class), new OTOSAngularScalarTuner(dvf));
-        manager.register(metaForClass(OTOSLinearScalarTuner.class), new OTOSLinearScalarTuner(dvf));
-        manager.register(metaForClass(OTOSHeadingOffsetTuner.class), new OTOSHeadingOffsetTuner(dvf));
-        manager.register(metaForClass(OTOSPositionOffsetTuner.class), new OTOSPositionOffsetTuner(dvf));
+//        manager.register(metaForClass(OTOSAngularScalarTuner.class), new OTOSAngularScalarTuner(dvf));
+//        manager.register(metaForClass(OTOSLinearScalarTuner.class), new OTOSLinearScalarTuner(dvf));
+//        manager.register(metaForClass(OTOSHeadingOffsetTuner.class), new OTOSHeadingOffsetTuner(dvf));
+//        manager.register(metaForClass(OTOSPositionOffsetTuner.class), new OTOSPositionOffsetTuner(dvf));
 
         FtcDashboard.getInstance().withConfigRoot(configRoot -> {
             for (Class<?> c : Arrays.asList(
