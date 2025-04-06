@@ -95,9 +95,9 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         while (!isStopRequested()) {
 
             drive.driveRobotCentric(
-                    -driverOp.getLeftX()*1.5,
-                    -driverOp.getLeftY()*1.5,
-                    -driverOp.getRightX()*1.5,
+                    -driverOp.getLeftX()*1.75,
+                    -driverOp.getLeftY()*1.75,
+                    -driverOp.getRightX()*1.75,
                     false
             );
 

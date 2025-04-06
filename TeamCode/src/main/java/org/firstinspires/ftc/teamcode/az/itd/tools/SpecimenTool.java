@@ -341,10 +341,12 @@ public class SpecimenTool extends LinearOpMode {
 
 
         arm.setPosAndWaitThreshold((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP.getValue(), 45);
-        sleep(250);
+        sleep(200);
 
         gripper.drop();
         sleep(220);
+
+        gripper.rightAutoDown();
 
         AZUtil.runInParallel(new Runnable() {
             @Override
