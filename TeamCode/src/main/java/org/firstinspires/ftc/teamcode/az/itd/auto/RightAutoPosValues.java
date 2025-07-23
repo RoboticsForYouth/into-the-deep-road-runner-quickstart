@@ -7,26 +7,26 @@ public abstract class RightAutoPosValues extends LinearOpMode {
 
 
 
-    Vector2d specimenDrop1 = new Vector2d(25.2,19);
+    Vector2d specimenDrop1 = new Vector2d(19,19);
 
-    Vector2d spikeMark1 =    new Vector2d(22, -20);
-    public static final int   SPIKE_MARK_HEADING_1 = -25;
+    Vector2d spikeMark1 =    new Vector2d(25, -4);
+    public static final int   SPIKE_MARK_HEADING_1 = -45;
 
-    Vector2d hockey1 = new Vector2d(12, -22);
+    Vector2d hockey1 = new Vector2d(15, -5);
     public static final int      HOCKEY_HEADING_1 = -110;
 
 
-    Vector2d spikeMark2 = new     Vector2d(30, -23.3);
+    Vector2d spikeMark2 = new     Vector2d(25, -5);
     public static final int    SPIKE_MARK_HEADING_2 = -40;
 
-    Vector2d hockey2 = new Vector2d(7, -24.5);
+    Vector2d hockey2 = new Vector2d(15, -6);
     public static final int       HOCKEY_HEADING_2 = -115;
 
-    Vector2d spikeMark3 =   new Vector2d(33.5, -34);
+    Vector2d spikeMark3 =   new Vector2d(25, -6);
     public static final int    SPIKE_MARK_HEADING_3 = -50;
 
 
-    Vector2d hockey3 = new Vector2d(12, -34.25);
+    Vector2d hockey3 = new Vector2d(15, -7);
     public static final int       HOCKEY_HEADING_3 = -120;
 
     Vector2d obsZone1 =        new Vector2d(10, -32.75);

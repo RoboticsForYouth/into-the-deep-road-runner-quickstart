@@ -106,7 +106,7 @@ public class SpecimenTool extends LinearOpMode {
         gripper.samplePickUp90();
 //        sleep(500);
         arm.collect();
-//        sleep(1000);
+        sleep(500);
     }
 
     public void teleOpSpecimenLowBasket() {
@@ -350,30 +350,16 @@ public class SpecimenTool extends LinearOpMode {
     public void rightAutoReset(){
         slides.resetPos();
         sleep(2000);
-        arm.reset();
+        arm.rightAutoReset();
         sleep(2000);
         gripper.specimenAutoReset();
         sleep(500);
+
     }
 
     public void rightAutoSpecimenDrop() {
-//        slides.moveToPosition(Slides.SlidesPos.RESET);
-
-
-        arm.setPosAndWaitThreshold((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP.getValue(), 120);
-
 
         gripper.drop();
-        sleep(80);
-
-        AZUtil.runInParallel(new Runnable() {
-            @Override
-            public void run() {
-                sleep(600);
-                gripper.rollerCollect();
-            }
-        });
-
     }
 
     public void firstRightAutoSpecimenDrop() {
@@ -401,8 +387,7 @@ public class SpecimenTool extends LinearOpMode {
     public void rightAutoSpecimenCollect() {
         gripper.rightAutoSpecimenPickUp();
         slides.reset();
-        arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_PICKUP_UP.getValue());
-        sleep(500);
+        arm.rightAutoSpecimenCollectPos();
     }
 
     public void afterDropRightAutoSpecimenCollect() {

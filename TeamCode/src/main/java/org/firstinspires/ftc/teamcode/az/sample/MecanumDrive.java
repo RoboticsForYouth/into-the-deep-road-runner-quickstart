@@ -51,6 +51,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.Drawing;
 import org.firstinspires.ftc.teamcode.Localizer;
+import org.firstinspires.ftc.teamcode.PinpointLocalizer;
 import org.firstinspires.ftc.teamcode.TwoDeadWheelLocalizer;
 import org.firstinspires.ftc.teamcode.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumCommandMessage;
@@ -250,11 +251,11 @@ public final class MecanumDrive {
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
 //        lazyImu = new LazyImu(hardwareMap, "imu", new RevHubOrientationOnRobot(
 //                PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
-        lazyImu = new LazyHardwareMapImu(hardwareMap, "imu", new RevHubOrientationOnRobot(
+        lazyImu = new LazyHardwareMapImu(hardwareMap, "imu9", new RevHubOrientationOnRobot(
                 PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        localizer = new TwoDeadWheelLocalizer(hardwareMap, lazyImu.get(), PARAMS.inPerTick);
+        localizer = new PinpointLocalizer(hardwareMap, PARAMS.inPerTick, pose);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }

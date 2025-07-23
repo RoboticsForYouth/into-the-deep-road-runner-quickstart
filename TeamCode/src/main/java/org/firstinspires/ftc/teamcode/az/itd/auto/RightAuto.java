@@ -86,19 +86,25 @@ public class RightAuto extends RightAutoPosValues {
 
         candyCane = new CandyCane((this));
 
-
-        telemetry.addData("Status", "Initialized");
+        telemetry.addLine("Click Square");
         telemetry.update();
 
-        sleep(5000);
+        while(!gamepad1.x) {
+            Thread.yield();
+        }
+
 
         runtime.reset();
         beginPose = new Pose2d(0,0,Math.toRadians(SPECIMEN_DROP_POS_HEADING));
         drive = new MecanumDrive(hardwareMap, beginPose);
+
+        telemetry.addData("Status", "Initialized");
         telemetry.addData("current position", drive.pose);
         telemetry.update();
         createActions();
 //        InitialValues.ResetInitPos();
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
 
     }
 
@@ -233,9 +239,12 @@ public class RightAuto extends RightAutoPosValues {
 
                         sleep(500);
 
-                        specimenTool.gripper.rightAutoSpecimenDropPos();
+                        specimenTool.arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP);
+                        specimenTool.gripper.rightAutoSpecimenDropPos0();
 
-                        specimenTool.firstRightAutoSpecimenDrop();
+                        sleep(800);
+                        specimenTool.gripper.drop();
+
                     }
                 });
                 return false;
@@ -271,8 +280,8 @@ public class RightAuto extends RightAutoPosValues {
                 AZUtil.runInParallel(new Runnable() {
                     @Override
                     public void run() {
-//                        sleep(100);
-                        specimenTool.afterDropRightAutoSpecimenCollect();
+                        sleep(300);
+                        specimenTool.rightAutoSpecimenCollect();
                     }
                 });
                 return false;
@@ -285,15 +294,12 @@ public class RightAuto extends RightAutoPosValues {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
 
-                specimenTool.arm.setPosAndWait((int) DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP_INTEMEDIATE_WAIT.getValue());
+                specimenTool.arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP);
+                sleep(300);
+                specimenTool.gripper.preRightAutoSpecimenDropPos();
+                sleep(1200);
+                specimenTool.rightAutoSpecimenHangPos();
 
-                AZUtil.runInParallel(new Runnable() {
-                    @Override
-                    public void run() {
-                        sleep(950);
-                        specimenTool.rightAutoSpecimenHangPos();
-                    }
-                });
 
                 return false;
             }

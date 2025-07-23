@@ -174,9 +174,8 @@ public class EnhancedClaw extends LinearOpMode {
     }
 
     public void specimenAutoReset() {
-        elbow.setElbowPos(Elbow.ELBOW_POS.RESET.getPos());
+        elbow.setElbowPos(Elbow.ELBOW_POS.RIGHT_AUTO_RESET.getPos());
         roller.setPower(RollerPower.PICKUP.getPower());
-        setWristPos(WRIST_POS.RESET.getPos());
     }
 
 
