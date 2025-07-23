@@ -31,6 +31,14 @@ public class SpecimenTool extends LinearOpMode {
         slides = new Slides(opMode);
     }
 
+    public void duringTelOpReset() {
+        arm.move();
+//        sleep(1000);
+        gripper.duringTeleOpReset();
+        slides.move();
+//        sleep(500);
+    }
+
     public void printPos(Telemetry telemetry){
         telemetry.addData("Slide Pos", slides.printCurrentPos());
         telemetry.addData("Arm Pos:", arm.getCurrentPosition());
@@ -167,6 +175,38 @@ public class SpecimenTool extends LinearOpMode {
         arm.specimenCollect();
         sleep(500);
         slides.specimenCollect();
+//        sleep(1000);
+    }
+
+    public void teleOpSampleCollect() {
+        gripper.rollerPickUp();
+//        sleep(500);
+
+        arm.specimenCollect();
+        sleep(500);
+        slides.move();
+//        sleep(1000);
+    }
+
+    public void teleOpSpecimenPickup() {
+        gripper.specimenPickUpFromFence();
+//        sleep(500);
+
+        arm.specimenPickupFromFence();
+        sleep(500);
+        slides.move();
+//        sleep(1000);
+    }
+
+    public void teleOpSpecimenPickupFromHighDrop() {
+        gripper.specimenPickUpFromFence();
+        slides.move();
+        sleep(900);
+
+//        sleep(500);
+
+        arm.specimenPickupFromFence();
+
 //        sleep(1000);
     }
 
