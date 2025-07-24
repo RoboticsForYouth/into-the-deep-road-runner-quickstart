@@ -51,7 +51,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.Drawing;
 import org.firstinspires.ftc.teamcode.Localizer;
-import org.firstinspires.ftc.teamcode.PinpointLocalizer;
 import org.firstinspires.ftc.teamcode.TwoDeadWheelLocalizer;
 import org.firstinspires.ftc.teamcode.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumCommandMessage;
@@ -74,14 +73,14 @@ public final class MecanumDrive {
                 RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
 
         // drive model parameters
-        public double inPerTick = 0.00295803291; //0.00295530107
-        public double lateralInPerTick =  0.0020406522380730942; //0.0043145805050511546
-        public double trackWidthTicks = 5098.833035543805; //5013.24926508183
+        public double inPerTick = 0.002895193978; //0.00295530107
+        public double lateralInPerTick =  0.0018062996098160231; //0.0043145805050511546
+        public double trackWidthTicks = 5278.701625502157; //5013.24926508183
         //5325.345664149641
 
         // feedforward parameters (in tick units)
-        public double kS = 1.696561794974711; //1.9847188825787816
-        public double kV = 0.0003652125235679407; //0.00034361959836644296
+        public double kS = 2.0175419219737956; //1.9847188825787816
+        public double kV = 0.0003311717200286318; //0.00034361959836644296
         public double kA = 0.0001; //0.00001
 
         // path profile parameters (in inches)
@@ -255,7 +254,7 @@ public final class MecanumDrive {
                 PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        localizer = new PinpointLocalizer(hardwareMap, PARAMS.inPerTick, pose);
+        localizer = new TwoDeadWheelLocalizer(hardwareMap, lazyImu.get(), PARAMS.inPerTick);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }

@@ -57,7 +57,7 @@ public class SpecimenTool extends LinearOpMode {
 
 
 
-    
+
 
 
 
@@ -211,16 +211,12 @@ public class SpecimenTool extends LinearOpMode {
     }
 
     public void teleOpLevel2Hang(){
-
         gripper.gripperHang();
+        arm.setPosAndWaitThreshold((int)DoubleArm.DoubleArmPos.LEVEL_TWO_HANG.getValue(), 800);
 
 
         //slides go to 2000
-        slides.setPosAndWait((int) Slides.SlidesPos.LEVEL_2_HANG_START_OPTION2_END_POS.getValue());
-        sleep(1000);
-        //arm to 75
-        arm.moveToPosition(DoubleArm.DoubleArmPos.LEVEL_TWO_HANG);
-
+        slides.level2Hang();
 
 //        arm.moveToPosition(DoubleArm.DoubleArmPos.PRE_LEVEL_TWO_HANG);
 //        slides.setPosAndWait((int) Slides.SlidesPos.LEVEL_2_HANG_START.getValue());
@@ -385,9 +381,9 @@ public class SpecimenTool extends LinearOpMode {
     }
 
     public void rightAutoSpecimenCollect() {
+        arm.rightAutoSpecimenCollectPos();
         gripper.rightAutoSpecimenPickUp();
         slides.reset();
-        arm.rightAutoSpecimenCollectPos();
     }
 
     public void afterDropRightAutoSpecimenCollect() {

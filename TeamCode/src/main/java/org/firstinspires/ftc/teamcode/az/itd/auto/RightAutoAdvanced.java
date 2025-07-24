@@ -48,26 +48,22 @@ public class RightAutoAdvanced extends RightAuto {
                         observationZonePos1_1,
                         specimenToolDropAfterPickupAction,
                         specimenDropPos2,
-                        releaseSpecimenAction,
 
                         afterDropSpecimenCollectAction,
                         observationZonePos2,
                         specimenToolDropAfterPickupAction,
                         specimenDropPos3,
-                        releaseSpecimenAction,
 
                         afterDropSpecimenCollectAction,
                         observationZonePos3,
                         specimenToolDropAfterPickupAction,
                         specimenDropPos4,
-                        releaseSpecimenAction,
 
 
                         afterDropSpecimenCollectAction,
                         observationZonePos4,
                         specimenToolDropAfterPickupAction,
                         specimenDropPos5,
-                        releaseSpecimenAction,
                         resetSpecimenToolAction,
                         parkPos
 

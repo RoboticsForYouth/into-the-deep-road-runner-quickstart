@@ -11,6 +11,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TurnConstraints;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -52,7 +53,6 @@ public class RightAuto extends RightAutoPosValues {
      Action specimenDropPos1;
      Action observationZonePos1;
      Action specimenDropPos2;
-     Action releaseSpecimenAction;
      Action spikeMarkPos1;
      Action lowerCandyCaneAction;
      Action raiseCandyCaneAction;
@@ -153,7 +153,8 @@ public class RightAuto extends RightAutoPosValues {
         observationZonePos1 = observationZoneTraj1.build();
 
         TrajectoryActionBuilder observationZoneTraj1_1 = observationZoneTraj1.endTrajectory().fresh()
-                .lineToX(OBS_ZONE_1_XXXX);
+                .strafeToConstantHeading(obsZone1_1);
+//                .lineToXConstantHeading(OBS_ZONE_1_XXXX);
         observationZonePos1_1 = observationZoneTraj1_1.build();
 
 
@@ -242,7 +243,7 @@ public class RightAuto extends RightAutoPosValues {
                         specimenTool.arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP);
                         specimenTool.gripper.rightAutoSpecimenDropPos0();
 
-                        sleep(800);
+                        sleep(1000);
                         specimenTool.gripper.drop();
 
                     }
@@ -251,13 +252,6 @@ public class RightAuto extends RightAutoPosValues {
             }
         };
 
-        releaseSpecimenAction = new Action(){
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                specimenTool.rightAutoSpecimenDrop();
-                return false;
-            }
-        };
 
 
         specimenCollectInParallelAction = new Action(){
@@ -280,8 +274,12 @@ public class RightAuto extends RightAutoPosValues {
                 AZUtil.runInParallel(new Runnable() {
                     @Override
                     public void run() {
-                        sleep(300);
+//                        sleep(100);
+//                        specimenTool.gripper.rollerDrop();
                         specimenTool.rightAutoSpecimenCollect();
+                        sleep(300);
+                        specimenTool.gripper.rollerCollect();
+
                     }
                 });
                 return false;
@@ -294,12 +292,18 @@ public class RightAuto extends RightAutoPosValues {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
 
-                specimenTool.arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP);
-                sleep(300);
-                specimenTool.gripper.preRightAutoSpecimenDropPos();
-                sleep(1200);
-                specimenTool.rightAutoSpecimenHangPos();
-
+                AZUtil.runInParallel(new Runnable() {
+                    @Override
+                    public void run() {
+                        specimenTool.arm.setArmPos(DoubleArm.DoubleArmPos.RIGHT_AUTO_SPECIMEN_DROP);
+                        sleep(300);
+                        specimenTool.gripper.preRightAutoSpecimenDropPos();
+                        sleep(900);
+                        specimenTool.rightAutoSpecimenHangPos();
+                        sleep(700);
+                        specimenTool.gripper.drop();
+                    }
+                });
 
                 return false;
             }
@@ -383,28 +387,29 @@ public class RightAuto extends RightAutoPosValues {
                         new SleepAction(0.1),
                         observationZonePos1,
                         observationZonePos1_1,
+                        new SleepAction(0.1),
                         specimenToolDropAfterPickupAction,
                         specimenDropPos2,
-                        releaseSpecimenAction,
 
                         afterDropSpecimenCollectAction,
+                        new SleepAction(0.1),
                         observationZonePos2,
                         specimenToolDropAfterPickupAction,
                         specimenDropPos3,
-                        releaseSpecimenAction,
 
                         afterDropSpecimenCollectAction,
+                        new SleepAction(0.1),
                         observationZonePos3,
                         specimenToolDropAfterPickupAction,
                         specimenDropPos4,
-                        releaseSpecimenAction,
 
 
                         afterDropSpecimenCollectAction,
+                        new SleepAction(0.1),
                         observationZonePos4,
                         specimenToolDropAfterPickupAction,
+                        new SleepAction(0.1),
                         specimenDropPos5,
-                        releaseSpecimenAction,
 
                         afterDropSpecimenCollectAction,
                         parkPos

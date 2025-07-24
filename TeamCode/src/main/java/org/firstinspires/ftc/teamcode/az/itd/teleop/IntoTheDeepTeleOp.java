@@ -386,19 +386,6 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                 }
             }
 
-            if (gamepad1.y) {
-                if (!buttonYProcessing) {
-                    AZUtil.runInParallel(new Runnable() {
-                        @Override
-                        public void run() {
-                            buttonYProcessing = true;
-                            specimenTool.teleOpSampleCollect();
-                            buttonYProcessing = false;
-                        }
-                    });
-                }
-
-            }
 //            telemetry.addLine(InitialValues.printCurrentPos());
 //            specimenTool.printPos(telemetry);
         }

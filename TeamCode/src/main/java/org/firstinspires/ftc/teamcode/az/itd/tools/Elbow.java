@@ -47,11 +47,11 @@ public class Elbow extends LinearOpMode {
 
     public enum ELBOW_POS {
         PICKUP(0.13), //0.09
-        DROP(0.88), //0.2
+        DROP(0.92), //0.2
         HANG_POS(0.53), ///0.2
         SPECIMEN_PICKUP(0.33), //0.25
         MOVE(0.13), //0.35
-        TELEOP_SPECIMEN_DROP(0.88),
+        TELEOP_SPECIMEN_DROP(0.9),
 
         RESET(0.88), //0.75
 
@@ -67,7 +67,7 @@ public class Elbow extends LinearOpMode {
         //--------------------------------------------------------------------------------------------------------------------
         //RIGHT AUTO!!!
         RIGHT_AUTO_SPECIMEN_PICKUP(0.48), //0.25
-        RIGHT_AUTO_SPECIMEN_DROP(0.88), //0.7
+        RIGHT_AUTO_SPECIMEN_DROP(0.95), //0.7
         RIGHT_AUTO_RESET(0),
         RIGHT_AUTO_DOWN(0.63),
         //--------------------------------------------------------------------------------------------------------------------

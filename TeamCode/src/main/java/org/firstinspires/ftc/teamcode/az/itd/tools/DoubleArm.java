@@ -58,10 +58,10 @@ public class DoubleArm extends LinearOpMode {
 
         SPECIMEN_PICKUP_UP((int)(7.5*ARM_CONVERSION_FACTOR)),
 
-        LEVEL_TWO_HANG((int)(92*ARM_CONVERSION_FACTOR)),
+        LEVEL_TWO_HANG((int)(95*ARM_CONVERSION_FACTOR)),
 
 
-        MOVE((int)(17.55 * ARM_CONVERSION_FACTOR)), //(-450),
+        MOVE((int)(18 * ARM_CONVERSION_FACTOR)), //(-450),
         BASKET_DROP((int)(92 * ARM_CONVERSION_FACTOR)),
 
         TELEOP_SPECIMEN_DROP((int)(95 * ARM_CONVERSION_FACTOR)), //(600)
@@ -82,11 +82,11 @@ public class DoubleArm extends LinearOpMode {
         //RIGHT AUTO!!!
         RIGHT_AUTO_SPECIMEN_DROP_INTEMEDIATE_WAIT((int)(20 * ARM_CONVERSION_FACTOR)),
         RIGHT_AUTO_SPECIMEN_DROP((int)(94 * ARM_CONVERSION_FACTOR)), //(600)
-        RIGHT_AUTO_SPECIMEN_PICKUP_UP((int)(18*ARM_CONVERSION_FACTOR)),
+        RIGHT_AUTO_SPECIMEN_PICKUP_UP((int)(19.5*ARM_CONVERSION_FACTOR)),
         RIGHT_AUTO_SPECIMEN_PICKUP_INTERMEDIATE_WAIT((int)(80*ARM_CONVERSION_FACTOR)),
         //--------------------------------------------------------------------------------------------------------------------
         RIGHT_AUTO_RESET((int)(41 * ARM_CONVERSION_FACTOR)),
-        SPECIMEN_PICKUP_FROM_FENCE((int)(18*ARM_CONVERSION_FACTOR));
+        SPECIMEN_PICKUP_FROM_FENCE((int)(19*ARM_CONVERSION_FACTOR));
         //--------------------------------------------------------------------------------------------------------------------
 
         private final int value;
@@ -151,7 +151,7 @@ public class DoubleArm extends LinearOpMode {
         double gravityCompensation = 0.01 * Math.cos(Math.toRadians(v));
         double power = 1.0 + gravityCompensation;
         if( currentPosition - pos > 0){
-            power = 0.25;
+            power = 0.45;
         }
         AZUtil.setBothMotorTargetPosition(doubleArmMotor1, doubleArmMotor2, pos, power);
 
