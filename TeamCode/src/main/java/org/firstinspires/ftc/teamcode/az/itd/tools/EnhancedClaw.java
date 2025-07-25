@@ -83,11 +83,11 @@ public class EnhancedClaw extends LinearOpMode {
 
         //--------------------------------------------------------------------------------------------------------------------
         //LEFT AUTO!!!
-        LEFT_AUTO_PICKUP_FIRST(0.7),
-        LEFT_AUTO_PICKUP_SECOND(0.8), //0.2
-        LEFT_AUTO_PICKUP_THIRD(0.85),
+        LEFT_AUTO_PICKUP_FIRST(0.3),
+        LEFT_AUTO_PICKUP_SECOND(0.2), //0.2
+        LEFT_AUTO_PICKUP_THIRD(0.15),
         LEFT_AUTO_RESET(0.5),
-        LEFT_AUTO_DROP_OFF(0), //0.5
+        LEFT_AUTO_DROP_OFF(0.7), //0.5
         //--------------------------------------------------------------------------------------------------------------------
 
         //--------------------------------------------------------------------------------------------------------------------

@@ -150,6 +150,9 @@ public class AdvanceLeftAuto extends BasicLeftAuto {
                     Thread.yield();
                 }
                 specimenTool.leftAutoCollect(Slides.SlidesPos.LEFT_AUTO_PICKUP_FIRST, EnhancedClaw.WRIST_POS.LEFT_AUTO_PICKUP_FIRST, DoubleArm.DoubleArmPos.LEFT_AUTO_PICKUP_FIRST);
+
+                sleep(500);
+
                 return false;
             }
         };

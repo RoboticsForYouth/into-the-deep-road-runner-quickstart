@@ -82,7 +82,7 @@ public class DoubleArm extends LinearOpMode {
         //RIGHT AUTO!!!
         RIGHT_AUTO_SPECIMEN_DROP_INTEMEDIATE_WAIT((int)(20 * ARM_CONVERSION_FACTOR)),
         RIGHT_AUTO_SPECIMEN_DROP((int)(94 * ARM_CONVERSION_FACTOR)), //(600)
-        RIGHT_AUTO_SPECIMEN_PICKUP_UP((int)(19.5*ARM_CONVERSION_FACTOR)),
+        RIGHT_AUTO_SPECIMEN_PICKUP_UP((int)(19.2*ARM_CONVERSION_FACTOR)),
         RIGHT_AUTO_SPECIMEN_PICKUP_INTERMEDIATE_WAIT((int)(80*ARM_CONVERSION_FACTOR)),
         //--------------------------------------------------------------------------------------------------------------------
         RIGHT_AUTO_RESET((int)(41 * ARM_CONVERSION_FACTOR)),
